@@ -1,0 +1,105 @@
+commit 33be769405b29b30d328606912599a43c44620e2
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 16:14:06 2020 +0200
+
+    poista file1 ja muuta file2 nimeä
+
+ tiedostoja/file2.txt                 | 0
+ tiedostoja/{file1.txt => file22.txt} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 8ac98258d60b897eb2a6a7b263c7fcc351322499
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 16:11:17 2020 +0200
+
+    lisätty uusi hakemisto
+
+ tiedostoja/file1.txt | 0
+ tiedostoja/file2.txt | 0
+ tiedostoja/file3.txt | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 5362537eaca0dc99dc6415e1f6c66cb9790ed3b1
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 16:05:54 2020 +0200
+
+    muokattu eka.txt ja kolmas.txt
+
+ eka.txt    |  2 ++
+ kolmas.txt | 14 +++++++++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+
+commit 7a23a11d8572cea219e1b9f7af217db485fec7c3
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 16:02:58 2020 +0200
+
+    nimetty tiedosto.txt uudestaan
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 77b58d61f313d3cd80896ed1bb04bf6f6cdcf4c8
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 16:01:27 2020 +0200
+
+    poistettu toinen.txt
+
+ toinen.txt | 3 ---
+ 1 file changed, 3 deletions(-)
+
+commit 560178d15f0e532f7f2b746c85e264db016566c6
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 15:59:19 2020 +0200
+
+    lisätty asioita tiedosto.txt
+
+ tiedosto.txt | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+commit e8c5fc0f9e0d8099a4c8c7d9237c04274b4c1442
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 15:54:00 2020 +0200
+
+    lisätty kansio ja sinne asd.txt
+
+ stuff/asd.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 9ea0480afe68680825cdc76a0d09166d2626c628
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 15:52:44 2020 +0200
+
+    muokattu juttuja
+
+ kolmas.txt | 1 +
+ toinen.txt | 3 +++
+ 2 files changed, 4 insertions(+)
+
+commit d92206dbef11d1203bfa4e8197c3a2175dee4fdf
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 15:51:48 2020 +0200
+
+    lisätty kolmas.txt
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 8b2021ad515692999dbfeb8e4285e6d92e382967
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 15:49:20 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit eccff32092dcd42b14ea7cfad0868d92ef8f96ae
+Author: Susanna <susannae.repo@gmail.com>
+Date:   Thu Oct 29 15:32:20 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ 
