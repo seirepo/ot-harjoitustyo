@@ -7,3 +7,8 @@
 
 ### Viikko 2
 * [kattavuusraportti](laskarit/viikko2/kattavuusraportti.png)
+
+
+## Harjoitustyö
+
+[työaikakirjanpito](/)
