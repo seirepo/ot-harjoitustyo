@@ -1,33 +1,39 @@
-# Vaatimusmäärittely
+# Vaatimusmäärittely: ostosten seurantasovellus
 
-## Sovelluksen tarkoitus
-Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä rahamäärää.
+## Sovelluksen tarkoitus ja käyttö
+Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä rahamäärää. Sovellukseen voidaan hakea tiedot olemassaolevasta tietokannasta ja jatkaa sen muokkausta, tai aloittaa kokonaan uusi ostosseuranta. Tiedot voidaan tallentaa, tai sovellus voidaan sulkea tallentamatta.
 
 ## Käyttöliittymäluonnos
-Sovellus koostuu perusnäkymästä, johon liittyy kaksi näkymää: kaikki kuitit sisältävä näkymä ja yhteenvetonäkymä.
+Sovellukseen liittyy kaksi välilehtimäistä näkymää: kuittinäkymä ja yhteenvetonäkymä.
 
-Perusnäkymässä on listattuna ostokset laskevassa aikajärjestyksessä, ja ostoksista näkyy päivämäärä, myymälä ja loppusumma. Perusnäkymän pääikkuna on jaettu kahteen osaan, listausnäkymään ja esikatselunäkymään, jossa voidaan tarkastella ja muokata kuitin sisältöä. Tässä samassa näkymässä hoituu myös kuitin lisäys. Perusnäkymän ostoslistauksessa on mahdollisuus järjestää ostokset myös summan mukaan tai rajata kuitteja päivämäärällä.
+Kuittinäkymä on jaettu kahteen osaan: listausnäkymään, jossa ostokset ovat laskevassa aikajärjestyksessä taulukossa, jonka otsikkorivillä on myymälä, päivämäärä ja loppusumma, ja esikatselunäkymään, jossa voidaan tarkastella ja muokata kuitin sisältöä. Esikatselunäkymässä hoituu myös uuden kuitin lisäys. Kuittinäkymässä on mahdollisuus järjestää kuitit myös summan mukaan tai rajata kuitteja päivämäärällä.
+Yhteenvetonäkymässä on oletuksena viimeisen viikon aikana tehtyjen ostosten määrä, kokonaissumma ja muita tietoja ostoksista sekä niihin liittyvistä tuotteista.
 
-Yhteenvetonäkymässä on oletuksena viimeisen viikon aikana tehtyjen ostosten määrä ja kokonaissumma ja muuta yhteenvetoa ostoksista.
+## Toiminnallisuudet
 
-## Ominaisuudet
-
-- päänäkymä, jossa lisätyt ostokset ovat aikajärjestyksessä
-- mahdollisuus lisätä järjestelmään uuden kuitin
-    - kuitissa täytyy olla myymälä, päivämäärä, loppusumma ja vähintään yksi tuote. määrä ja kellonaika on vapaaehtoinen
+### Listausnäkymä
+- mahdollisuus lisätä järjestelmään uusi kuitti
+    - kuitissa täytyy olla myymälä, päivämäärä, loppusumma ja vähintään yksi tuote, jonka määrä on vähintään 1
 - mahdollisuus valita päänäkymästä esikatseltavaksi kuitti ja tarvittaessa muokata sitä
 - aikarajauksella voi tarkastella esimerkiksi kuluneen viikon aikana tehtyjä ostoksia
-- yhteenvetovälilehti kaikista ostoksista:
-    - käytetty rahamäärä (tietyllä aikavälillä jota voi muokata)
-    - yleisin myymälä
-    - ostettujen tuotteiden määrän keskiarvo
-    - ostetuimmat tuotteet top 5, niihin käytetty raha ja kuinka monelta kuitilta ne löytyvät
 - kuitin voi poistaa
 
-## Jatkokehitysideoita
+### Yhteenvetonäkymä
+- oletuksena ei aikarajausta, mutta voidaan muokata
 
+#### Ostokset
+- käytetty rahamäärä
+- yleisin myymälä
+- ostettujen tuotteiden määrän keskiarvo 
+
+#### Tuotteet
+- ostetuimmat tuotteet top 5, niihin käytetty raha ja kuinka monelta kuitilta ne löytyvät
+- ostettujen tuotteiden kokonaismäärä ja uniikkien tuotteiden kokonaismäärä
+
+## Jatkokehitysideoita
 Jos aikaa riitää, voidaan ohjelmaa täydentää seuraavilla ominaisuuksilla:
 - ostoksia voi tarkastella myös tuotteittain
     - tällöin tuotteet aakkosjärjestyksessä
-- tähän voitaisiin lisätä myös rajaus haulla, eli kuinka monelta kuitilta löytyy nuudeleita
-- kuitille voi lisätä maksajan
+- yhteenvetonäkymään mahdollisuus tarkastella myös haluttua tuotetta hakemalla, eli kuinka monelta kuitilta löytyy nuudeleita
+- yhteenvetonäkymässä muutos edelliseen viikkoon (tai muuhun ajanjaksoon)
+- tuotekategoriat
