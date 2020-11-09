@@ -11,4 +11,4 @@
 
 ## Harjoitustyö
 
-[työaikakirjanpito]()
+[työaikakirjanpito](tyoaikakirjanpito.txt)
