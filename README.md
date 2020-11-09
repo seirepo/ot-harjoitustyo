@@ -12,3 +12,5 @@
 ## Harjoitustyö
 
 [työaikakirjanpito](tyoaikakirjanpito.md)
+
+[vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
