@@ -11,9 +11,9 @@ import java.util.List;
 public class Receipt {
     private String store;
     private LocalDate date;
-    private ArrayList<Product> products[];
+    private ArrayList<Product> products;
   
-    public Receipt(String store, LocalDate date, ArrayList<Product> products[]) {
+    public Receipt(String store, LocalDate date, ArrayList<Product> products) {
         this.store = store;
         this.date = date;
         this.products = products;
