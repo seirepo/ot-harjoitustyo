@@ -1,6 +1,6 @@
 package kuittitietokanta.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +10,21 @@ import java.util.List;
  */
 public class Receipt {
     private String store;
-    private Date date;
-    private ArrayList<Product> products[];  
+    private LocalDate date;
+    private ArrayList<Product> products[];
   
-    public Receipt(String store, Date date, ArrayList<Product> products[]) {
+    public Receipt(String store, LocalDate date, ArrayList<Product> products[]) {
         this.store = store;
         this.date = date;
         this.products = products;
     }
-
+        
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("asd");
+        
+        
+        return s.toString();
+    }
 }
