@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kuittitietokanta.domain;
 
 import org.junit.After;
@@ -11,6 +6,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.time.LocalDate;
+import java.util.HashMap;
 
 /**
  *
@@ -18,13 +15,23 @@ import static org.junit.Assert.*;
  */
 public class receiptTest {
     
+    Receipt receipt;
+    HashMap<Product, Integer> products;
+    Product p1, p2, p3;
+    
     @Before
     public void setUp() {
+        LocalDate date = LocalDate.of(2020, 10, 10);
+        p1 = new Product("a", 0.5);
+        p2 = new Product("b", 1.99);
+        p3 = new Product("c", 1.45);
+        products = new HashMap<>();
+        receipt = new Receipt("x", date, products);
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+     @Test
+     public void totalReturnsTheSumRight1() {
+         products.put(p1, 5); products.put(p2, 3); products.put(p3, 1);
+         assertEquals(992, receipt.total());
+     }   
 }
