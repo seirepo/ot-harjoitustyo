@@ -1,8 +1,7 @@
 package kuittitietokanta.domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Luokka kuitille
@@ -11,14 +10,26 @@ import java.util.List;
 public class Receipt {
     private String store;
     private LocalDate date;
-    private ArrayList<Product> products;
+    private HashMap<Product, Integer> products;
   
-    public Receipt(String store, LocalDate date, ArrayList<Product> products) {
+    public Receipt(String store, LocalDate date, HashMap<Product, Integer> products) {
         this.store = store;
         this.date = date;
         this.products = products;
     }
-        
+    
+    /**
+     * Palauttaa kuitin summan sentteinä
+     * @return total
+     */
+    public int total() {
+        int total = 0;
+        for (Product p : products.keySet()) {
+            total += p.getPrice() * products.get(p);
+        }
+        return total;
+    }
+    
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
