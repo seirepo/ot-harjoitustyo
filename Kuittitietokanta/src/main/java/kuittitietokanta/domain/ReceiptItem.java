@@ -13,7 +13,7 @@ public class ReceiptItem {
     
     public ReceiptItem(String product, double price, int quantity, String unit) {
         this.product = product;
-        this.price = (int) price * 100;
+        this.price = (int) (price * 100);
         this.quantity = quantity;
         this.unit = unit;
     }
@@ -23,6 +23,6 @@ public class ReceiptItem {
     }
     
     public int getUnitPrice() {
-        return this.price * quantity;
+        return this.price / quantity;
     }
 }
