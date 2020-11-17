@@ -1,7 +1,7 @@
 package kuittitietokanta.domain;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Luokka kuitille
@@ -10,12 +10,12 @@ import java.util.HashMap;
 public class Receipt {
     private String store;
     private LocalDate date;
-    private HashMap<Product, Integer> products;
+    private ArrayList<ReceiptItem> items;
   
-    public Receipt(String store, LocalDate date, HashMap<Product, Integer> products) {
+    public Receipt(String store, LocalDate date, ArrayList<ReceiptItem> items) {
         this.store = store;
         this.date = date;
-        this.products = products;
+        this.items = items;
     }
     
     /**
@@ -24,8 +24,8 @@ public class Receipt {
      */
     public int total() {
         int total = 0;
-        for (Product p : products.keySet()) {
-            total += p.getPrice() * products.get(p);
+        for (ReceiptItem item : items) {
+            total += item.getPrice();
         }
         return total;
     }
