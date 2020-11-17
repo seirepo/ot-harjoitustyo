@@ -21,19 +21,13 @@ public class productTest {
 
     @Test
     public void constructorSetsThePriceRight1() {
-        p = new Product("a", 0.345, 1, "pc");
+        p = new Product("a", 0.345);
         assertEquals(34, p.getPrice());
     }
     
     @Test
     public void constructorSetsThePriceRight2() {
-        p = new Product("b", 1.42, 1, "pc");
+        p = new Product("b", 1.42);
         assertEquals(142, p.getPrice());
     }
-    
-    @Test
-    public void constructorSetsThePriceRight3() {
-        p = new Product("b", 0, 1, "pc");
-        assertEquals(0, p.getPrice());
-    }    
 }
