@@ -13,7 +13,7 @@ Yhteenvetonäkymässä on oletuksena viimeisen viikon aikana tehtyjen ostosten m
 
 ### Listausnäkymä
 - mahdollisuus lisätä järjestelmään uusi kuitti
-    - kuitissa täytyy olla myymälä, päivämäärä ja vähintään yksi tuote, jonka määrä on vähintään 1        
+    - kuitissa täytyy olla myymälä, päivämäärä ja vähintään yksi rivi (tuote), jossa määrä on vähintään 1        
 - mahdollisuus valita päänäkymästä esikatseltavaksi kuitti ja tarvittaessa muokata sitä
 - aikarajauksella voi tarkastella esimerkiksi kuluneen viikon aikana tehtyjä ostoksia
 - kuitin voi poistaa
@@ -25,7 +25,7 @@ Yhteenvetonäkymässä on oletuksena viimeisen viikon aikana tehtyjen ostosten m
 #### Ostokset
 - käytetty rahamäärä
 - yleisin myymälä
-- ostettujen tuotteiden määrän keskiarvo 
+- ostettujen tuotteiden määrän keskiarvo
 
 #### Tuotteet
 - ostetuimmat tuotteet top 5, niihin käytetty raha ja kuinka monelta kuitilta ne löytyvät
