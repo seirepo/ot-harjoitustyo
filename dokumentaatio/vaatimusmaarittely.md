@@ -13,8 +13,7 @@ Yhteenvetonäkymässä on oletuksena viimeisen viikon aikana tehtyjen ostosten m
 
 ### Listausnäkymä
 - mahdollisuus lisätä järjestelmään uusi kuitti
-    - kuitissa täytyy olla myymälä, päivämäärä ja vähintään yksi tuote, jonka määrä on jokin positiivinen luku
-        - yksiköksi voidaan valita annetaanko määrä kappaleina (>= 1), grammoina vai litroina
+    - kuitissa täytyy olla myymälä, päivämäärä ja vähintään yksi tuote, jonka määrä on vähintään 1        
 - mahdollisuus valita päänäkymästä esikatseltavaksi kuitti ja tarvittaessa muokata sitä
 - aikarajauksella voi tarkastella esimerkiksi kuluneen viikon aikana tehtyjä ostoksia
 - kuitin voi poistaa
@@ -36,6 +35,7 @@ Yhteenvetonäkymässä on oletuksena viimeisen viikon aikana tehtyjen ostosten m
 Jos aikaa riitää, voidaan ohjelmaa täydentää seuraavilla ominaisuuksilla:
 - ostoksia voi tarkastella myös tuotteittain
     - tällöin tuotteet aakkosjärjestyksessä
+- tuotteelle voidaan valita myös paino (kg) tai tilavuus (l)
 - yhteenvetonäkymään mahdollisuus tarkastella myös haluttua tuotetta hakemalla, eli kuinka monelta kuitilta löytyy nuudeleita
 - yhteenvetonäkymässä muutos edelliseen viikkoon (tai muuhun ajanjaksoon)
 - tuotekategoriat
