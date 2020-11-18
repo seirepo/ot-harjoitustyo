@@ -1,4 +1,4 @@
-package kuittitietokanta.domain;
+package receiptapp.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

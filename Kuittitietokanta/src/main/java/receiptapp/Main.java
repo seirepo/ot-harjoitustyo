@@ -1,6 +1,6 @@
-package kuittitietokanta;
+package receiptapp;
 
-import kuittitietokanta.domain.*;
+import receiptapp.domain.ReceiptItem;
 import java.util.HashMap;
 /**
  *

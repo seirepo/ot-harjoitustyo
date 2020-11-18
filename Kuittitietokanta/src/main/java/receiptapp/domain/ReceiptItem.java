@@ -1,4 +1,4 @@
-package kuittitietokanta.domain;
+package receiptapp.domain;
 
 /**
  * Kuitti yhdelle kuitilla olevalle riville
