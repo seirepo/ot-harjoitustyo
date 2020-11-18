@@ -30,10 +30,21 @@ public class Receipt {
         return total;
     }
     
+    public String getStore() {
+        return this.store;
+    }
+    
+    public LocalDate getDate() {
+        return this.date;
+    }
+    
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("asd");
+        
+        for (ReceiptItem item : items) {
+            s.append(item.toString());
+        }
         
         
         return s.toString();
