@@ -11,18 +11,25 @@ public class ReceiptItem {
     private String product;
     private int price; // kokonaishinta: tästä lasketaan yksikköhinta
     private int quantity;
-    private final ArrayList<String> UNITS = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
+    private ArrayList<String> units = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
     private String unit;
     
     public ReceiptItem(String product, double price, int quantity, String unit) {
         this.product = product;
+        
         if (price < 0) {
             this.price = 0;
         } else {
             this.price = (int) (price * 100);
         }
-        this.quantity = quantity;
-        if (this.UNITS.contains(unit)) {
+        
+        if (quantity < 1) {
+            this.quantity = 1;
+        } else {
+            this.quantity = quantity;
+        }
+        
+        if (this.units.contains(unit)) {
             this.unit = unit;
         } else {
             this.unit = "pc";

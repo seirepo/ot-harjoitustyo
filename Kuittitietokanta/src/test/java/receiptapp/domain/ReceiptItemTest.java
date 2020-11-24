@@ -5,10 +5,7 @@
  */
 package receiptapp.domain;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,5 +29,23 @@ public class ReceiptItemTest {
     @Test
     public void getUnitPriceReturnsCorrectUnitPrice() {
         assertEquals(295, item.getUnitPrice());
+    }
+    
+    @Test
+    public void constructorSetsNegativePriceToZero() {
+        item = new ReceiptItem("name", -10.5, 1, "pc");
+        assertEquals(0, item.getPrice());
+    }
+    
+    @Test
+    public void constructorSetsUnknownUnitToPc() {
+        item = new ReceiptItem("name", 1, 1, "asd");
+        assertEquals("pc", item.getUnit());
+    }
+    
+    @Test
+    public void constructorSetsQuantityToOneIfLess() {
+        item = new ReceiptItem("name", 1, -1, "pc");
+        assertEquals(1, item.getQuantity());
     }
 }
