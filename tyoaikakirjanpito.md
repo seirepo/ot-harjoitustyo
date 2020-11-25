@@ -5,4 +5,4 @@
 |  17.11.  | 5h      | muokattu luokkia ja korjattu suunnitelmaa: korvattu osa eilen tehdyistä luokista uusilla ja tehty näille funktioita ja testit                                                    |
 | 23.11. |  8h | Säätöä fxml:n käyttöönotossa, testibranch myös sovellukselle ilman fxml:ää
 | 24.11 | 5h | Aloitettu pääikkunan suunnittelua scenebuilderilla, lisätty joitain luokkia, testejä ja metodeja
-| yht. | 12h |
+| yht. | 25h |
