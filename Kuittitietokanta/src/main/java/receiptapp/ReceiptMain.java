@@ -23,11 +23,6 @@ public class ReceiptMain extends Application {
         
         FXMLLoader loader = new FXMLLoader(getClass()
                 .getResource("/fxml/FxReceipt.fxml"));
-        // "/fxml/fxReceipt.fxml"
-        // "../../resources/fxml/fxReceipt.fxml"
-        // "fxReceipt.fxml"
-        // "fxml/fxReceipt.fxml"
-        // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/fxReceipt.fxml"));
         Parent mainPane = loader.load();
         ReceiptController receiptController = loader.getController();
         receiptController.setReceiptService(receiptService); 
