@@ -14,7 +14,9 @@ import java.util.ArrayList;
 public class ReceiptService {
     
     
-    
+    public ReceiptService() {
+        // alusta joku daofile joka hoitaa tallennuksen
+    }
     
     public int getMeanTotal(LocalDate start, LocalDate end) {
         // hae daosta kuittien määrä annetulla välillä
