@@ -28,12 +28,22 @@ public class ReceiptItem {
         } else {
             this.quantity = quantity;
         }
+
         
         if (this.units.contains(unit)) {
             this.unit = unit;
         } else {
             this.unit = "pc";
         }
+    }
+    
+//    public ReceiptItem(String item) {
+//        this(item.split(";")[0], Double.parseDouble(item.split(";")[1]),
+//                Integer.parseInt(item.split(";")[2]), item.split(";")[3]);
+//    }
+    
+    public String getProduct() {
+        return this.product;
     }
     
     public int getPrice() {
@@ -54,6 +64,11 @@ public class ReceiptItem {
     
     @Override
     public String toString() {
+        return this.product + ";" + this.price + ";" + this.quantity + ";" +
+                this.unit;
+    }
+    
+    public String getItem() {
         String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
                 this.product, HelperFunctions.centsToEuros(this.price), this.quantity, this.unit,
                 HelperFunctions.centsToEuros(getUnitPrice()), this.unit);
