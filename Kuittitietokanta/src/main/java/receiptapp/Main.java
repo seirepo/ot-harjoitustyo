@@ -21,9 +21,10 @@ public class Main extends Application {
     public void init() throws Exception {
         ReceiptService receiptService = new ReceiptService();
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/fxReceipt.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/fxml/fxReceipt.fmxl"));
         // "/fxml/fxReceipt.fmxl"
-        //"../../resources/fxml/fxReceipt.fxml"
+        // "../../resources/fxml/fxReceipt.fxml"
         // "fxReceipt.fxml"
         // "fxml/fxReceipt.fxml"
         // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/fxReceipt.fxml"));
