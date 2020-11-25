@@ -13,12 +13,14 @@ import receiptapp.domain.ReceiptService;
 public class ReceiptController implements Initializable {
 
     private ReceiptService receiptService;
-    // private ReceiptMain application;
+    private Main application;
     
-    public void setApplication(ReceiptMain application) {
-        //
+    public void setApplication(Main application) {
+        this.application = application;
     }
-    
+    public void setReceiptService(ReceiptService receiptService) {
+        this.receiptService = receiptService;
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

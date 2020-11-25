@@ -2,8 +2,8 @@ package receiptapp;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import receiptapp.domain.ReceiptItem;
 import receiptapp.domain.ReceiptService;
@@ -13,43 +13,46 @@ import receiptapp.domain.ReceiptService;
  */
 public class Main extends Application {
 
-//    private Stage stage;
-//    private ReceiptService receiptService;
-//    private Scene scene;
+    private Stage stage;
+    private ReceiptService receiptService;
+    private Scene scene;
     
     @Override
-    public void start(Stage primaryStage) {
-        // ei toimi: Location is not set, getResourcen parametrissä on tod. näk. jotain vikaa
-//        try {
-//            FXMLLoader ldr = new FXMLLoader(getClass().getResource("/fxml/fxReceipt.fxml"));
-//            Pane root = (Pane)ldr.load();
-//            ReceiptController receiptCntrl = (ReceiptController)ldr.getController();
-//            Scene scene = new Scene(root);
-//            
-//            scene.getStylesheets().add(getClass().getResource("fxreceipt.css").toExternalForm());
-//            primaryStage.setScene(scene);
-//            primaryStage.setTitle("very cool");
-//            
-//            
-//            primaryStage.show();
-//            
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//            System.err.println("ReceiptMain: " + e.getMessage());
-//        }
+    public void init() throws Exception {
+        ReceiptService receiptService = new ReceiptService();
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/fxReceipt.fxml"));
+        // "/fxml/fxReceipt.fmxl"
+        //"../../resources/fxml/fxReceipt.fxml"
+        // "fxReceipt.fxml"
+        // "fxml/fxReceipt.fxml"
+        // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/fxReceipt.fxml"));
+        Parent mainPane = loader.load();
+        ReceiptController receiptController = loader.getController();
+        receiptController.setReceiptService(receiptService); 
+        receiptController.setApplication(this);
+        scene = new Scene(mainPane);
+        
     }
     
-    
+    @Override
+    public void start(Stage stage) throws Exception {
+        this.stage = stage;
+        
+        stage.setTitle("pls work");
+        stage.setScene(scene);
+        stage.show();
+    }    
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
+        launch(args);
         
-        ReceiptItem item1 = new ReceiptItem("tofu", 1.95, 1, "pc");
-        System.out.println("hinta: " + item1.getPrice());
-        System.out.println(item1.getItem());
+//        ReceiptItem item1 = new ReceiptItem("tofu", 1.95, 1, "pc");
+//        System.out.println("hinta: " + item1.getPrice());
+//        System.out.println(item1.getItem());
 
     }
     
