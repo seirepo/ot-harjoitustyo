@@ -62,6 +62,10 @@ public class ReceiptItem {
         return this.unit;
     }
     
+    public ArrayList<String> getUnits() {
+        return this.units;
+    }
+    
     @Override
     public String toString() {
         return this.product + ";" + this.price + ";" + this.quantity + ";" +
