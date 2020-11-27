@@ -2,6 +2,7 @@ package receiptapp;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import receiptapp.domain.ReceiptService;
@@ -10,7 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import receiptapp.domain.ReceiptItem;
 
 /**
  * FXML Controller class
@@ -34,9 +38,13 @@ public class ReceiptController implements Initializable {
     @FXML private Label receiptTotal;
     @FXML private Button addReceiptBtn;
     @FXML private Button removeReceipt;
+    @FXML private TableView<?> itemTable;
+    
+    private final Pattern doublePattern;
+    
     
     public ReceiptController() {
-        
+        this.doublePattern = Pattern.compile("[0-9]*\\.[0-9]+|[0-9]+");
     }
     
     public void setApplication(ReceiptMain application) {
