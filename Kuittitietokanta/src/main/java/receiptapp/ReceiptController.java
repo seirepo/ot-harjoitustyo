@@ -56,16 +56,76 @@ public class ReceiptController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // TODO: selvitä yksiköt receiptServiceltä
+        // ongelma: receiptServiceä ei ole alustettu vielä tässä, eikä
+        // fxml-elementtejä ole alustettu vielä konstruktorissa.
+        // ts. fxml-elementit alustetaan ennen setReceiptServicen kutsumista
+        // ArrayList<String> units = this.receiptService.getUnits();
         this.unitChoice.getItems().add("pc");
         this.unitChoice.getItems().add("kg");
         this.unitChoice.getItems().add("l");
+        this.unitChoice.setValue("pc");
+
     }
 
     @FXML
-    void handleAddProduct(ActionEvent event) {
+    void handleAddItem(ActionEvent event) {        
         System.out.println("klikkasit add!");
+        
+        String error = checkAddFields();
+        
+        if (error.length() > 0) {
+            System.out.println(error);
+        } else {
+        
+            String product = this.productField.getText(); // jos tyhjä -> ""
+            double price = Double.parseDouble(this.priceField.getText());
+            String unit = this.unitChoice.getValue();
+            double qnty = Double.parseDouble(this.qntyField.getText());
+
+//            if (unit.equals("pc")) {
+//                int qnty = Integer.parseInt(this.qntyField.getText());
+//            } else {
+//                int qnty = (int)(Double.parseDouble(this.qntyField.getText()) * 1000);
+//            }
+
+            if (unit.equals("pc")) {
+                System.out.println("syöte:\n\t" + product + "\n\t" + price
+                    + "\n\t" + (int)(qnty*1000) + "\n\t" + unit);
+            } else {            
+                System.out.println("syöte:\n\t" + product + "\n\t" + price
+                        + "\n\t" + qnty + "\n\t" + unit);
+            }
+            //this.itemTable.getItems().add(new ReceiptItem(product, price, qnty, unit));
+            
+            //boolean added = this.receiptService.addReceiptItem();
+        }
+    }
+    
+    public String checkAddFields() {
+        String e = "";
+        
+        if ("".equals(this.productField.getText())) {
+            e += "product name cannot be blank\n";
+        }
+        
+        if (!this.doublePattern.matcher(this.priceField.getText()).matches()) {
+            e += "price must be a number\n";
+        }
+        
+        if (!this.doublePattern.matcher(this.qntyField.getText()).matches()) {
+            e += "quantity must be a number\n";
+        }
+        
+        return e;
     }
 
+    
+    @FXML
+    void HandleCheckDouble(KeyEvent event) {
+        System.out.println(event.getCharacter());
+    }
+    
     @FXML
     void handleAddReceipt(ActionEvent event) {
 
