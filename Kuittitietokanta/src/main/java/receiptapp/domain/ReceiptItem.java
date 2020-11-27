@@ -10,11 +10,11 @@ import java.util.Arrays;
 public class ReceiptItem {
     private String product;
     private int price; // kokonaishinta: tästä lasketaan yksikköhinta
-    private int quantity;
+    private double quantity;
     private ArrayList<String> units = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
     private String unit;
     
-    public ReceiptItem(String product, double price, int quantity, String unit) {
+    public ReceiptItem(String product, double price, double quantity, String unit) {
         this.product = product;
         
         if (price < 0) {
@@ -23,7 +23,7 @@ public class ReceiptItem {
             this.price = (int) (price * 100);
         }
         
-        if (quantity < 1) {
+        if (quantity <= 0) {
             this.quantity = 1;
         } else {
             this.quantity = quantity;
@@ -37,11 +37,6 @@ public class ReceiptItem {
         }
     }
     
-//    public ReceiptItem(String item) {
-//        this(item.split(";")[0], Double.parseDouble(item.split(";")[1]),
-//                Integer.parseInt(item.split(";")[2]), item.split(";")[3]);
-//    }
-    
     public String getProduct() {
         return this.product;
     }
@@ -51,10 +46,10 @@ public class ReceiptItem {
     }
     
     public int getUnitPrice() {
-        return this.price / quantity;
+        return (int)(this.price / quantity);
     }
     
-    public int getQuantity() {
+    public double getQuantity() {
         return this.quantity;
     }
     
@@ -73,9 +68,9 @@ public class ReceiptItem {
     }
     
     public String getItem() {
-        String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
-                this.product, HelperFunctions.centsToEuros(this.price), this.quantity, this.unit,
-                HelperFunctions.centsToEuros(getUnitPrice()), this.unit);
-        return s;
+//        String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
+//                this.product, HelperFunctions.centsToEuros(this.price), this.quantity, this.unit,
+//                HelperFunctions.centsToEuros(getUnitPrice()), this.unit);
+        return "";
     }
 }
