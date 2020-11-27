@@ -32,21 +32,27 @@ public class ReceiptItemTest {
     }
     
     @Test
-    public void constructor1SetsNegativePriceToZero() {
+    public void getUnitPriceReturnsCorrectlyWhenQntyNotInteger() {
+        item = new ReceiptItem("name", 14.75, 5.5, "kg");
+        assertEquals(268, item.getUnitPrice());
+    }
+    
+    @Test
+    public void constructorSetsNegativePriceToZero() {
         item = new ReceiptItem("name", -10.5, 1, "pc");
         assertEquals(0, item.getPrice());
     }
     
     @Test
-    public void constructor1SetsUnknownUnitToPc() {
+    public void constructorSetsUnknownUnitToPc() {
         item = new ReceiptItem("name", 1, 1, "asd");
         assertEquals("pc", item.getUnit());
     }
     
     @Test
-    public void constructor1SetsQuantityToOneIfLess() {
+    public void constructorSetsQuantityToOneIfLess() {
         item = new ReceiptItem("name", 1, -1, "pc");
-        assertEquals(1, item.getQuantity());
+        assertEquals(1, item.getQuantity(), 0.001);
     }
 //    
 //    @Test
