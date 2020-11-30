@@ -47,10 +47,10 @@
                            <children>
                               <TableView fx:id="itemTable" GridPane.columnSpan="2" GridPane.rowIndex="2">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="tuote" />
-                                  <TableColumn prefWidth="75.0" text="hinta" />
-                                    <TableColumn prefWidth="75.0" text="määrä" />
-                                    <TableColumn prefWidth="75.0" text="yksikkö" />
+                                  <TableColumn fx:id="productCol" prefWidth="75.0" text="tuote" />
+                                  <TableColumn fx:id="priceCol" prefWidth="75.0" text="hinta" />
+                                    <TableColumn fx:id="qntyCol" prefWidth="75.0" text="määrä" />
+                                    <TableColumn fx:id="unitCol" prefWidth="75.0" text="yksikkö" />
                                     <TableColumn prefWidth="50.0" />
                                 </columns>
                               </TableView>
@@ -100,7 +100,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <children>
-                                    <Label fx:id="receiptTotal" text="Label">
+                                    <Label fx:id="receiptTotal" text="0">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </HBox.margin>
