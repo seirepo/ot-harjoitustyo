@@ -41,8 +41,12 @@ public class ReceiptItem {
         return this.product;
     }
     
-    public int getPrice() {
+    public int getPriceCents() {
         return this.price;
+    }
+    
+    public double getPrice() {
+        return HelperFunctions.centsToEuros(this.price);
     }
     
     public int getUnitPrice() {
@@ -68,9 +72,9 @@ public class ReceiptItem {
     }
     
     public String getItem() {
-//        String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
-//                this.product, HelperFunctions.centsToEuros(this.price), this.quantity, this.unit,
-//                HelperFunctions.centsToEuros(getUnitPrice()), this.unit);
+        String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
+                this.product, HelperFunctions.centsToEuros(this.price), this.quantity, this.unit,
+                HelperFunctions.centsToEuros(getUnitPrice()), this.unit);
         return "";
     }
 }

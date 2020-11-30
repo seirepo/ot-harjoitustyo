@@ -1,6 +1,7 @@
 package receiptapp;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
@@ -11,8 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import receiptapp.domain.ReceiptItem;
 
@@ -38,7 +41,11 @@ public class ReceiptController implements Initializable {
     @FXML private Label receiptTotal;
     @FXML private Button addReceiptBtn;
     @FXML private Button removeReceipt;
-    @FXML private TableView<?> itemTable;
+    @FXML private TableView<ReceiptItem> itemTable;    
+    @FXML private TableColumn<ReceiptItem, String> productCol;
+    @FXML private TableColumn<ReceiptItem, Double> priceCol;
+    @FXML private TableColumn<ReceiptItem, Double> qntyCol;
+    @FXML private TableColumn<ReceiptItem, String> unitCol;
     
     private final Pattern doublePattern;
     
@@ -65,6 +72,11 @@ public class ReceiptController implements Initializable {
         this.unitChoice.getItems().add("kg");
         this.unitChoice.getItems().add("l");
         this.unitChoice.setValue("pc");
+        
+        this.productCol.setCellValueFactory(new PropertyValueFactory<>("product"));
+        this.priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        this.qntyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        this.unitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
     }
 
