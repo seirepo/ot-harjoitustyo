@@ -12,23 +12,25 @@ import java.util.ArrayList;
  * @author resure
  */
 public class ReceiptService {
-    private ReceiptItem receiptItem;
-    private Receipt receipt;
+    private ArrayList<ReceiptItem> items;
+    private ArrayList<Receipt> receipts;
     
     
     public ReceiptService() {
         // alusta joku daofile joka hoitaa tallennuksen
+        this.items = new ArrayList<>();
+        this.receipts = new ArrayList<>();
     }
     
-    public ArrayList<String> getUnits() {
-        return this.receiptItem.getUnits();
-    }
-    
-    public boolean addReceiptItem(String product, double price, double qnty, String unit) {
+        
+    public boolean addReceiptItem(ReceiptItem item) {
+        this.items.add(item);
         return true;
     }
     
-    
+    public ArrayList<ReceiptItem> getReceiptItems() {
+        return this.items;
+    }
     
     public int getMeanTotal(LocalDate start, LocalDate end) {
         // hae daosta kuittien määrä annetulla välillä
