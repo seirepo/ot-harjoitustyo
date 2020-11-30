@@ -70,21 +70,16 @@
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </GridPane.margin></Label>
-                              <Label text="Total" GridPane.rowIndex="4">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                              </Label>
                               <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <children>
                                     <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
                                        <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Button>
                                     <Button fx:id="okBtn" mnemonicParsing="false" onAction="#handleOk" text="OK">
                                        <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Button>
                                  </children>
@@ -98,8 +93,27 @@
                                     <Button fx:id="addProductBtn" maxWidth="50.0" mnemonicParsing="false" onAction="#handleAddItem" prefWidth="50.0" text="Add" />
                                  </children>
                               </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
+                                 <children>
+                                    <Button fx:id="editItemBtn" disable="true" mnemonicParsing="false" onAction="#handleEditItem" text="Edit">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="deleteItemBtn" disable="true" mnemonicParsing="false" onAction="#handleDeleteItem" text="Delete">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
                               <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <children>
+                                    <Label text="Total">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </Label>
                                     <Label fx:id="receiptTotal" text="0">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -115,8 +129,14 @@
                <bottom>
                   <HBox BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="addReceiptBtn" mnemonicParsing="false" onAction="#handleAddReceipt" text="Lisää kuitti" />
-                        <Button fx:id="removeReceipt" mnemonicParsing="false" onAction="#handleRemoveReceipt" text="Poista" />
+                        <Button fx:id="addReceiptBtn" mnemonicParsing="false" onAction="#handleAddReceipt" text="Add receipt">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </HBox.margin></Button>
+                        <Button fx:id="removeReceipt" mnemonicParsing="false" onAction="#handleRemoveReceipt" text="Delete">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </HBox.margin></Button>
                      </children>
                   </HBox>
                </bottom>

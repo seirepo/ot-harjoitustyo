@@ -45,9 +45,12 @@ public class ReceiptController implements Initializable {
     @FXML private TableColumn<ReceiptItem, String> productCol;
     @FXML private TableColumn<ReceiptItem, Double> priceCol;
     @FXML private TableColumn<ReceiptItem, Double> qntyCol;
-    @FXML private TableColumn<ReceiptItem, String> unitCol;
+    @FXML private TableColumn<ReceiptItem, String> unitCol;    
+    @FXML private Button editItemBtn;
+    @FXML private Button deleteItemBtn;
     
     private final Pattern doublePattern;
+    private ReceiptItem selectedItem;
     
     
     public ReceiptController() {
@@ -77,12 +80,18 @@ public class ReceiptController implements Initializable {
         this.priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         this.qntyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         this.unitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        
+        this.itemTable.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((obs, oldSelection, newSelection) 
+                        -> enableEditAndRemove(newSelection));
 
     }
 
     @FXML
     void handleAddItem(ActionEvent event) {        
         System.out.println("klikkasit add!");
+        this.addProductBtn.setText("Add");
         
         String error = checkAddFields();
         
@@ -147,6 +156,21 @@ public class ReceiptController implements Initializable {
     }
 
     
+    public void enableEditAndRemove(ReceiptItem selected) {
+        System.out.println("asd");
+        if (selected == null) {
+            System.out.println("valittu on null");      
+            this.editItemBtn.setDisable(true);
+            this.deleteItemBtn.setDisable(true);
+        } else {
+            System.out.println("ei oo null");
+            this.editItemBtn.setDisable(false);
+            this.deleteItemBtn.setDisable(false);
+            this.selectedItem = selected;
+        }
+    }
+    
+    
     @FXML
     void HandleCheckDouble(KeyEvent event) {
         System.out.println(event.getCharacter());
@@ -170,6 +194,18 @@ public class ReceiptController implements Initializable {
     @FXML
     void handleRemoveReceipt(ActionEvent event) {
 
+    }
+    
+    @FXML
+    void handleEditItem(ActionEvent event) {
+        System.out.println("nyt voi muokata");
+        this.addProductBtn.setText("Ok");
+        
+    }
+        
+    @FXML
+    void handleDeleteItem(ActionEvent event) {
+        System.out.println("nyt voi poistaa");
     }
     
 }
