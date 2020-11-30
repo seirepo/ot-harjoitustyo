@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="receiptapp.ReceiptController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="receiptapp.ReceiptController">
     <stylesheets>
         <URL value="@/styles/fxreceipt.css" />
     </stylesheets>
@@ -84,13 +84,28 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                              <HBox GridPane.columnSpan="2" GridPane.rowIndex="3">
                                  <children>
-                                    <TextField fx:id="productField" prefWidth="150.0" promptText="Tuote" />
-                                    <TextField fx:id="priceField" onKeyTyped="#HandleCheckDouble" prefWidth="60.0" promptText="Hinta" />
-                                    <TextField fx:id="qntyField" prefWidth="60.0" promptText="Määrä" />
-                                    <ChoiceBox fx:id="unitChoice" maxWidth="30.0" prefWidth="30.0" />
-                                    <Button fx:id="addProductBtn" maxWidth="50.0" mnemonicParsing="false" onAction="#handleAddItem" prefWidth="50.0" text="Add" />
+                                    <TextField fx:id="productField" prefWidth="150.0" promptText="Tuote">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin></TextField>
+                                    <TextField fx:id="priceField" onKeyTyped="#HandleCheckDouble" prefWidth="60.0" promptText="Hinta">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin></TextField>
+                                    <TextField fx:id="qntyField" prefWidth="60.0" promptText="Määrä">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin></TextField>
+                                    <ChoiceBox fx:id="unitChoice" maxWidth="30.0" prefWidth="30.0">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin></ChoiceBox>
+                                    <Button fx:id="addProductBtn" maxWidth="50.0" mnemonicParsing="false" onAction="#handleAddItem" prefWidth="50.0" text="Add">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin></Button>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
@@ -100,14 +115,14 @@
                                           <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="deleteItemBtn" disable="true" mnemonicParsing="false" onAction="#handleDeleteItem" text="Delete">
+                                    <Button fx:id="deleteItemBtn" disable="true" mnemonicParsing="false" onAction="#handleDeleteItem" text="Delete Item">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Button>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
                                     <Label text="Total">
                                        <HBox.margin>
