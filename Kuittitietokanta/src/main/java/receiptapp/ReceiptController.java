@@ -95,23 +95,37 @@ public class ReceiptController implements Initializable {
             String unit = this.unitChoice.getValue();
             double qnty = Double.parseDouble(this.qntyField.getText());
 
-//            if (unit.equals("pc")) {
-//                int qnty = Integer.parseInt(this.qntyField.getText());
-//            } else {
-//                int qnty = (int)(Double.parseDouble(this.qntyField.getText()) * 1000);
-//            }
-
-            if (unit.equals("pc")) {
-                System.out.println("syöte:\n\t" + product + "\n\t" + price
-                    + "\n\t" + (int)(qnty*1000) + "\n\t" + unit);
-            } else {            
-                System.out.println("syöte:\n\t" + product + "\n\t" + price
-                        + "\n\t" + qnty + "\n\t" + unit);
-            }
-            //this.itemTable.getItems().add(new ReceiptItem(product, price, qnty, unit));
+            System.out.println("syöte:\n\t" + product + "\n\t" + price
+                                    + "\n\t" + qnty + "\n\t" + unit);
             
-            //boolean added = this.receiptService.addReceiptItem();
+            ReceiptItem i = new ReceiptItem(product, price, qnty, unit);
+            this.receiptService.addReceiptItem(i);
+            updateItemTableAndTotal();
+            clearAddFields();
         }
+    }
+    
+    public void updateItemTableAndTotal() {
+        this.itemTable.getItems().clear();
+        double total = 0;
+        
+        ArrayList<ReceiptItem> items = this.receiptService.getReceiptItems();
+        for (ReceiptItem item : items) {
+            this.itemTable.getItems().add(item);
+            total += item.getPrice();
+        }
+        
+        this.receiptTotal.setText("" + total);
+        
+        for (ReceiptItem item : this.itemTable.getItems()) {
+            System.out.println(item);
+        }
+    }
+    
+    public void clearAddFields() {
+        this.productField.setText("");
+        this.priceField.setText("");
+        this.qntyField.setText("");        
     }
     
     public String checkAddFields() {
