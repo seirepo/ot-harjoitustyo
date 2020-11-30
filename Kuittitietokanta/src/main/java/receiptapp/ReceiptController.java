@@ -1,6 +1,7 @@
 package receiptapp;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import receiptapp.domain.ReceiptItem;
+import receiptapp.domain.Receipt;
 
 /**
  * FXML Controller class
@@ -30,27 +32,36 @@ public class ReceiptController implements Initializable {
     private ReceiptMain application;
     
     @FXML private TextField storeField;
-    @FXML private DatePicker date;
-    @FXML private Button cancelBtn;
-    @FXML private Button okBtn;
     @FXML private TextField productField;
     @FXML private TextField priceField;
     @FXML private TextField qntyField;
-    @FXML private ChoiceBox<String> unitChoice;
-    @FXML private Button addProductBtn;
     @FXML private Label receiptTotal;
+    @FXML private DatePicker date;
+    @FXML private ChoiceBox<String> unitChoice;
+    @FXML private Button cancelBtn;
+    @FXML private Button okBtn;
+    @FXML private Button addProductBtn;
     @FXML private Button addReceiptBtn;
     @FXML private Button removeReceipt;
-    @FXML private TableView<ReceiptItem> itemTable;    
-    @FXML private TableColumn<ReceiptItem, String> productCol;
-    @FXML private TableColumn<ReceiptItem, Double> priceCol;
-    @FXML private TableColumn<ReceiptItem, Double> qntyCol;
-    @FXML private TableColumn<ReceiptItem, String> unitCol;    
     @FXML private Button editItemBtn;
     @FXML private Button deleteItemBtn;
     
+    @FXML private TableView<ReceiptItem> itemTable;
+    @FXML private TableColumn<ReceiptItem, String> productCol;
+    @FXML private TableColumn<ReceiptItem, Double> priceCol;
+    @FXML private TableColumn<ReceiptItem, Double> qntyCol;
+    @FXML private TableColumn<ReceiptItem, String> unitCol;
+    
+    @FXML private TableView<Receipt> receiptTable;
+    @FXML private TableColumn<Receipt, String> storeCol;
+    @FXML private TableColumn<Receipt, LocalDate> dateCol;
+    @FXML private TableColumn<Receipt, Integer> productsCol;
+    @FXML private TableColumn<Receipt, Double> totalCol;
+
+    
     private final Pattern doublePattern;
     private ReceiptItem selectedItem;
+    private Receipt selectedReceipt;
     
     
     public ReceiptController() {
@@ -79,19 +90,31 @@ public class ReceiptController implements Initializable {
         this.productCol.setCellValueFactory(new PropertyValueFactory<>("product"));
         this.priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         this.qntyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        this.unitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));
-        
+        this.unitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));        
         this.itemTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) 
                         -> enableEditAndRemove(newSelection));
-
+        
+        this.storeCol.setCellValueFactory(new PropertyValueFactory<>("store"));
+        this.dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        this.productsCol.setCellValueFactory(new PropertyValueFactory<>("productCount"));
+        this.totalCol.setCellValueFactory(new PropertyValueFactory<>("total"));
+        this.receiptTable.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((obs, oldSelection, newSelection) ->
+                              setSelectedReceipt(newSelection));
     }
 
+    // TODO: tyhjennä FXML-jutut, siirrä niissä tehtävät toiminnallisuudet
+    // erillisiin metodeihin!
+    
     @FXML
-    void handleAddItem(ActionEvent event) {        
-        System.out.println("klikkasit add!");
-        this.addProductBtn.setText("Add");
+    void handleAddItem(ActionEvent event) {
+        
+        // addItem();
+        // updateItemTableAndTotal();
+        // clearAddFields();
         
         String error = checkAddFields();
         

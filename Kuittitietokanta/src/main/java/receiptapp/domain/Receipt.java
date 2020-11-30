@@ -19,10 +19,10 @@ public class Receipt {
     }
     
     /**
-     * Palauttaa kuitin summan sentteinä
+     * Palauttaa kuitin summan sentteinä.
      * @return total
      */
-    public int total() {
+    public int getTotal() {
         int total = 0;
         for (ReceiptItem item : items) {
             total += item.getPrice();
@@ -36,6 +36,21 @@ public class Receipt {
     
     public LocalDate getDate() {
         return this.date;
+    }
+    
+    // TODO: testit!
+    public int getProductCount() {
+        int count = 0;
+        
+        for (ReceiptItem item : this.items) {
+            if (item.getUnit().equals("pc")) {
+                count += item.getQuantity();
+            } else {
+                count += 1;
+            }
+        }
+        
+        return count;
     }
     
     @Override
