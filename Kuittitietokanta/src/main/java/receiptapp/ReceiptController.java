@@ -75,6 +75,13 @@ public class ReceiptController implements Initializable {
         this.receiptService = receiptService;
     }
     
+    /**
+     * Alustetaan kaikki fxml-jutut ja tehdään tarvittavat asetukset.
+     * TODO: jaa tämäkin erillisiin metodeihin jos mahdollista, eli esim.
+     * initializeChoseBox(), initializeItemTable(), initializeReceiptTable()
+     * @param url
+     * @param rb 
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO: selvitä yksiköt receiptServiceltä
@@ -137,6 +144,15 @@ public class ReceiptController implements Initializable {
         }
     }
     
+    public void updateReceiptTable() {
+        this.receiptTable.getItems().clear();
+        ArrayList<Receipt> receipts = this.receiptService.getReceipts();
+        
+        for (Receipt receipt : receipts) {
+            this.receiptTable.getItems().add(receipt);
+        }
+    }
+    
     public void updateItemTableAndTotal() {
         this.itemTable.getItems().clear();
         double total = 0;
@@ -157,27 +173,8 @@ public class ReceiptController implements Initializable {
     public void clearAddFields() {
         this.productField.setText("");
         this.priceField.setText("");
-        this.qntyField.setText("");        
+        this.qntyField.setText("");
     }
-    
-    public String checkAddFields() {
-        String e = "";
-        
-        if ("".equals(this.productField.getText())) {
-            e += "product name cannot be blank\n";
-        }
-        
-        if (!this.doublePattern.matcher(this.priceField.getText()).matches()) {
-            e += "price must be a number\n";
-        }
-        
-        if (!this.doublePattern.matcher(this.qntyField.getText()).matches()) {
-            e += "quantity must be a number\n";
-        }
-        
-        return e;
-    }
-
     
     public void enableEditAndRemove(ReceiptItem selected) {
         System.out.println("asd");
@@ -193,6 +190,10 @@ public class ReceiptController implements Initializable {
         }
     }
     
+    public void setSelectedReceipt(Receipt selected) {
+        this.selectedReceipt = selected;
+    }
+    
     
     @FXML
     void HandleCheckDouble(KeyEvent event) {
@@ -201,7 +202,7 @@ public class ReceiptController implements Initializable {
     
     @FXML
     void handleAddReceipt(ActionEvent event) {
-
+        // tyhjentää kuitin tiedot sisältävän osion ja itemtablen
     }
 
     @FXML
@@ -211,8 +212,37 @@ public class ReceiptController implements Initializable {
 
     @FXML
     void handleOk(ActionEvent event) {
+        // Kuitin lisäys:
+
+        // addReceipt(); // tänne kaikki lisäämisessä käytettävä
+        // updateReceiptTable();
+        // clearAllFields();
+        // updateItemTableAndTotal();
+        
         System.out.println("klikkasit ok!");
+        String error = checkDemandedFields();
+        
+        if (error.length() > 0) {
+            System.out.println(error);
+        } else {
+            String store = this.storeField.getText();
+            LocalDate dt = this.date.getValue();
+            ArrayList<ReceiptItem> items = new ArrayList<>(this.itemTable.getItems());
+            
+            Receipt receipt = new Receipt(store, dt, items);
+            this.receiptService.addReceipt(receipt);
+            updateReceiptTable();
+            clearAllFields();
+            updateItemTableAndTotal();
+        }
     }
+    
+    public void clearAllFields() {
+        clearAddFields();
+        this.storeField.setText("");
+        this.date.setValue(null);
+    }
+
 
     @FXML
     void handleRemoveReceipt(ActionEvent event) {
@@ -236,4 +266,39 @@ public class ReceiptController implements Initializable {
         System.out.println("nyt voi poistaa");
     }
     
+    public String checkAddFields() {
+        String e = "";
+        
+        if ("".equals(this.productField.getText())) {
+            e += "product name cannot be blank\n";
+        }
+        
+        if (!this.doublePattern.matcher(this.priceField.getText()).matches()) {
+            e += "price must be a number\n";
+        }
+        
+        if (!this.doublePattern.matcher(this.qntyField.getText()).matches()) {
+            e += "quantity must be a number\n";
+        }
+        
+        return e;
+    }
+    
+    public String checkDemandedFields() {
+        String e = "";
+        
+        if ("".equals(this.storeField.getText())) {
+            e += "store name cannot be blank\n";
+        }
+        
+        if (this.date.getValue() == null) {
+            e += "date cannot be blank";
+        }
+        
+        if (this.itemTable.getItems().isEmpty()) {
+            e += "receipt must have at least one product";
+        }
+        
+        return e;
+    }
 }
