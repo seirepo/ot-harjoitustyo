@@ -13,6 +13,7 @@ public class ReceiptItem {
     private double quantity;
     private ArrayList<String> units = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
     private String unit;
+    private int id = -1;
     
     public ReceiptItem(String product, double price, double quantity, String unit) {
         this.product = product;
@@ -63,6 +64,14 @@ public class ReceiptItem {
     
     public ArrayList<String> getUnits() {
         return this.units;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
     
     @Override
