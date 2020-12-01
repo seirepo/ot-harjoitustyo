@@ -5,6 +5,10 @@
  */
 package receiptapp.dao;
 
+import java.io.File;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import receiptapp.domain.Receipt;
 
@@ -15,12 +19,32 @@ import receiptapp.domain.Receipt;
 public class FileReceiptDao implements ReceiptDao {
     
     public List<Receipt> receipts;
-    private String file;
+    private String dbFile;
     
     
-    public FileReceiptDao(String file) throws Exception {
+    public FileReceiptDao(String dbFile) throws SQLException {
+        this.receipts = new ArrayList<>();
+        this.dbFile = dbFile; // vaikka receiptAppDatabase tms
+        File dir = new File(this.dbFile);
         // lue tietokannasta kuitit ja tee niistä kuittiolioita
-        System.out.println("Luetaan tietokanta muuttujaan receipts");
+        
+        // katso onko annettu tiedosto jo olemassa, jos on niin lue sieltä tiedot
+        // kuittilistaan
+        // jos ei, alusta uudet tarvittavat taulut?
+        if (!(dir.exists() && dir.isDirectory())) {
+            // eli not exists() or not a dir = joko ei ole olemassa tai ei ole dir
+            // luo uudet taulut = db-tietokantatiedostot
+            File dbReceipts = Paths.get(this.dbFile, "receipts.db").toFile();
+            File dbReceiptItems = Paths.get(this.dbFile, "receiptItems.db").toFile();
+            File dbReceiptXReceiptItems = Paths.get(this.dbFile, "receiptXReceiptItems.db").toFile();
+            
+        } else {
+            // lue jutut kuittiolioon
+            //Connection dbReceipts = DriverManager.getConnection("jdbc:sqlite:" + this.dbFile + ".db");
+            //Connection dbReceiptItems = DriverManager.getConnection("jdbc:sqlite:" + )
+            
+        }
+                
     }
     
     private void save() throws Exception {
