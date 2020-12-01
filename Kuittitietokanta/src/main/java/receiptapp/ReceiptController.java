@@ -113,37 +113,44 @@ public class ReceiptController implements Initializable {
                               setSelectedReceipt(newSelection));
     }
 
-    // TODO: tyhjennä FXML-jutut, siirrä niissä tehtävät toiminnallisuudet
-    // erillisiin metodeihin!
-    
+
     @FXML
     void handleAddItem(ActionEvent event) {
-        
-        // addItem();
-        // updateItemTableAndTotal();
-        // clearAddFields();
-        
+        addItem();
+        updateItemTableAndTotal();
+        clearAddFields();
+    }
+    
+    /**
+     * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
+     * täytetty oikein.
+     * TODO: error-dialogi jos ei
+     */
+    public void addItem() {
         String error = checkAddFields();
         
         if (error.length() > 0) {
+            // TODO: tee error-dialogi
             System.out.println(error);
         } else {
         
-            String product = this.productField.getText(); // jos tyhjä -> ""
+            String product = this.productField.getText();
             double price = Double.parseDouble(this.priceField.getText());
             String unit = this.unitChoice.getValue();
             double qnty = Double.parseDouble(this.qntyField.getText());
 
+            // TEST
             System.out.println("syöte:\n\t" + product + "\n\t" + price
                                     + "\n\t" + qnty + "\n\t" + unit);
             
             ReceiptItem i = new ReceiptItem(product, price, qnty, unit);
             this.receiptService.addReceiptItem(i);
-            updateItemTableAndTotal();
-            clearAddFields();
-        }
+        }        
     }
     
+    /**
+     * Päivitetään kuitit sisältävä receiptTable.
+     */
     public void updateReceiptTable() {
         this.receiptTable.getItems().clear();
         ArrayList<Receipt> receipts = this.receiptService.getReceipts();
@@ -153,6 +160,9 @@ public class ReceiptController implements Initializable {
         }
     }
     
+    /**
+     * Päivitetään tuotetaulukko itemTable uuden tuotteen lisäyksen jälkeen.
+     */
     public void updateItemTableAndTotal() {
         this.itemTable.getItems().clear();
         double total = 0;
@@ -170,12 +180,19 @@ public class ReceiptController implements Initializable {
         }
     }
     
+    /**
+     * Tyhjennetään kaikki uuden tuotteen lisäämiseen liittyvät kentät.
+     */
     public void clearAddFields() {
         this.productField.setText("");
         this.priceField.setText("");
         this.qntyField.setText("");
     }
     
+    /**
+     * Tää on kesken!
+     * @param selected 
+     */
     public void enableEditAndRemove(ReceiptItem selected) {
         System.out.println("asd");
         if (selected == null) {
@@ -212,14 +229,17 @@ public class ReceiptController implements Initializable {
 
     @FXML
     void handleOk(ActionEvent event) {
-        // Kuitin lisäys:
-
-        // addReceipt(); // tänne kaikki lisäämisessä käytettävä
-        // updateReceiptTable();
-        // clearAllFields();
-        // updateItemTableAndTotal();
-        
-        System.out.println("klikkasit ok!");
+        addReceipt();
+        updateReceiptTable();
+        clearAllFields();
+        updateItemTableAndTotal();
+    }
+    
+    /**
+     * Lisätään uusi kuitti. Samalla tarkistetaan onko kaikki lisäämiseen
+     * vaadittavat kentät täytetty oikein.
+     */
+    public void addReceipt() {
         String error = checkDemandedFields();
         
         if (error.length() > 0) {
@@ -231,12 +251,12 @@ public class ReceiptController implements Initializable {
             
             Receipt receipt = new Receipt(store, dt, items);
             this.receiptService.addReceipt(receipt);
-            updateReceiptTable();
-            clearAllFields();
-            updateItemTableAndTotal();
         }
     }
     
+    /**
+     * Tyhjentää kaikki täytettävät kentät.
+     */
     public void clearAllFields() {
         clearAddFields();
         this.storeField.setText("");
@@ -266,6 +286,10 @@ public class ReceiptController implements Initializable {
         System.out.println("nyt voi poistaa");
     }
     
+    /**
+     * Tarkistetaan kaikki tuotteen lisäämiseen liittyvien kenttien oikeellisuus.
+     * @return error-viesti merkkijonona. Tyhjä jos kaikki ok
+     */
     public String checkAddFields() {
         String e = "";
         
@@ -284,6 +308,10 @@ public class ReceiptController implements Initializable {
         return e;
     }
     
+    /**
+     * Tarkistetaan kaikki kuitin lisäämiseen liittyvien kenttien oikeellisuus.
+     * @return error-viesti merkkijonona. Tyhjä jos kaikki ok
+     */
     public String checkDemandedFields() {
         String e = "";
         
