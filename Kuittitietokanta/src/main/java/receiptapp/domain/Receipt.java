@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * Luokka kuitille
+ * Luokka kuitille.
  * @author resure
  */
 public class Receipt {
@@ -13,15 +13,30 @@ public class Receipt {
     private ArrayList<ReceiptItem> items;
     private int id = -1;
   
+    /**
+     * Konstruktori uudelle kuitille.
+     * TODO: katso ettei päivämääärä ole tulevaisuudessa!
+     * @param store kauppa
+     * @param date päiväys
+     * @param items tuotteet
+     */
     public Receipt(String store, LocalDate date, ArrayList<ReceiptItem> items) {
         this.store = store;
         this.date = date;
         this.items = items;
     }
     
+    /**
+     * Toinen konstruktori kuitille, joka alustaa muiden attribuuttien lisäksi
+     * myös id:n. Muut attribuutit alustetaan käyttämällä toista konstruktoria.
+     * @param store kauppa
+     * @param date päiväys
+     * @param items tuotteet
+     * @param id id
+     */
     public Receipt(String store, LocalDate date, ArrayList<ReceiptItem> items, int id) {
         this(store, date, items);
-        this.id=id;
+        this.id = id;
     }
     
     /**
@@ -56,7 +71,11 @@ public class Receipt {
         return this.date;
     }
     
-    // TODO: testit!
+    /**
+     * Metodi, joka palauttaa kuitilla olevien tuotteiden kappalemäärän.
+     * @return tuotteiden kappalemäärä.
+     * TODO: testit
+     */
     public int getProductCount() {
         int count = 0;
         

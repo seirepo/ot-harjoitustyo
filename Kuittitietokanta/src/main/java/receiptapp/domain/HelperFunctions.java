@@ -1,13 +1,13 @@
 package receiptapp.domain;
 
 /**
- * Luokka avustajafunktioille
+ * Luokka avustajafunktioille.
  * @author resure
  */
 public class HelperFunctions {
         
     /**
-     * Muuntaa annetut sentit euroiksi kahden desimaalin tarkkuudelle
+     * Muuntaa annetut sentit euroiksi kahden desimaalin tarkkuudelle.
      * @param cents sentit
      * @return eurot doublena
      */
@@ -16,7 +16,7 @@ public class HelperFunctions {
     }
     
     /**
-     * Muuntaa annetut grammat kilogrammoiksi kolmen desimaalin tarkkuudelle
+     * Muuntaa annetut grammat kilogrammoiksi kolmen desimaalin tarkkuudelle.
      * @param grams grammat
      * @return kilogrammat doublena
      */
@@ -26,7 +26,7 @@ public class HelperFunctions {
     
     /**
      * Muuntaa annetut millilitrat litroiksi kolmen desimaalin tarkkuudelle
-     * käyttäen metodia gToKg()
+     * käyttäen metodia gToKg().
      * @param ml millilitrat
      * @return litrat doublena
      */

@@ -7,8 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import receiptapp.domain.ReceiptService;
+
 /**
- *
+ * Luokka varsinaiselle ohjelman käynnistämiselle.
  * @author resure
  */
 public class ReceiptMain extends Application {
@@ -42,14 +43,11 @@ public class ReceiptMain extends Application {
     
     
     /**
-     * @param args the command line arguments
+     * Main, joka oikeasti käynnistää sovelluksen.
+     * @param args komentoriviargumentit
      */
     public static void main(String[] args) {
         launch(args);
-        
-//        ReceiptItem item1 = new ReceiptItem("tofu", 1.95, 1, "pc");
-//        System.out.println("hinta: " + item1.getPrice());
-//        System.out.println(item1.getItem());
     }
     
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import receiptapp.dao.ReceiptDao;
 
 /**
- *
+ * ReceiptDaon perivä luokka testaamista varten.
  * @author resure
  */
 public class FakeFileReceiptDao implements ReceiptDao {

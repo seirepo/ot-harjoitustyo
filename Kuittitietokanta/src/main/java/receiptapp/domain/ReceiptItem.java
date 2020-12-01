@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Kuitti yhdelle kuitilla olevalle riville
+ * Kuitti yhdelle kuitilla olevalle riville.
  * @author resure
  */
 public class ReceiptItem {
@@ -15,6 +15,15 @@ public class ReceiptItem {
     private String unit;
     private int id = -1;
     
+    /**
+     * Konstruktori kuittiriville. Konstruktorissa varmistetaan, ettei asetettava
+     * hinta tai määrä ole negatiivinen, ja että yksikkö on sallittujen yksikköjen
+     * joukossa.
+     * @param product tuote
+     * @param price hinta
+     * @param quantity määrä
+     * @param unit yksikkö
+     */
     public ReceiptItem(String product, double price, double quantity, String unit) {
         this.product = product;
         
@@ -51,7 +60,7 @@ public class ReceiptItem {
     }
     
     public int getUnitPrice() {
-        return (int)(this.price / quantity);
+        return (int) (this.price / quantity);
     }
     
     public double getQuantity() {
@@ -80,6 +89,11 @@ public class ReceiptItem {
                 this.unit;
     }
     
+    /**
+     * Väliaikainen metodi, joka palauttaa tuotteen attribuutit muotoiltuna
+     * merkkijonona.
+     * @return tuote merkkijonona
+     */
     public String getItem() {
         String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
                 this.product, HelperFunctions.centsToEuros(this.price), this.quantity, this.unit,

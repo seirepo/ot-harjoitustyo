@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package receiptapp.dao;
 
 import java.io.File;
@@ -13,7 +8,7 @@ import java.util.List;
 import receiptapp.domain.Receipt;
 
 /**
- *
+ * Luokka tiedon tallentamista varten.
  * @author resure
  */
 public class FileReceiptDao implements ReceiptDao {
@@ -21,7 +16,12 @@ public class FileReceiptDao implements ReceiptDao {
     public List<Receipt> receipts;
     private String dbFile;
     
-    
+    /**
+     * Konstruktori, jossa alustetaan receipts-olio tietokannan kuiteilla.
+     * Jos tietokantaa ei vielä ole, se luodaan tauluineen.
+     * @param dbFile hakemisto, johon taulut tarvittaessa luodaan
+     * @throws SQLException 
+     */
     public FileReceiptDao(String dbFile) throws SQLException {
         this.receipts = new ArrayList<>();
         this.dbFile = dbFile; // vaikka receiptAppDatabase tms
@@ -38,12 +38,12 @@ public class FileReceiptDao implements ReceiptDao {
             File dbReceiptItems = Paths.get(this.dbFile, "receiptItems.db").toFile();
             File dbReceiptXReceiptItems = Paths.get(this.dbFile, "receiptXReceiptItems.db").toFile();
             
-        } else {
+        } // else {
             // lue jutut kuittiolioon
             //Connection dbReceipts = DriverManager.getConnection("jdbc:sqlite:" + this.dbFile + ".db");
             //Connection dbReceiptItems = DriverManager.getConnection("jdbc:sqlite:" + )
             
-        }
+        // }
                 
     }
     

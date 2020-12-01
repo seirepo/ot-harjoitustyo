@@ -158,10 +158,6 @@ public class ReceiptController implements Initializable {
             double price = Double.parseDouble(this.priceField.getText());
             String unit = this.unitChoice.getValue();
             double qnty = Double.parseDouble(this.qntyField.getText());
-
-            // TEST
-            System.out.println("syöte:\n\t" + product + "\n\t" + price
-                                    + "\n\t" + qnty + "\n\t" + unit);
             
             ReceiptItem i = new ReceiptItem(product, price, qnty, unit);
             this.receiptService.addReceiptItem(i);
@@ -194,10 +190,6 @@ public class ReceiptController implements Initializable {
         }
         
         this.receiptTotal.setText("" + total);
-        
-        for (ReceiptItem item : this.itemTable.getItems()) {
-            System.out.println(item);
-        }
     }
     
     /**
@@ -210,17 +202,14 @@ public class ReceiptController implements Initializable {
     }
     
     /**
-     * Tää on kesken!
+     * Kesken!
      * @param selected 
      */
     public void enableEditAndRemove(ReceiptItem selected) {
-        System.out.println("asd");
         if (selected == null) {
-            System.out.println("valittu on null");      
             this.editItemBtn.setDisable(true);
             this.deleteItemBtn.setDisable(true);
         } else {
-            System.out.println("ei oo null");
             this.editItemBtn.setDisable(false);
             this.deleteItemBtn.setDisable(false);
             this.selectedItem = selected;
@@ -234,17 +223,17 @@ public class ReceiptController implements Initializable {
     
     @FXML
     void HandleCheckDouble(KeyEvent event) {
-        System.out.println(event.getCharacter());
+        //System.out.println(event.getCharacter());
     }
     
     @FXML
     void handleAddReceipt(ActionEvent event) {
-        // tyhjentää kuitin tiedot sisältävän osion ja itemtablen
+        
     }
 
     @FXML
     void handleCancel(ActionEvent event) {
-        System.out.println("klikkasit cancel!");
+        
     }
 
     
@@ -284,7 +273,7 @@ public class ReceiptController implements Initializable {
 
     @FXML
     void handleDeleteItem(ActionEvent event) {
-        System.out.println("nyt voi poistaa");
+        
     }
     
     /**

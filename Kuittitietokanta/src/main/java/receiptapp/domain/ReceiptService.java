@@ -2,8 +2,10 @@ package receiptapp.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * Luokka, joka operoi käyttöliittymän ja tietojen tallennuksen välillä.
  * TODO: 
  * kuittien lisääminen
  * kuittien muokkaaminen
@@ -12,24 +14,33 @@ import java.util.ArrayList;
  * @author resure
  */
 public class ReceiptService {
-    private ArrayList<ReceiptItem> items; // voiskohan tää olla vaan controllerissa kun sitä ei täällä taida tarvita?
+    private ArrayList<ReceiptItem> items;
     private ArrayList<Receipt> receipts;
     
-    
+    /**
+     * Konstruktori luokalle.
+     */
     public ReceiptService() {
-        // alusta joku daofile joka hoitaa tallennuksen
         this.items = new ArrayList<>();
         this.receipts = new ArrayList<>();
     }
     
-    // TODO: testit
+    /**
+     * Metodi uuden kuitin lisäämiseksi.
+     * @param receipt lisättävä kuitti
+     * @return true jos lisäys onnistuu, false jos ei
+     */
     public boolean addReceipt(Receipt receipt) {
         this.receipts.add(receipt);
         this.items.clear();
         return true;
     }
-    
-    // TODO: testit
+
+    /**
+     * Metodi uuden kuittirivin lisäämiseksi.
+     * @param item lisättävä rivi
+     * @return true jos lisäys onnistuu, false jos ei
+     */
     public boolean addReceiptItem(ReceiptItem item) {
         this.items.add(item);
         return true;
@@ -43,22 +54,41 @@ public class ReceiptService {
         return this.items;
     }
 
-    // TODO: testit    
+    /**
+     * Metodi palauttaa kuittien summien keskiarvon annetulla aikavälillä.
+     * @param start alkupvm
+     * @param end loppupvm
+     * @return keskiarvo
+     */
     public int getMeanTotal(LocalDate start, LocalDate end) {
         // hae daosta kuittien määrä annetulla välillä
         return 0;
     }
     
-    // TODO: testit    
-    public ArrayList<String> getMostBoughtProducts(LocalDate start, LocalDate end, int top) {
+    /**
+     * Metodi palauttaa listana ostetuimmat tuotteet annetulla aikavälillä.
+     * Palautettavien tuotteiden määrän voi valita.
+     * @param start alkupvm
+     * @param end loppupvm
+     * @param top kuinka monta palautetaan
+     * @return ostetuimmat tuotteet
+     */
+    public List<String> getMostBoughtProducts(LocalDate start, LocalDate end, int top) {
         // hae daosta ostetuimmat tuotteet ja palauta top kappaletta tuotteita
         return new ArrayList<String>();
     }
 
-    // TODO: testit    
-    public String getMostVisitedStores(LocalDate start, LocalDate end, int top) {
+    /**
+     * Metodi palauttaa ne kauppojen nimet, joissa on käyty eniten annetulla
+     * aikavälillä. Palautettavien kauppojen määrän voi valita.
+     * @param start alkupvm
+     * @param end loppupvm
+     * @param top kuinka monta palautetaan
+     * @return käytetyimmät kaupat
+     */    
+    public List<String> getMostVisitedStores(LocalDate start, LocalDate end, int top) {
         // hae daosta kaupat joissa on käyty eniten ja palauta niistä top kappaletta
-        return "";
+        return new ArrayList<>();
     }
     
     
