@@ -3,9 +3,11 @@
 Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä rahaa. Käyttäjä voi syöttää ohjelmaan kuitin ostoksistaan, ja ohjelmalla voi luoda yhteenvedon ostetuista tuotteista halutulla aikavälillä.
 
 ## Dokumentaatio
-[työaikakirjanpito](tyoaikakirjanpito.md)
+[Työaikakirjanpito](tyoaikakirjanpito.md)
 
-[vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
+[Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
+
+[Arkkitehtuurikuvaus](dokumentaatio/arkkitehtuuri.md)
 
 ## Komentorivikomennot 
 
