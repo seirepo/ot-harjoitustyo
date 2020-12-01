@@ -121,6 +121,26 @@ public class ReceiptController implements Initializable {
         clearAddFields();
     }
     
+    @FXML
+    void handleOk(ActionEvent event) {
+        addReceipt();
+        updateReceiptTable();
+        clearAllFields();
+        updateItemTableAndTotal();
+    }
+        
+    @FXML
+    void handleEditItem(ActionEvent event) {
+        System.out.println("nyt voi muokata");
+        this.addProductBtn.setText("Ok");
+        
+        this.productField.setText(this.selectedItem.getProduct());
+        this.priceField.setText("" + this.selectedItem.getPrice());
+        this.qntyField.setText("" + this.selectedItem.getQuantity());
+        this.unitChoice.setValue(this.selectedItem.getUnit());
+        
+    }
+        
     /**
      * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
      * täytetty oikein.
@@ -227,13 +247,6 @@ public class ReceiptController implements Initializable {
         System.out.println("klikkasit cancel!");
     }
 
-    @FXML
-    void handleOk(ActionEvent event) {
-        addReceipt();
-        updateReceiptTable();
-        clearAllFields();
-        updateItemTableAndTotal();
-    }
     
     /**
      * Lisätään uusi kuitti. Samalla tarkistetaan onko kaikki lisäämiseen
@@ -268,19 +281,7 @@ public class ReceiptController implements Initializable {
     void handleRemoveReceipt(ActionEvent event) {
 
     }
-    
-    @FXML
-    void handleEditItem(ActionEvent event) {
-        System.out.println("nyt voi muokata");
-        this.addProductBtn.setText("Ok");
-        
-        this.productField.setText(this.selectedItem.getProduct());
-        this.priceField.setText("" + this.selectedItem.getPrice());
-        this.qntyField.setText("" + this.selectedItem.getQuantity());
-        this.unitChoice.setValue(this.selectedItem.getUnit());
-        
-    }
-        
+
     @FXML
     void handleDeleteItem(ActionEvent event) {
         System.out.println("nyt voi poistaa");
