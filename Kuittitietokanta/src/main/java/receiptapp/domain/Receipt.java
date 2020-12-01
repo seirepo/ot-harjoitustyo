@@ -11,6 +11,7 @@ public class Receipt {
     private String store;
     private LocalDate date;
     private ArrayList<ReceiptItem> items;
+    private int id = -1;
   
     public Receipt(String store, LocalDate date, ArrayList<ReceiptItem> items) {
         this.store = store;
@@ -18,12 +19,29 @@ public class Receipt {
         this.items = items;
     }
     
+    public Receipt(String store, LocalDate date, ArrayList<ReceiptItem> items, int id) {
+        this(store, date, items);
+        this.id=id;
+    }
+    
     /**
      * Palauttaa kuitin summan sentteinä.
      * @return total
      */
-    public int getTotal() {
+    public int getTotalCents() {
         int total = 0;
+        for (ReceiptItem item : items) {
+            total += item.getPriceCents();
+        }
+        return total;
+    }
+    
+    /**
+     * Palauttaa kuitin summan euroina.
+     * @return total
+     */
+    public double getTotal() {
+        double total = 0;
         for (ReceiptItem item : items) {
             total += item.getPrice();
         }
@@ -51,6 +69,14 @@ public class Receipt {
         }
         
         return count;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
     
     @Override
