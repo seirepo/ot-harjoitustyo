@@ -32,6 +32,6 @@ public class ReceiptTest {
      @Test
      public void totalReturnsTheSumRight1() {
         products.add(item1); products.add(item2); products.add(item3);
-        assertEquals(882, receipt.total());
+        assertEquals(882, receipt.getTotal());
      }   
 }
