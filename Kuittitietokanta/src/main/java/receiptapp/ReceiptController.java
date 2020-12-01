@@ -132,12 +132,12 @@ public class ReceiptController implements Initializable {
     @FXML
     void handleEditItem(ActionEvent event) {
         System.out.println("nyt voi muokata");
-        this.addProductBtn.setText("Ok");
         
         this.productField.setText(this.selectedItem.getProduct());
         this.priceField.setText("" + this.selectedItem.getPrice());
         this.qntyField.setText("" + this.selectedItem.getQuantity());
         this.unitChoice.setValue(this.selectedItem.getUnit());
+        int selectedId = this.selectedItem.getId();
         
     }
         
