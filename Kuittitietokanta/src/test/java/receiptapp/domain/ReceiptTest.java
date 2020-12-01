@@ -29,9 +29,26 @@ public class ReceiptTest {
         receipt = new Receipt("store", date, products);
     }
 
-     @Test
-     public void totalReturnsTheSumRight1() {
-        products.add(item1); products.add(item2); products.add(item3);
-        assertEquals(882, receipt.getTotal());
-     }   
+    @Test
+    public void getTotalCentsReturnsTheSumRight1() {
+       products.add(item1); products.add(item2); products.add(item3);
+       assertEquals(882, receipt.getTotalCents());
+    }   
+    
+    @Test
+    public void getTotalReturnsTheSumRight1() {
+       products.add(item1); products.add(item2); products.add(item3);
+       assertEquals(8.82, receipt.getTotal(), 0.01);
+    }
+    
+    @Test
+    public void idIsNegativeOneWhenNotSet() {
+        assertEquals(-1, receipt.getId());
+    }
+    
+    @Test
+    public void idCanBeSetAndGetsSetRight() {
+        receipt.setId(4);
+        assertEquals(4, receipt.getId());
+    }
 }
