@@ -18,14 +18,20 @@ public class FileReceiptDao implements ReceiptDao {
     private String file;
     
     
-    
     public FileReceiptDao(String file) throws Exception {
         // lue tietokannasta kuitit ja tee niistä kuittiolioita
+        System.out.println("Luetaan tietokanta muuttujaan receipts");
     }
     
     private void save() throws Exception {
         // kirjoita receipts-olion kuitit tietokantaan
+        System.out.println("Tallennetaan leikisti");
     }
+    
+    public int getLatestId() {
+        return 0;
+    }
+    
         
     @Override
     public List<Receipt> getAll() {
