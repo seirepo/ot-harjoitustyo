@@ -5,8 +5,5 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-    <!-- korvaa nää omilla javafx-juttuja sisältävillä tiedostoilla
-    <suppress files="todoapp.ui.TodoUi.java" checks="[a-zA-Z0-9]*"/>
-    <suppress files="todoapp.ui.GuiHelper.java" checks="[a-zA-Z0-9]*"/>
-    -->
+    <suppress files="receiptapp.ReceiptController.java" checks="[a-zA-Z0-9]*"/>
 </suppressions> 
