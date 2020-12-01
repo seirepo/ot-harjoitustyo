@@ -22,8 +22,13 @@ public class ReceiptItemTest {
     }
     
     @Test
-    public void constructor1SetsThePriceRight() {
-        assertEquals(1475, item.getPrice());
+    public void constructorSetsThePriceRight() {
+        assertEquals(1475, item.getPriceCents(), 0.01);
+    }
+    
+    @Test
+    public void getPriceConvertsPriceToEuros() {
+        assertEquals(14.75, item.getPrice(), 0.01);
     }
     
     @Test
@@ -40,7 +45,7 @@ public class ReceiptItemTest {
     @Test
     public void constructorSetsNegativePriceToZero() {
         item = new ReceiptItem("name", -10.5, 1, "pc");
-        assertEquals(0, item.getPrice());
+        assertEquals(0, item.getPrice(), 0.01);
     }
     
     @Test
@@ -54,28 +59,15 @@ public class ReceiptItemTest {
         item = new ReceiptItem("name", 1, -1, "pc");
         assertEquals(1, item.getQuantity(), 0.001);
     }
-//    
-//    @Test
-//    public void constructor2SplitsTheGivenProductRight() {
-//        item = new ReceiptItem("name;14.75;5;pc");
-//        assertEquals("name", item.getProduct());
-//    }
-//    
-//    @Test
-//    public void constructor2SplitsTheGivenPriceRight() {
-//        item = new ReceiptItem("name;14.75;5;pc");
-//        assertEquals(1475, item.getPrice());
-//    }
-//    
-//    @Test
-//    public void constructor2SplitsTheGivenQuantityRight() {
-//        item = new ReceiptItem("name;14.75;5;pc");
-//        assertEquals(5, item.getQuantity());
-//    }
-//    
-//    @Test
-//    public void constructor2SplitsTheGivenUnitRight() {
-//        item = new ReceiptItem("name;14.75;5;pc");
-//        assertEquals("pc", item.getUnit());
-//    }
+    
+    @Test
+    public void idIsNegativeOneWhenNotSet() {
+        assertEquals(-1, item.getId());
+    }
+    
+    @Test
+    public void idCanBeSetAndGetsSetRight() {
+        item.setId(10);
+        assertEquals(10, item.getId());
+    }
 }
