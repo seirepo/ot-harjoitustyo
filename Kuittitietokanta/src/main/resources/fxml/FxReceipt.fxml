@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -30,7 +29,18 @@
                <center>
                   <SplitPane dividerPositions="0.4" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <items>
-                        <ListView prefWidth="233.0" />
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <center>
+                              <TableView fx:id="receiptTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="storeCol" prefWidth="75.0" text="store" />
+                                  <TableColumn fx:id="dateCol" prefWidth="75.0" text="date" />
+                                    <TableColumn fx:id="productsCol" prefWidth="75.0" text="products" />
+                                    <TableColumn fx:id="totalCol" prefWidth="75.0" text="total" />
+                                </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
                         <GridPane>
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -47,10 +57,10 @@
                            <children>
                               <TableView fx:id="itemTable" GridPane.columnSpan="2" GridPane.rowIndex="2">
                                 <columns>
-                                  <TableColumn fx:id="productCol" prefWidth="75.0" text="tuote" />
-                                  <TableColumn fx:id="priceCol" prefWidth="75.0" text="hinta" />
-                                    <TableColumn fx:id="qntyCol" prefWidth="75.0" text="määrä" />
-                                    <TableColumn fx:id="unitCol" prefWidth="75.0" text="yksikkö" />
+                                  <TableColumn fx:id="productCol" prefWidth="75.0" text="product" />
+                                  <TableColumn fx:id="priceCol" prefWidth="75.0" text="price" />
+                                    <TableColumn fx:id="qntyCol" prefWidth="75.0" text="quantity" />
+                                    <TableColumn fx:id="unitCol" prefWidth="75.0" text="unit" />
                                     <TableColumn prefWidth="50.0" />
                                 </columns>
                               </TableView>
