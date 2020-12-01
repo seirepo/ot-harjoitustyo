@@ -8,5 +8,5 @@
 | 25.11. | 6.5h | Tunkattu ohjelma siten että sen saa ajettua käyttöliittymän kanssa, ei juuri muuta |
 | 27.11. | 7h | Toteutettu rivin lisäys tableView-taulukkoon, tehty tarkistimet joitakin inputeja varten, tehty joitain muokkauksia fxml:ssä |
 | 30.11. | 7h | Toteutettu kuittien lisäys tableView-taulukkoon ja säädetty fxml:ää sen mukaisesti. Vaihdettu myös nappien asettelua. Alettu toteuttaa rivien editointia, se kuitenkin vaatii vielä suunnittelua. |
-| 1.12. | 6h | Aloitettu tallennustoiminnallisuuden toteutusta, korjailtu käyttöliittymää ja sen koodia |
-| yht. | 51.5h |
+| 1.12. | 7h | Aloitettu tallennustoiminnallisuuden toteutusta, korjailtu käyttöliittymää ja sen koodia |
+| yht. | 52.5h |
