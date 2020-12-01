@@ -12,10 +12,14 @@ Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä 
 ## Komentorivikomennot 
 
 ### Testaus
-Testit suoritetaan komennolla `mvn test`
-Testikattavuusraportti luodaan komennolla `mvn jacoco:report`
-Kattavuusraporttia voi tarkastella tiedostosta *target/site/jacoco/index.html*
+- Testit suoritetaan komennolla `mvn test`
+- Testikattavuusraportti luodaan komennolla `mvn jacoco:report`
+- Kattavuusraporttia voi tarkastella tiedostosta *target/site/jacoco/index.html*
 
 ### Checkstyle
-Checkstyle-raportti luodaan komennolla `mvn jxr:jxr checkstyle:checkstyle`
-Raportti löytyy */target/site/checkstyle.html*
+- Checkstyle-raportti luodaan komennolla `mvn jxr:jxr checkstyle:checkstyle`
+- Raportti löytyy */target/site/checkstyle.html*
+
+### jar-paketin luominen
+- jar-tiedosto luodaan komennolla `mvn package`
+- ohjelman suoritetaan jar:na komennolla `java -jar tiedosto.jar`
