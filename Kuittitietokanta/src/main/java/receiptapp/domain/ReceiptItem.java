@@ -79,6 +79,28 @@ public class ReceiptItem {
         return this.id;
     }
     
+    public void setProduct(String product) {
+        this.product = product;
+    }
+    
+    public void setPrice(double price) {
+        if (price > 0) {
+            this.price = (int) (price * 100);
+        }
+    }
+    
+    public void setQuantity(double quantity) {
+        if (quantity > 0) {
+            this.quantity = quantity;
+        }
+    }
+    
+    public void setUnit(String unit) {
+        if (this.units.contains(unit)) {
+            this.unit = unit;
+        }
+    }
+    
     public void setId(int id) {
         this.id = id;
     }
