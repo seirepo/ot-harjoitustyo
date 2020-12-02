@@ -70,4 +70,28 @@ public class ReceiptItemTest {
         item.setId(10);
         assertEquals(10, item.getId());
     }
+    
+    @Test
+    public void priceCanBeSetUsingSetPrice() {
+        item.setPrice(10.50);
+        assertEquals(1050, item.getPriceCents());
+    }
+    
+    @Test
+    public void priceCannotBeSetZeroOrLess() {
+        item.setPrice(-1.5);
+        assertEquals(1475, item.getPriceCents());
+    }
+    
+    @Test
+    public void quantityCannotBeSetZeroOrLess() {
+        item.setQuantity(-4);
+        assertEquals(5, item.getQuantity(), 0.01);
+    }
+    
+    @Test
+    public void unitCannotBeSetOtherThanAllowed() {
+        item.setUnit("hp");
+        assertEquals("pc", item.getUnit());
+    }
 }
