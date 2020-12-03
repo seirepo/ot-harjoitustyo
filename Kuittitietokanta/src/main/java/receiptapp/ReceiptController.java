@@ -253,6 +253,10 @@ public class ReceiptController implements Initializable {
             
             Receipt receipt = new Receipt(store, dt, items);
             this.receiptService.addReceipt(receipt);
+            
+            updateReceiptTable();
+            clearAllFields();
+            updateItemTableAndTotal();
         }
     }
     
@@ -310,7 +314,9 @@ public class ReceiptController implements Initializable {
         }
         
         if (this.date.getValue() == null) {
-            e += "date cannot be blank";
+            e += "date cannot be blank\n";
+        } else if (this.date.getValue().isAfter(LocalDate.now())) {
+            e += "date cannot be in the future\n";
         }
         
         if (this.itemTable.getItems().isEmpty()) {
