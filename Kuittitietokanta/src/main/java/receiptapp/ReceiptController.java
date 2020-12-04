@@ -196,26 +196,38 @@ public class ReceiptController implements Initializable {
         if (error.length() > 0) {
             errorDialog(error);
             System.out.println(error);
-        } else {
-            String product = this.productField.getText();
-            double price = Double.parseDouble(this.priceField.getText());
-            boolean isUnitPrice = this.unitPriceCheck.isSelected();
-            String unit = this.unitChoice.getValue();
-            double qnty = Double.parseDouble(this.qntyField.getText());
-            
-            ReceiptItem i = new ReceiptItem(product, price, isUnitPrice, qnty, unit);
-            this.receiptService.addReceiptItem(i);
-            
-            updateTotal();
+            return;
         }
+        
+        String product = this.productField.getText();
+        double price = Double.parseDouble(this.priceField.getText());
+        boolean isUnitPrice = this.unitPriceCheck.isSelected();
+        double qnty = Double.parseDouble(this.qntyField.getText());
+        String unit = this.unitChoice.getValue();
+        
+        ReceiptItem editItem = this.itemTable.getSelectionModel().getSelectedItem();
+        
+        if (editItem == null) {            
+            ReceiptItem i = new ReceiptItem(product, price, isUnitPrice, qnty, unit);
+            this.receiptService.addReceiptItem(i);        
+        } else {
+            this.receiptService.updateItem(editItem, product, price, isUnitPrice,
+                    qnty, unit);
+        }
+        this.itemTable.refresh();
+        this.itemTable.getSelectionModel().clearSelection();
+        updateTotal();        
     }
     
     public void editItem(ReceiptItem item) {
+        
+        if (item == null) return;
+        
         System.out.println(item);
         System.out.println(this.itemTable.getSelectionModel().getSelectedItem());
         
         this.productField.setText(item.getProduct());
-        this.priceField.setText("" + item.getPrice());
+        this.priceField.setText("" + item.getTotalPrice());
         this.unitPriceCheck.setSelected(item.getIsUnitPrice());
         this.qntyField.setText("" + item.getQuantity());
         this.unitChoice.setValue(item.getUnit());
@@ -235,6 +247,7 @@ public class ReceiptController implements Initializable {
     public void clearAddFields() {
         this.productField.setText("");
         this.priceField.setText("");
+        this.unitPriceCheck.setSelected(false);
         this.qntyField.setText("");
     }
     
