@@ -52,9 +52,9 @@ public class ReceiptService {
     }
     
     public boolean updateItem(ReceiptItem item, String product, double price, boolean isUnitPrice, double qnty, String unit) {
+        item.setIsUnitPrice(isUnitPrice);        
         item.setProduct(product);
-        item.setPrice(price);
-        item.setIsUnitPrice(isUnitPrice);
+        item.setTotalPrice(price);
         item.setQuantity(qnty);
         item.setUnit(unit);
         return true;
