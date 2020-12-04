@@ -140,7 +140,7 @@ public class ReceiptController implements Initializable {
     
     @FXML
     void handleCancelEdit(ActionEvent event) {
-
+        cancelEditing();
     }
     
     @FXML
@@ -231,6 +231,11 @@ public class ReceiptController implements Initializable {
         this.unitPriceCheck.setSelected(item.getIsUnitPrice());
         this.qntyField.setText("" + item.getQuantity());
         this.unitChoice.setValue(item.getUnit());
+    }
+    
+    public void cancelEditing() {
+        this.itemTable.getSelectionModel().clearSelection();
+        clearAddFields();
     }
     
     /**
