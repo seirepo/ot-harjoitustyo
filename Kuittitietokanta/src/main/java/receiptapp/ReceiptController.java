@@ -282,6 +282,7 @@ public class ReceiptController implements Initializable {
         String store = this.storeField.getText();
         LocalDate dt = this.date.getValue();
         this.receiptService.addReceipt(store, dt);
+        this.receiptService.clearItems();
         
         clearAllFields();
         updateTotal();
@@ -301,7 +302,14 @@ public class ReceiptController implements Initializable {
     }
     
     public void editReceipt(Receipt receipt) {
+        if (receipt == null) return;
         
+        this.receiptService.clearItems();
+        this.storeField.setText(receipt.getStore());
+        this.date.setValue(receipt.getDate());
+        this.receiptService.setReceiptItems(receipt.getItems());
+        this.itemTable.refresh();
+        updateTotal();
     }
     
     /**
