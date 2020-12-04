@@ -23,12 +23,12 @@ public class ReceiptItemTest {
     
     @Test
     public void constructorSetsThePriceRight() {
-        assertEquals(1475, item.getPriceCents(), 0.01);
+        assertEquals(1475, item.getTotalPriceCents(), 0.01);
     }
     
     @Test
     public void getPriceConvertsPriceToEuros() {
-        assertEquals(14.75, item.getPrice(), 0.01);
+        assertEquals(14.75, item.getTotalPrice(), 0.01);
     }
     
     @Test
@@ -50,13 +50,13 @@ public class ReceiptItemTest {
     @Test
     public void getUnitPriceReturnsCorrectPriceWhenIsUnitPriceIsTrue() {
         item = new ReceiptItem("name", 14.75, true, 5, "pc");
-        assertEquals(73.75, item.getUnitPrice(), 0.01);
-    }       
+        assertEquals(73.75, item.getTotalPrice(), 0.01);
+    }
     
     @Test
     public void constructorSetsNegativePriceToZero() {
         item = new ReceiptItem("name", -10.5, true, 1, "pc");
-        assertEquals(0, item.getPrice(), 0.01);
+        assertEquals(0, item.getTotalPrice(), 0.01);
     }
     
     @Test
@@ -85,13 +85,13 @@ public class ReceiptItemTest {
     @Test
     public void priceCanBeSetUsingSetPrice() {
         item.setPrice(10.50);
-        assertEquals(1050, item.getPriceCents());
+        assertEquals(1050, item.getTotalPriceCents());
     }
     
     @Test
     public void priceCannotBeSetZeroOrLess() {
         item.setPrice(-1.5);
-        assertEquals(1475, item.getPriceCents());
+        assertEquals(1475, item.getTotalPriceCents());
     }
     
     @Test

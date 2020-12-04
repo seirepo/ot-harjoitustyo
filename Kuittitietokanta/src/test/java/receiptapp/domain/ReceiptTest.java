@@ -21,7 +21,7 @@ public class ReceiptTest {
     public void setUp() {
         LocalDate date = LocalDate.of(2020, 10, 10);
         item1 = new ReceiptItem("name", 6, true, 4, "pc");
-        item2 = new ReceiptItem("name", 1.37, true, 200, "kg");
+        item2 = new ReceiptItem("name", 1.37, false, 200, "kg");
         item3 = new ReceiptItem("name", 1.45, true, 1, "l");        
         products = FXCollections.observableArrayList();
         receipt = new Receipt("store", date, products);
@@ -30,13 +30,13 @@ public class ReceiptTest {
     @Test
     public void getTotalCentsReturnsTheSumRight1() {
        products.add(item1); products.add(item2); products.add(item3);
-       assertEquals(882, receipt.getTotalCents());
+       assertEquals(2682, receipt.getTotalCents());
     }   
     
     @Test
     public void getTotalReturnsTheSumRight1() {
        products.add(item1); products.add(item2); products.add(item3);
-       assertEquals(8.82, receipt.getTotal(), 0.01);
+       assertEquals(26.82, receipt.getTotal(), 0.01);
     }
     
     @Test

@@ -47,7 +47,7 @@ public class Receipt {
     public int getTotalCents() {
         int total = 0;
         for (ReceiptItem item : items) {
-            total += item.getPriceCents();
+            total += item.getTotalPriceCents();
         }
         return total;
     }
@@ -59,7 +59,7 @@ public class Receipt {
     public double getTotal() {
         double total = 0;
         for (ReceiptItem item : items) {
-            total += item.getPrice();
+            total += item.getTotalPrice();
         }
         return total;
     }

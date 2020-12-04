@@ -39,11 +39,7 @@ public class ReceiptItem {
         
         if (price < 0) {
             this.price = 0;
-        }
-//        else if (this.isUnitPrice) {
-//            this.price = (int) (price * 100 * this.quantity);
-//        } 
-        else {
+        } else {
             this.price = (int) (price * 100);
         }
         
@@ -58,12 +54,18 @@ public class ReceiptItem {
         return this.product;
     }
     
-    public int getPriceCents() {
+    public int getTotalPriceCents() {
+        if (this.isUnitPrice) {
+            return (int) (this.price * this.quantity);
+        }
         return this.price;
     }
     
-    public double getPrice() {
-        return HelperFunctions.centsToEuros(this.price);
+    public double getTotalPrice() {
+        if (this.isUnitPrice) {
+            return this.price * this.quantity / 100.0;
+        }
+        return this.price / 100.0;
     }
     
     public boolean getIsUnitPrice() {
@@ -71,12 +73,7 @@ public class ReceiptItem {
     }
     
     public double getUnitPrice() {
-        if (this.isUnitPrice) {
-            return getPrice() * this.quantity;
-        }
-        double val = (int) (this.price / this.quantity);
-        return val * 1.0 / 100;
-        
+        return getTotalPrice() / this.quantity;
     }
     
     public double getQuantity() {
@@ -103,6 +100,10 @@ public class ReceiptItem {
         if (price > 0) {
             this.price = (int) (price * 100);
         }
+    }
+    
+    public void setIsUnitPrice(boolean isUnitPrice) {
+        this.isUnitPrice = isUnitPrice;
     }
     
     public void setQuantity(double quantity) {
