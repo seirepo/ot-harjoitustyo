@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ReceiptItem {
     private String product;
-    private int price;
+    private int totalPrice;
     private boolean isUnitPrice;
     private double quantity;
     private List<String> units = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
@@ -38,9 +38,9 @@ public class ReceiptItem {
         }     
         
         if (price < 0) {
-            this.price = 0;
+            this.totalPrice = 0;
         } else {
-            this.price = (int) (price * 100);
+            this.totalPrice = (int) (price * 100);
         }
         
         if (this.units.contains(unit)) {
@@ -56,16 +56,16 @@ public class ReceiptItem {
     
     public int getTotalPriceCents() {
         if (this.isUnitPrice) {
-            return (int) (this.price * this.quantity);
+            return (int) (this.totalPrice * this.quantity);
         }
-        return this.price;
+        return this.totalPrice;
     }
     
     public double getTotalPrice() {
         if (this.isUnitPrice) {
-            return this.price * this.quantity / 100.0;
+            return this.totalPrice * this.quantity / 100.0;
         }
-        return this.price / 100.0;
+        return this.totalPrice / 100.0;
     }
     
     public boolean getIsUnitPrice() {
@@ -96,10 +96,9 @@ public class ReceiptItem {
         this.product = product;
     }
     
-    public void setPrice(double price) {
-        if (price > 0) {
-            this.price = (int) (price * 100);
-        }
+    public void setTotalPrice(double price) {
+        if (price <= 0) return;
+        this.totalPrice = (int) (price * 100);
     }
     
     public void setIsUnitPrice(boolean isUnitPrice) {
@@ -124,7 +123,7 @@ public class ReceiptItem {
     
     @Override
     public String toString() {
-        return this.product + ";" + this.price + ";" + this.quantity + ";" +
+        return this.product + ";" + this.totalPrice + ";" + this.quantity + ";" +
                 this.unit;
     }
     
@@ -135,7 +134,7 @@ public class ReceiptItem {
      */
     public String getItem() {
         String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
-                this.product, HelperFunctions.centsToEuros(this.price), this.quantity, this.unit,
+                this.product, HelperFunctions.centsToEuros(this.totalPrice), this.quantity, this.unit,
                 getUnitPrice(), this.unit);
         return "";
     }

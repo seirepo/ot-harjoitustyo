@@ -84,14 +84,42 @@ public class ReceiptItemTest {
     
     @Test
     public void priceCanBeSetUsingSetPrice() {
-        item.setPrice(10.50);
+        item.setTotalPrice(10.50);
         assertEquals(1050, item.getTotalPriceCents());
     }
     
     @Test
     public void priceCannotBeSetZeroOrLess() {
-        item.setPrice(-1.5);
+        item.setTotalPrice(-1.5);
         assertEquals(1475, item.getTotalPriceCents());
+    }
+    
+    @Test
+    public void settingIsUnitPriceTrueAffectsTotalPrice() {
+        item.setIsUnitPrice(true);
+        assertEquals(73.75, item.getTotalPrice(), 0.01);
+    }
+    
+    @Test
+    public void settingIsUnitPriceFalseAffectsTotalPrice() {
+        item = new ReceiptItem("name", 14.75, true, 5, "pc");
+        assertEquals(73.75, item.getTotalPrice(), 0.01);
+        item.setIsUnitPrice(false);
+        assertEquals(14.75, item.getTotalPrice(), 0.01);
+    }
+    
+    @Test
+    public void settingIsUnitPriceTrueAffectsUnitPrice() {
+        item.setIsUnitPrice(true);
+        assertEquals(14.75, item.getUnitPrice(), 0.01);
+    }
+    
+    @Test
+    public void settingIsUnitPriceFalseAffectsUnitPricec() {
+        item = new ReceiptItem("name", 14.75, true, 5, "pc");
+        assertEquals(14.75, item.getUnitPrice(), 0.01);
+        item.setIsUnitPrice(false);
+        assertEquals(2.95, item.getUnitPrice(), 0.01);
     }
     
     @Test
