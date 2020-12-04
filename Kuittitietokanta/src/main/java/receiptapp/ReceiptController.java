@@ -103,7 +103,7 @@ public class ReceiptController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
         this.productCol.setCellValueFactory(new PropertyValueFactory<>("product"));
-        this.priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        this.priceCol.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         this.unitPriceCol.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         this.qntyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         this.unitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));        
@@ -148,7 +148,7 @@ public class ReceiptController implements Initializable {
         System.out.println("nyt voi muokata");
         
         this.productField.setText(this.selectedItem.getProduct());
-        this.priceField.setText("" + this.selectedItem.getPrice());
+        this.priceField.setText("" + this.selectedItem.getTotalPrice());
         this.qntyField.setText("" + this.selectedItem.getQuantity());
         this.unitChoice.setValue(this.selectedItem.getUnit());
         int selectedId = this.selectedItem.getId();
