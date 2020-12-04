@@ -73,7 +73,9 @@ public class ReceiptItem {
     }
     
     public double getUnitPrice() {
-        return getTotalPrice() / this.quantity;
+        double val = getTotalPrice() / this.quantity;
+        val = (int) (val * 100);
+        return val / 100;
     }
     
     public double getQuantity() {
