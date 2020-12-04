@@ -59,6 +59,14 @@ public class ReceiptService {
         return this.items;
     }
     
+    public double getTotal() {
+        double sum = 0;
+        for (ReceiptItem item : this.items) {
+            sum += item.getPrice();
+        }
+        return sum;
+    }
+    
     public List getUnits() {
         List<String> units = new ArrayList<String>();
         units.add("pc"); units.add("kg"); units.add("l");
