@@ -281,12 +281,18 @@ public class ReceiptController implements Initializable {
         
         String store = this.storeField.getText();
         LocalDate dt = this.date.getValue();
-        this.receiptService.addReceipt(store, dt);
+        
+        if (selected == null) {
+            this.receiptService.addReceipt(store, dt);
+        } else {
+            this.receiptService.updateReceipt(selected, store, dt);
+        }
+
+        this.receiptTable.getSelectionModel().clearSelection();
         this.receiptService.clearItems();
-        
+        this.receiptTable.refresh();
         clearAllFields();
-        updateTotal();
-        
+        updateTotal();        
     }
     
     /**
