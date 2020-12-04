@@ -10,7 +10,8 @@ import java.util.List;
  */
 public class ReceiptItem {
     private String product;
-    private int price; // kokonaishinta: tästä lasketaan yksikköhinta
+    private int price;
+    private boolean isUnitPrice;
     private double quantity;
     private List<String> units = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
     private String unit;
@@ -22,30 +23,35 @@ public class ReceiptItem {
      * joukossa.
      * @param product tuote
      * @param price hinta
+     * @param isUnitPrice onko annettu hinta yksikköhinta
      * @param quantity määrä
      * @param unit yksikkö
      */
-    public ReceiptItem(String product, double price, double quantity, String unit) {
+    public ReceiptItem(String product, double price, boolean isUnitPrice, double quantity, String unit) {
         this.product = product;
-        
-        if (price < 0) {
-            this.price = 0;
-        } else {
-            this.price = (int) (price * 100);
-        }
+        this.isUnitPrice = isUnitPrice;
         
         if (quantity <= 0) {
             this.quantity = 1;
         } else {
             this.quantity = quantity;
+        }     
+        
+        if (price < 0) {
+            this.price = 0;
         }
-
+//        else if (this.isUnitPrice) {
+//            this.price = (int) (price * 100 * this.quantity);
+//        } 
+        else {
+            this.price = (int) (price * 100);
+        }
         
         if (this.units.contains(unit)) {
             this.unit = unit;
         } else {
             this.unit = "pc";
-        }
+        }   
     }
     
     public String getProduct() {
@@ -60,8 +66,17 @@ public class ReceiptItem {
         return HelperFunctions.centsToEuros(this.price);
     }
     
-    public int getUnitPrice() {
-        return (int) (this.price / quantity);
+    public boolean getIsUnitPrice() {
+        return this.isUnitPrice;
+    }
+    
+    public double getUnitPrice() {
+        if (this.isUnitPrice) {
+            return getPrice() * this.quantity;
+        }
+        double val = (int) (this.price / this.quantity);
+        return val * 1.0 / 100;
+        
     }
     
     public double getQuantity() {
@@ -120,7 +135,7 @@ public class ReceiptItem {
     public String getItem() {
         String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
                 this.product, HelperFunctions.centsToEuros(this.price), this.quantity, this.unit,
-                HelperFunctions.centsToEuros(getUnitPrice()), this.unit);
+                getUnitPrice(), this.unit);
         return "";
     }
 }

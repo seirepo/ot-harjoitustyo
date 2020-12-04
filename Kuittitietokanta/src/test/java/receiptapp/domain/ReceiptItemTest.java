@@ -18,7 +18,7 @@ public class ReceiptItemTest {
     
     @Before
     public void setUp() {
-        item = new ReceiptItem("name", 14.75, 5, "pc");
+        item = new ReceiptItem("name", 14.75, false, 5, "pc");
     }
     
     @Test
@@ -33,30 +33,41 @@ public class ReceiptItemTest {
     
     @Test
     public void getUnitPriceReturnsCorrectUnitPrice() {
-        assertEquals(295, item.getUnitPrice());
+        assertEquals(2.95, item.getUnitPrice(), 0.01);
     }
     
     @Test
-    public void getUnitPriceReturnsCorrectlyWhenQntyNotInteger() {
-        item = new ReceiptItem("name", 14.75, 5.5, "kg");
-        assertEquals(268, item.getUnitPrice());
+    public void getUnitPriceReturnsCorrectPriceWhenQntyNotInteger() {
+        item = new ReceiptItem("name", 14.75, false, 5.5, "kg");
+        assertEquals(2.68, item.getUnitPrice(), 0.01);
     }
+    
+    @Test
+    public void getUnitPriceReturnsCorrectPriceWhenIsUnitPriceIsFalse() {
+        assertEquals(2.95, item.getUnitPrice(), 0.01);
+    }
+    
+    @Test
+    public void getUnitPriceReturnsCorrectPriceWhenIsUnitPriceIsTrue() {
+        item = new ReceiptItem("name", 14.75, true, 5, "pc");
+        assertEquals(73.75, item.getUnitPrice(), 0.01);
+    }       
     
     @Test
     public void constructorSetsNegativePriceToZero() {
-        item = new ReceiptItem("name", -10.5, 1, "pc");
+        item = new ReceiptItem("name", -10.5, true, 1, "pc");
         assertEquals(0, item.getPrice(), 0.01);
     }
     
     @Test
     public void constructorSetsUnknownUnitToPc() {
-        item = new ReceiptItem("name", 1, 1, "asd");
+        item = new ReceiptItem("name", 1, true, 1, "asd");
         assertEquals("pc", item.getUnit());
     }
     
     @Test
     public void constructorSetsQuantityToOneIfLess() {
-        item = new ReceiptItem("name", 1, -1, "pc");
+        item = new ReceiptItem("name", 1, true, -1, "pc");
         assertEquals(1, item.getQuantity(), 0.001);
     }
     
