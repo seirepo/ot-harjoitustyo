@@ -2,6 +2,7 @@ package receiptapp.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
 
 /**
  * Luokka kuitille.
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class Receipt {
     private String store;
     private LocalDate date;
-    private ArrayList<ReceiptItem> items;
+    private ObservableList<ReceiptItem> items;
     private int id = -1;
   
     /**
@@ -20,7 +21,7 @@ public class Receipt {
      * @param date päiväys
      * @param items tuotteet
      */
-    public Receipt(String store, LocalDate date, ArrayList<ReceiptItem> items) {
+    public Receipt(String store, LocalDate date, ObservableList<ReceiptItem> items) {
         this.store = store;
         this.date = date;
         this.items = items;
@@ -34,7 +35,7 @@ public class Receipt {
      * @param items tuotteet
      * @param id id
      */
-    public Receipt(String store, LocalDate date, ArrayList<ReceiptItem> items, int id) {
+    public Receipt(String store, LocalDate date, ObservableList<ReceiptItem> items, int id) {
         this(store, date, items);
         this.id = id;
     }

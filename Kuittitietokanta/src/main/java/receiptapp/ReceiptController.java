@@ -2,19 +2,22 @@ package receiptapp;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import receiptapp.domain.ReceiptService;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
@@ -73,6 +76,15 @@ public class ReceiptController implements Initializable {
     }
     public void setReceiptService(ReceiptService receiptService) {
         this.receiptService = receiptService;
+        
+        this.itemTable.setItems(this.receiptService.getReceiptItems());
+        this.receiptTable.setItems(this.receiptService.getReceipts());
+        
+        List<String> units = this.receiptService.getUnits();
+        for (var unit : units) {
+            this.unitChoice.getItems().add("" + unit);
+        }
+        this.unitChoice.setValue(units.get(0));
     }
     
     /**
@@ -83,17 +95,7 @@ public class ReceiptController implements Initializable {
      * @param rb 
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO: selvitä yksiköt receiptServiceltä
-        // ongelma: receiptServiceä ei ole alustettu vielä tässä, eikä
-        // fxml-elementtejä ole alustettu vielä konstruktorissa.
-        // ts. fxml-elementit alustetaan ennen setReceiptServicen kutsumista
-        // ArrayList<String> units = this.receiptService.getUnits();
-        this.unitChoice.getItems().add("pc");
-        this.unitChoice.getItems().add("kg");
-        this.unitChoice.getItems().add("l");
-        this.unitChoice.setValue("pc");
-        
+    public void initialize(URL url, ResourceBundle rb) {        
         this.productCol.setCellValueFactory(new PropertyValueFactory<>("product"));
         this.priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         this.qntyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -111,22 +113,22 @@ public class ReceiptController implements Initializable {
                 .selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) ->
                               setSelectedReceipt(newSelection));
+        
+        //TODO: this.receiptTable.setItems(receiptService:n receiptit), ja sama itemeille
+        // VAIN YHDEN KERRAN. tee testi: nappi joka lisää random itemin listaan ja katso päivittyykö tableview  
     }
 
 
     @FXML
     void handleAddItem(ActionEvent event) {
         addItem();
-        updateItemTableAndTotal();
         clearAddFields();
     }
     
     @FXML
     void handleOk(ActionEvent event) {
         addReceipt();
-        updateReceiptTable();
         clearAllFields();
-        updateItemTableAndTotal();
     }
         
     @FXML
@@ -140,86 +142,17 @@ public class ReceiptController implements Initializable {
         int selectedId = this.selectedItem.getId();
         
     }
-        
-    /**
-     * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
-     * täytetty oikein.
-     * TODO: error-dialogi jos ei
-     */
-    public void addItem() {
-        String error = checkAddFields();
-        
-        if (error.length() > 0) {
-            // TODO: tee error-dialogi
-            System.out.println(error);
-        } else {
-        
-            String product = this.productField.getText();
-            double price = Double.parseDouble(this.priceField.getText());
-            String unit = this.unitChoice.getValue();
-            double qnty = Double.parseDouble(this.qntyField.getText());
-            
-            ReceiptItem i = new ReceiptItem(product, price, qnty, unit);
-            this.receiptService.addReceiptItem(i);
-        }        
-    }
     
-    /**
-     * Päivitetään kuitit sisältävä receiptTable.
-     */
-    public void updateReceiptTable() {
-        this.receiptTable.getItems().clear();
-        ArrayList<Receipt> receipts = this.receiptService.getReceipts();
+    
+    @FXML
+    void handleRemoveReceipt(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleDeleteItem(ActionEvent event) {
         
-        for (Receipt receipt : receipts) {
-            this.receiptTable.getItems().add(receipt);
-        }
-    }
-    
-    /**
-     * Päivitetään tuotetaulukko itemTable uuden tuotteen lisäyksen jälkeen.
-     */
-    public void updateItemTableAndTotal() {
-        this.itemTable.getItems().clear();
-        double total = 0;
-        
-        ArrayList<ReceiptItem> items = this.receiptService.getReceiptItems();
-        for (ReceiptItem item : items) {
-            this.itemTable.getItems().add(item);
-            total += item.getPrice();
-        }
-        
-        this.receiptTotal.setText("" + total);
-    }
-    
-    /**
-     * Tyhjennetään kaikki uuden tuotteen lisäämiseen liittyvät kentät.
-     */
-    public void clearAddFields() {
-        this.productField.setText("");
-        this.priceField.setText("");
-        this.qntyField.setText("");
-    }
-    
-    /**
-     * Kesken!
-     * @param selected 
-     */
-    public void enableEditAndRemove(ReceiptItem selected) {
-        if (selected == null) {
-            this.editItemBtn.setDisable(true);
-            this.deleteItemBtn.setDisable(true);
-        } else {
-            this.editItemBtn.setDisable(false);
-            this.deleteItemBtn.setDisable(false);
-            this.selectedItem = selected;
-        }
-    }
-    
-    public void setSelectedReceipt(Receipt selected) {
-        this.selectedReceipt = selected;
-    }
-    
+    }    
     
     @FXML
     void HandleCheckDouble(KeyEvent event) {
@@ -236,6 +169,72 @@ public class ReceiptController implements Initializable {
         
     }
 
+    /**
+     * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
+     * täytetty oikein.
+     * TODO: error-dialogi jos ei
+     */
+    public void addItem() {
+        String error = checkAddFields();
+        
+        if (error.length() > 0) {
+            errorDialog(error);
+            System.out.println(error);
+        } else {
+        
+            String product = this.productField.getText();
+            double price = Double.parseDouble(this.priceField.getText());
+            String unit = this.unitChoice.getValue();
+            double qnty = Double.parseDouble(this.qntyField.getText());
+            
+            ReceiptItem i = new ReceiptItem(product, price, qnty, unit);
+            this.receiptService.addReceiptItem(i);
+            
+            
+            System.out.println("tuotteet:");
+            for (ReceiptItem item : this.itemTable.getItems()) {
+                System.out.println(item);
+            }
+        }        
+    }
+    
+    /**
+     * Päivitetään kuitit sisältävä receiptTable. EI tarvitse päivittää koska
+     * nyt receiptTableen on tallennettu jo receiptServicen receipts-olio
+     */
+    public void updateReceiptTable() {
+
+    }
+    
+    /**
+     * Päivitetään tuotetaulukko itemTable uuden tuotteen lisäyksen jälkeen.
+     * EI tarvitse päivittää koska itemTableen on on jo tallennettu receiptServicen items-olio
+     */
+    public void updateItemTableAndTotal() {
+
+    }
+    
+    /**
+     * Tyhjennetään kaikki uuden tuotteen lisäämiseen liittyvät kentät.
+     */
+    public void clearAddFields() {
+        this.productField.setText("");
+        this.priceField.setText("");
+        this.qntyField.setText("");
+    }
+    
+    /**
+     * Kesken!
+     * @param selected 
+     */
+    public void enableEditAndRemove(ReceiptItem selected) {
+
+    }
+    
+    public void setSelectedReceipt(Receipt selected) {
+        //this.selectedReceipt = selected;
+    }
+
     
     /**
      * Lisätään uusi kuitti. Samalla tarkistetaan onko kaikki lisäämiseen
@@ -245,18 +244,19 @@ public class ReceiptController implements Initializable {
         String error = checkDemandedFields();
         
         if (error.length() > 0) {
+            errorDialog(error);
             System.out.println(error);
         } else {
             String store = this.storeField.getText();
             LocalDate dt = this.date.getValue();
-            ArrayList<ReceiptItem> items = new ArrayList<>(this.itemTable.getItems());
+            //ArrayList<ReceiptItem> items = new ArrayList<>(this.itemTable.getItems());
             
-            Receipt receipt = new Receipt(store, dt, items);
-            this.receiptService.addReceipt(receipt);
+            //Receipt receipt = new Receipt(store, dt, items);
+            this.receiptService.addReceipt(store, dt);
             
-            updateReceiptTable();
+            //updateReceiptTable();
             clearAllFields();
-            updateItemTableAndTotal();
+            //updateItemTableAndTotal();
         }
     }
     
@@ -269,16 +269,25 @@ public class ReceiptController implements Initializable {
         this.date.setValue(null);
     }
 
-
-    @FXML
-    void handleRemoveReceipt(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleDeleteItem(ActionEvent event) {
+    /**
+     * Avaa virhedialogin.
+     * @param message näytettävä virhe
+     */
+    public void errorDialog(String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setTitle("Oh no!");
+        alert.setHeight(200);
         
-    }
+        TextArea area = new TextArea(message);
+        area.setWrapText(true);
+        area.setEditable(false);
+        
+        alert.getDialogPane().setContent(area);
+        alert.setResizable(true);
+        
+        alert.showAndWait();
+    }    
     
     /**
      * Tarkistetaan kaikki tuotteen lisäämiseen liittyvien kenttien oikeellisuus.

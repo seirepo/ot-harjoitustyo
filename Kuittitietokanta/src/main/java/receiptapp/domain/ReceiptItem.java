@@ -2,6 +2,7 @@ package receiptapp.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Kuitti yhdelle kuitilla olevalle riville.
@@ -11,7 +12,7 @@ public class ReceiptItem {
     private String product;
     private int price; // kokonaishinta: tästä lasketaan yksikköhinta
     private double quantity;
-    private ArrayList<String> units = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
+    private List<String> units = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
     private String unit;
     private int id = -1;
     
@@ -71,7 +72,7 @@ public class ReceiptItem {
         return this.unit;
     }
     
-    public ArrayList<String> getUnits() {
+    public List<String> getUnits() {
         return this.units;
     }
     

@@ -2,7 +2,10 @@ package receiptapp.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Luokka, joka operoi käyttöliittymän ja tietojen tallennuksen välillä.
@@ -14,23 +17,25 @@ import java.util.List;
  * @author resure
  */
 public class ReceiptService {
-    private ArrayList<ReceiptItem> items;
-    private ArrayList<Receipt> receipts;
+    private ObservableList<ReceiptItem> items;
+    private ObservableList<Receipt> receipts;
     
     /**
      * Konstruktori luokalle.
      */
     public ReceiptService() {
-        this.items = new ArrayList<>();
-        this.receipts = new ArrayList<>();
+        this.items = FXCollections.observableArrayList();
+        this.receipts = FXCollections.observableArrayList();
     }
     
     /**
      * Metodi uuden kuitin lisäämiseksi.
-     * @param receipt lisättävä kuitti
+     * @param store lisättävä kuitti
+     * @param date kuitin päivämäärä
      * @return true jos lisäys onnistuu, false jos ei
      */
-    public boolean addReceipt(Receipt receipt) {
+    public boolean addReceipt(String store, LocalDate date) {
+        Receipt receipt = new Receipt(store, date, this.items);
         this.receipts.add(receipt);
         this.items.clear();
         return true;
@@ -46,12 +51,18 @@ public class ReceiptService {
         return true;
     }
     
-    public ArrayList<Receipt> getReceipts() {
+    public ObservableList<Receipt> getReceipts() {
         return this.receipts;
     }
     
-    public ArrayList<ReceiptItem> getReceiptItems() {
+    public ObservableList<ReceiptItem> getReceiptItems() {
         return this.items;
+    }
+    
+    public List getUnits() {
+        List<String> units = new ArrayList<String>();
+        units.add("pc"); units.add("kg"); units.add("l");
+        return units;
     }
 
     /**
