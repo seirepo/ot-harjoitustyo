@@ -131,13 +131,7 @@ public class ReceiptController implements Initializable {
         addOrSaveItem();
         clearAddFields();
     }
-    
-    @FXML
-    void handleOk(ActionEvent event) {
-        addReceipt();
-        clearAllFields();
-    }
-    
+
     @FXML
     void handleCancelEdit(ActionEvent event) {
         cancelEditing();
@@ -162,7 +156,7 @@ public class ReceiptController implements Initializable {
     
     @FXML
     void handleAddOrSaveReceipt(ActionEvent event) {
-        
+        addOrSaveReceipt();
     }
     
     @FXML
@@ -271,6 +265,30 @@ public class ReceiptController implements Initializable {
     }
     
     /**
+     * Lisätään uusi kuitti. Samalla tarkistetaan onko kaikki lisäämiseen
+     * vaadittavat kentät täytetty oikein.
+     */    
+    public void addOrSaveReceipt() {
+        String error = checkDemandedFields();
+        
+        if (error.length() > 0) {
+            errorDialog(error);
+            System.out.println(error);
+            return;
+        }
+        
+        Receipt selected = this.receiptTable.getSelectionModel().getSelectedItem();
+        
+        String store = this.storeField.getText();
+        LocalDate dt = this.date.getValue();
+        this.receiptService.addReceipt(store, dt);
+        
+        clearAllFields();
+        updateTotal();
+        
+    }
+    
+    /**
      * Kesken!
      * @param selected 
      */
@@ -280,31 +298,6 @@ public class ReceiptController implements Initializable {
     
     public void setSelectedReceipt(Receipt selected) {
         //this.selectedReceipt = selected;
-    }
-
-    
-    /**
-     * Lisätään uusi kuitti. Samalla tarkistetaan onko kaikki lisäämiseen
-     * vaadittavat kentät täytetty oikein.
-     */
-    public void addReceipt() {
-        String error = checkDemandedFields();
-        
-        if (error.length() > 0) {
-            errorDialog(error);
-            System.out.println(error);
-        } else {
-            String store = this.storeField.getText();
-            LocalDate dt = this.date.getValue();
-            //ArrayList<ReceiptItem> items = new ArrayList<>(this.itemTable.getItems());
-            
-            //Receipt receipt = new Receipt(store, dt, items);
-            this.receiptService.addReceipt(store, dt);
-            
-            //updateReceiptTable();
-            clearAllFields();
-            //updateItemTableAndTotal();
-        }
     }
     
     public void editReceipt(Receipt receipt) {
