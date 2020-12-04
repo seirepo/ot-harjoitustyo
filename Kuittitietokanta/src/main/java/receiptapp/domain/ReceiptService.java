@@ -57,6 +57,21 @@ public class ReceiptService {
         return true;
     }
     
+    public boolean updateReceipt(Receipt receipt, String store, LocalDate date) {
+        receipt.setStore(store);
+        receipt.setDate(date);
+        
+        ObservableList<ReceiptItem> receiptItems = FXCollections.observableArrayList();
+        
+        for (ReceiptItem item : this.items) {
+            receiptItems.add(item);
+        }
+        
+        receipt.setItems(receiptItems);
+        
+        return true;
+    }
+    
     public boolean updateItem(ReceiptItem item, String product, double price, boolean isUnitPrice, double qnty, String unit) {
         item.setIsUnitPrice(isUnitPrice);        
         item.setProduct(product);

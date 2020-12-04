@@ -99,6 +99,21 @@ public class Receipt {
         return this.id;
     }
     
+    public void setStore(String store) {
+        this.store = store;
+    }
+    
+    public void setDate(LocalDate date) {
+        if (date.isAfter(LocalDate.now())) {
+            return;
+        }
+        this.date = date;
+    }
+    
+    public void setItems(ObservableList<ReceiptItem> items) {
+        this.items = items;
+    }
+    
     public void setId(int id) {
         this.id = id;
     }
