@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -48,10 +49,15 @@ public class ReceiptController implements Initializable {
     @FXML private Button removeReceipt;
     @FXML private Button editItemBtn;
     @FXML private Button deleteItemBtn;
+    @FXML private Button addOrSaveReceiptBtn;
+    @FXML private Button cancelEditBtn;
+    @FXML private CheckBox unitPriceCheck;
+
     
     @FXML private TableView<ReceiptItem> itemTable;
     @FXML private TableColumn<ReceiptItem, String> productCol;
     @FXML private TableColumn<ReceiptItem, Double> priceCol;
+    @FXML private TableColumn<ReceiptItem, Double> unitPriceCol;
     @FXML private TableColumn<ReceiptItem, Double> qntyCol;
     @FXML private TableColumn<ReceiptItem, String> unitCol;
     
@@ -98,12 +104,13 @@ public class ReceiptController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {        
         this.productCol.setCellValueFactory(new PropertyValueFactory<>("product"));
         this.priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        this.unitPriceCol.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         this.qntyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         this.unitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));        
         this.itemTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) 
-                        -> enableEditAndRemove(newSelection));
+                        -> editItem(newSelection));
         
         this.storeCol.setCellValueFactory(new PropertyValueFactory<>("store"));
         this.dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -112,7 +119,7 @@ public class ReceiptController implements Initializable {
         this.receiptTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) ->
-                              setSelectedReceipt(newSelection));
+                              editReceipt(newSelection));
         
         //TODO: this.receiptTable.setItems(receiptService:n receiptit), ja sama itemeille
         // VAIN YHDEN KERRAN. tee testi: nappi joka lisää random itemin listaan ja katso päivittyykö tableview  
@@ -130,7 +137,12 @@ public class ReceiptController implements Initializable {
         addReceipt();
         clearAllFields();
     }
-        
+    
+    @FXML
+    void handleCancelEdit(ActionEvent event) {
+
+    }
+    
     @FXML
     void handleEditItem(ActionEvent event) {
         System.out.println("nyt voi muokata");
@@ -143,6 +155,10 @@ public class ReceiptController implements Initializable {
         
     }
     
+    @FXML
+    void handleAddOrSaveReceipt(ActionEvent event) {
+        
+    }
     
     @FXML
     void handleRemoveReceipt(ActionEvent event) {
@@ -181,37 +197,36 @@ public class ReceiptController implements Initializable {
             errorDialog(error);
             System.out.println(error);
         } else {
-        
             String product = this.productField.getText();
             double price = Double.parseDouble(this.priceField.getText());
+            boolean isUnitPrice = this.unitPriceCheck.isSelected();
             String unit = this.unitChoice.getValue();
             double qnty = Double.parseDouble(this.qntyField.getText());
             
-            ReceiptItem i = new ReceiptItem(product, price, qnty, unit);
+            ReceiptItem i = new ReceiptItem(product, price, isUnitPrice, qnty, unit);
             this.receiptService.addReceiptItem(i);
             
-            
-            System.out.println("tuotteet:");
-            for (ReceiptItem item : this.itemTable.getItems()) {
-                System.out.println(item);
-            }
-        }        
+            updateTotal();
+        }
+    }
+    
+    public void editItem(ReceiptItem item) {
+        System.out.println(item);
+        System.out.println(this.itemTable.getSelectionModel().getSelectedItem());
+        
+        this.productField.setText(item.getProduct());
+        this.priceField.setText("" + item.getPrice());
+        this.unitPriceCheck.setSelected(item.getIsUnitPrice());
+        this.qntyField.setText("" + item.getQuantity());
+        this.unitChoice.setValue(item.getUnit());
     }
     
     /**
-     * Päivitetään kuitit sisältävä receiptTable. EI tarvitse päivittää koska
-     * nyt receiptTableen on tallennettu jo receiptServicen receipts-olio
+     * Päivitetään kuitin loppusumma.
      */
-    public void updateReceiptTable() {
-
-    }
-    
-    /**
-     * Päivitetään tuotetaulukko itemTable uuden tuotteen lisäyksen jälkeen.
-     * EI tarvitse päivittää koska itemTableen on on jo tallennettu receiptServicen items-olio
-     */
-    public void updateItemTableAndTotal() {
-
+    public void updateTotal() {
+        String total = "" + this.receiptService.getTotal();
+        this.receiptTotal.setText(total);
     }
     
     /**
@@ -258,6 +273,10 @@ public class ReceiptController implements Initializable {
             clearAllFields();
             //updateItemTableAndTotal();
         }
+    }
+    
+    public void editReceipt(Receipt receipt) {
+        
     }
     
     /**
