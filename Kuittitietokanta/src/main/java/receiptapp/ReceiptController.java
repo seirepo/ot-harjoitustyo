@@ -128,7 +128,7 @@ public class ReceiptController implements Initializable {
 
     @FXML
     void handleAddItem(ActionEvent event) {
-        addItem();
+        addOrSaveItem();
         clearAddFields();
     }
     
@@ -190,7 +190,7 @@ public class ReceiptController implements Initializable {
      * täytetty oikein.
      * TODO: error-dialogi jos ei
      */
-    public void addItem() {
+    public void addOrSaveItem() {
         String error = checkAddFields();
         
         if (error.length() > 0) {
