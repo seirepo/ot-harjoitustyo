@@ -51,6 +51,15 @@ public class ReceiptService {
         return true;
     }
     
+    public boolean updateItem(ReceiptItem item, String product, double price, boolean isUnitPrice, double qnty, String unit) {
+        item.setProduct(product);
+        item.setPrice(price);
+        item.setIsUnitPrice(isUnitPrice);
+        item.setQuantity(qnty);
+        item.setUnit(unit);
+        return true;
+    }
+    
     public ObservableList<Receipt> getReceipts() {
         return this.receipts;
     }
@@ -62,7 +71,7 @@ public class ReceiptService {
     public double getTotal() {
         double sum = 0;
         for (ReceiptItem item : this.items) {
-            sum += item.getPrice();
+            sum += item.getTotalPrice();
         }
         return sum;
     }
