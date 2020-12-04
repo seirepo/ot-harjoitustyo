@@ -156,6 +156,11 @@ public class ReceiptController implements Initializable {
     }
     
     @FXML
+    void handleDeleteItem(ActionEvent event) {
+        deleteItem();
+    }    
+    
+    @FXML
     void handleAddOrSaveReceipt(ActionEvent event) {
         
     }
@@ -164,11 +169,6 @@ public class ReceiptController implements Initializable {
     void handleRemoveReceipt(ActionEvent event) {
 
     }
-
-    @FXML
-    void handleDeleteItem(ActionEvent event) {
-        
-    }    
     
     @FXML
     void HandleCheckDouble(KeyEvent event) {
@@ -236,6 +236,20 @@ public class ReceiptController implements Initializable {
     public void cancelEditing() {
         this.itemTable.getSelectionModel().clearSelection();
         clearAddFields();
+    }
+    
+    public void deleteItem() {
+        ReceiptItem selected = this.itemTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            errorDialog("No item selected ¯\\_(ツ)_/¯");
+            return;
+        }
+        
+        this.receiptService.deleteItem(selected);
+        this.itemTable.getSelectionModel().clearSelection();
+        clearAddFields();
+        updateTotal();
+        this.itemTable.refresh();
     }
     
     /**
