@@ -78,6 +78,18 @@ public class ReceiptService {
         return this.items;
     }
     
+    public boolean setReceiptItems(ObservableList<ReceiptItem> items) {
+        for (ReceiptItem item : items) {
+            this.items.add(item);
+        }
+        return true;
+    }
+    
+    public boolean clearItems() {
+        this.items.clear();
+        return true;
+    }
+    
     public double getTotal() {
         double sum = 0;
         for (ReceiptItem item : this.items) {
