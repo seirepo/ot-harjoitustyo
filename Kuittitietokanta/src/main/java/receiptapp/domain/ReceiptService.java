@@ -35,7 +35,13 @@ public class ReceiptService {
      * @return true jos lisäys onnistuu, false jos ei
      */
     public boolean addReceipt(String store, LocalDate date) {
-        Receipt receipt = new Receipt(store, date, this.items);
+        ObservableList<ReceiptItem> receiptItems = FXCollections.observableArrayList();
+        
+        for (ReceiptItem item : this.items) {
+            receiptItems.add(item);
+        }
+        
+        Receipt receipt = new Receipt(store, date, receiptItems);
         this.receipts.add(receipt);
         this.items.clear();
         return true;
