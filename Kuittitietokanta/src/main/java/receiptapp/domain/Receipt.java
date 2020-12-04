@@ -72,6 +72,10 @@ public class Receipt {
         return this.date;
     }
     
+    public ObservableList<ReceiptItem> getItems() {
+        return this.items;
+    }
+    
     /**
      * Metodi, joka palauttaa kuitilla olevien tuotteiden kappalemäärän.
      * @return tuotteiden kappalemäärä.
