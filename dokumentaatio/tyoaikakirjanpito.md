@@ -9,4 +9,6 @@
 | 27.11. | 7h | Toteutettu rivin lisäys tableView-taulukkoon, tehty tarkistimet joitakin inputeja varten, tehty joitain muokkauksia fxml:ssä |
 | 30.11. | 7h | Toteutettu kuittien lisäys tableView-taulukkoon ja säädetty fxml:ää sen mukaisesti. Vaihdettu myös nappien asettelua. Alettu toteuttaa rivien editointia, se kuitenkin vaatii vielä suunnittelua. |
 | 1.12. | 7h | Aloitettu tallennustoiminnallisuuden toteutusta, korjailtu käyttöliittymää ja sen koodia |
-| yht. | 52.5h |
+| 3.12. | 9h | Selvitelty aika monta tuntia miksi tableViewit ei toimi odotetusti, lisäksi epäselvää miksi välillä jostain tulee concurrentModificationException. Lopulta hylätty koko branch ja aloitettu käyttämään tableViewejä huolellisemmin
+| 4.12. | 7h | Jatkettu eilen valittua linjaa, ja nyt toteutettu uudestaan tuotteen lisääminen, muokkaaminen ja poistaminen, ja aloitettu kuitin näyttämistä ja muokkaamista.
+| yht. | 68.5h |
