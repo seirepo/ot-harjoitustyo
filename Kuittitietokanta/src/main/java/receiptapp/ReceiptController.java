@@ -199,13 +199,13 @@ public class ReceiptController implements Initializable {
         double qnty = Double.parseDouble(this.qntyField.getText());
         String unit = this.unitChoice.getValue();
         
-        ReceiptItem editItem = this.itemTable.getSelectionModel().getSelectedItem();
+        ReceiptItem selected = this.itemTable.getSelectionModel().getSelectedItem();
         
-        if (editItem == null) {            
+        if (selected == null) {            
             ReceiptItem i = new ReceiptItem(product, price, isUnitPrice, qnty, unit);
             this.receiptService.addReceiptItem(i);        
         } else {
-            this.receiptService.updateItem(editItem, product, price, isUnitPrice,
+            this.receiptService.updateItem(selected, product, price, isUnitPrice,
                     qnty, unit);
         }
         this.itemTable.refresh();
