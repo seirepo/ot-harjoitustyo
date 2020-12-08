@@ -138,7 +138,8 @@ public class ReceiptController implements Initializable {
     
     @FXML
     void handleEditItem(ActionEvent event) {
-        System.out.println("nyt voi muokata");
+        System.out.println("receiptapp.fx.ReceiptController.handleEditItem(): " 
+        + "nyt voi muokata");
         
         this.productField.setText(this.selectedItem.getProduct());
         this.priceField.setText("" + this.selectedItem.getTotalPrice());
@@ -217,8 +218,10 @@ public class ReceiptController implements Initializable {
         
         if (item == null) return;
         
-        System.out.println(item);
-        System.out.println(this.itemTable.getSelectionModel().getSelectedItem());
+        System.out.println("receiptapp.fx.ReceiptController.editItem(): "
+                + item);
+        System.out.println("receiptapp.fx.ReceiptController.editItem(): "
+                + this.itemTable.getSelectionModel().getSelectedItem());
         
         this.productField.setText(item.getProduct());
         this.priceField.setText("" + item.getTotalPrice());
