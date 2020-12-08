@@ -1,5 +1,6 @@
-package receiptapp;
+package receiptapp.fx;
 
+import receiptapp.fx.ReceiptController;
 import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
