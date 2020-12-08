@@ -40,6 +40,10 @@ public class Receipt {
         this.id = id;
     }
     
+    public boolean addItem(ReceiptItem item) {
+        return this.items.add(item);
+    }
+    
     /**
      * Palauttaa kuitin summan sentteinä.
      * @return total
@@ -121,9 +125,9 @@ public class Receipt {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        
+        s.append("store: " + this.store + ", date: " + this.date);
         for (ReceiptItem item : items) {
-            s.append(item.toString());
+            s.append(item.getItem());
         }
         
         

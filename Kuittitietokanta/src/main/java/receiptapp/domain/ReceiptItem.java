@@ -149,6 +149,16 @@ public class ReceiptItem {
         String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
                 this.product, HelperFunctions.centsToEuros(this.totalPrice), this.quantity, this.unit,
                 getUnitPrice(), this.unit);
-        return "";
+        return s;
+    }
+    
+    /**
+     * Väliaikainen testi selkeyttämään daon tulosteita.
+     * @return 
+     */
+    public String getItem1() {
+        String s = this.product + "\t" + this.totalPrice + "\t" +
+                this.quantity + "\t" + this.isUnitPrice + "\t" + this.unit;
+        return s;
     }
 }
