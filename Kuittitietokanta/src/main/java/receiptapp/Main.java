@@ -1,5 +1,7 @@
 package receiptapp;
 
+import receiptapp.fx.ReceiptMain;
+
 public class Main {
     
     /**
