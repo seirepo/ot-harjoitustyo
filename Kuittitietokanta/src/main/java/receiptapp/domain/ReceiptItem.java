@@ -40,7 +40,12 @@ public class ReceiptItem {
         if (price < 0) {
             this.totalPrice = 0;
         } else {
-            this.totalPrice = (int) (price * 100);
+            int cents = (int) (price * 100);
+            if (cents == 0) {
+                this.totalPrice = 1;
+            } else {
+                this.totalPrice = cents;
+            }
         }
         
         if (this.units.contains(unit)) {
@@ -65,7 +70,8 @@ public class ReceiptItem {
         if (this.isUnitPrice) {
             return this.totalPrice * this.quantity / 100.0;
         }
-        return this.totalPrice / 100.0;
+        double sum = this.totalPrice / 100.0;
+        return sum;
     }
     
     public boolean getIsUnitPrice() {
@@ -100,7 +106,12 @@ public class ReceiptItem {
     
     public void setTotalPrice(double price) {
         if (price <= 0) return;
-        this.totalPrice = (int) (price * 100);
+        int cents = (int) (price * 100);
+        if (cents == 0) {
+            this.totalPrice = 1;
+            return;
+        }
+        this.totalPrice = cents;
     }
     
     public void setIsUnitPrice(boolean isUnitPrice) {

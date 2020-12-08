@@ -95,6 +95,18 @@ public class ReceiptItemTest {
     }
     
     @Test
+    public void priceTooCloseToZeroRoundsToOneCent() {
+        item = new ReceiptItem("name", 0.000001, false, 1, "pc");
+        assertEquals(1, item.getTotalPriceCents());
+    }
+    
+    @Test
+    public void priceSetTooCloseToZeroRoundsToOneCent() {
+        item.setTotalPrice(0.000005);
+        assertEquals(1, item.getTotalPriceCents());
+    }
+    
+    @Test
     public void settingIsUnitPriceTrueAffectsTotalPrice() {
         item.setIsUnitPrice(true);
         assertEquals(73.75, item.getTotalPrice(), 0.01);
@@ -121,6 +133,7 @@ public class ReceiptItemTest {
         item.setIsUnitPrice(false);
         assertEquals(2.95, item.getUnitPrice(), 0.01);
     }
+    
     
     @Test
     public void quantityCannotBeSetZeroOrLess() {
