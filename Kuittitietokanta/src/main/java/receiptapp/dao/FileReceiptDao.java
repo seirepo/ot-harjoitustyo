@@ -27,17 +27,9 @@ public class FileReceiptDao implements ReceiptDao {
      */
     public FileReceiptDao() throws SQLException {
         this.receipts = FXCollections.observableArrayList();
-        this.dbFile = "receipts.db"; // vaikka receiptAppDatabase tms
+        this.dbFile = "receipts.db";
         File file = new File(this.dbFile);
-        // lue tietokannasta kuitit ja tee niistä kuittiolioita
-        // katso onko annettu tiedosto jo olemassa, jos on niin lue sieltä tiedot
-        // kuittilistaan
-        // jos ei, tee tiedosto ja sinne uudet tarvittavat taulut
-        
         if (!(file.exists())) {
-            // tiedostoa ei ole olemassa
-            // luo tietokantatiedosto eli .db + luo uudet taulut sinne
-            //File dbReceipts = Paths.get(this.dbFile, "receipts.db").toFile();
             try {
                 file.createNewFile();
             } catch (Exception e) {
@@ -45,12 +37,7 @@ public class FileReceiptDao implements ReceiptDao {
                         + e);
             }
             System.out.println("receiptapp.dao.FileReceiptDao.<init>(): tehty tiedosto");
-        } // else {
-            // lue jutut kuittiolioon
-            //Connection dbReceipts = DriverManager.getConnection("jdbc:sqlite:" + this.dbFile + ".db");
-            //Connection dbReceiptItems = DriverManager.getConnection("jdbc:sqlite:" + )
-        // }
-        
+        }
         Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
             Statement s = db.createStatement();
             s.execute("CREATE TABLE IF NOT EXISTS Receipts (id INTEGER PRIMARY KEY, store TEXT);");
