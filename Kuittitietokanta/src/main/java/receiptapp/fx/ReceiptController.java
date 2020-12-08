@@ -1,4 +1,4 @@
-package receiptapp;
+package receiptapp.fx;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -129,7 +129,6 @@ public class ReceiptController implements Initializable {
     @FXML
     void handleAddItem(ActionEvent event) {
         addOrSaveItem();
-        clearAddFields();
     }
 
     @FXML
@@ -210,6 +209,7 @@ public class ReceiptController implements Initializable {
         }
         this.itemTable.refresh();
         this.itemTable.getSelectionModel().clearSelection();
+        clearAddFields();
         updateTotal();        
     }
     
@@ -360,6 +360,14 @@ public class ReceiptController implements Initializable {
         
         if (!this.doublePattern.matcher(this.priceField.getText()).matches()) {
             e += "price must be a number\n";
+        }
+        
+        if (this.priceField.getText().equals("0")) {
+            e += "price cannot be 0 or less\n";
+        }
+        
+        if (this.qntyField.getText().equals("0")) {
+            e += "quantity cannot be 0 or less\n";
         }
         
         if (!this.doublePattern.matcher(this.qntyField.getText()).matches()) {
