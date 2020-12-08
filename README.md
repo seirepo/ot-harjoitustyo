@@ -11,6 +11,9 @@ Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä 
 
 ## Komentorivikomennot 
 
+### Ajaminen
+- komennolla `mvn compile exec:java -Dexec.mainClass=receiptapp.Main`
+
 ### Testaus
 - Testit suoritetaan komennolla `mvn test`
 - Testikattavuusraportti luodaan komennolla `mvn jacoco:report`
@@ -22,4 +25,4 @@ Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä 
 
 ### jar-paketin luominen
 - jar-tiedosto luodaan komennolla `mvn package`
-- ohjelman suoritetaan jar:na komennolla `java -jar tiedosto.jar`
+- ohjelman suoritetaan jar:na komennolla `java -jar Kuittitietokanta-1.0-SNAPSHOT.jar`
