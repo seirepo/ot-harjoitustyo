@@ -49,4 +49,15 @@ public class ReceiptTest {
         receipt.setId(4);
         assertEquals(4, receipt.getId());
     }
+    
+    @Test
+    public void getProductCountReturnsRightWhenItemsIsEmpty() {
+        assertEquals(0, receipt.getProductCount());
+    }
+    
+    @Test
+    public void getProductCountReturnsRightWhenProductUnitIsPc() {
+       products.add(item1); products.add(item2); products.add(item3);
+       assertEquals(6, receipt.getProductCount());
+    }
 }

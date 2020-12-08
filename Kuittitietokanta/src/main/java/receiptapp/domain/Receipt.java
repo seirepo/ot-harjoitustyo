@@ -83,7 +83,6 @@ public class Receipt {
     /**
      * Metodi, joka palauttaa kuitilla olevien tuotteiden kappalemäärän.
      * @return tuotteiden kappalemäärä.
-     * TODO: testit
      */
     public int getProductCount() {
         int count = 0;

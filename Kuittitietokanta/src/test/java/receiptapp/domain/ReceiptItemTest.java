@@ -146,4 +146,10 @@ public class ReceiptItemTest {
         item.setUnit("hp");
         assertEquals("pc", item.getUnit());
     }
+    
+    @Test
+    public void setUnitDoesNotChangeUnitIfUnitIsNotLegal() {
+        item.setUnit("dkg");
+        assertEquals("pc", item.getUnit());
+    }
 }
