@@ -26,3 +26,6 @@ Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä 
 ### jar-paketin luominen
 - jar-tiedosto luodaan komennolla `mvn package`
 - ohjelman suoritetaan jar:na komennolla `java -jar Kuittitietokanta-1.0-SNAPSHOT.jar`
+
+### Releaset
+- [Viikon 5 versio](https://github.com/serepo/ot-harjoitustyo/releases/tag/viikko5)
