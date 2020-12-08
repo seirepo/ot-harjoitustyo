@@ -185,7 +185,7 @@ public class ReceiptController implements Initializable {
      * TODO: error-dialogi jos ei
      */
     public void addOrSaveItem() {
-        String error = checkAddFields();
+        String error = checkAddItemFields();
         
         if (error.length() > 0) {
             errorDialog(error);
@@ -203,7 +203,7 @@ public class ReceiptController implements Initializable {
         
         if (selected == null) {            
             ReceiptItem i = new ReceiptItem(product, price, isUnitPrice, qnty, unit);
-            this.receiptService.addReceiptItem(i);        
+            this.receiptService.addReceiptItem(i);
         } else {
             this.receiptService.updateItem(selected, product, price, isUnitPrice,
                     qnty, unit);
@@ -272,7 +272,7 @@ public class ReceiptController implements Initializable {
      * vaadittavat kentät täytetty oikein.
      */    
     public void addOrSaveReceipt() {
-        String error = checkDemandedFields();
+        String error = checkAddReceiptFields();
         
         if (error.length() > 0) {
             errorDialog(error);
@@ -354,7 +354,7 @@ public class ReceiptController implements Initializable {
      * Tarkistetaan kaikki tuotteen lisäämiseen liittyvien kenttien oikeellisuus.
      * @return error-viesti merkkijonona. Tyhjä jos kaikki ok
      */
-    public String checkAddFields() {
+    public String checkAddItemFields() {
         String e = "";
         
         if ("".equals(this.productField.getText())) {
@@ -384,7 +384,7 @@ public class ReceiptController implements Initializable {
      * Tarkistetaan kaikki kuitin lisäämiseen liittyvien kenttien oikeellisuus.
      * @return error-viesti merkkijonona. Tyhjä jos kaikki ok
      */
-    public String checkDemandedFields() {
+    public String checkAddReceiptFields() {
         String e = "";
         
         if ("".equals(this.storeField.getText())) {
