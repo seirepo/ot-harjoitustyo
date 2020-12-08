@@ -2,9 +2,13 @@ package receiptapp.dao;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Statement;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import receiptapp.domain.Receipt;
 
 /**
@@ -13,43 +17,53 @@ import receiptapp.domain.Receipt;
  */
 public class FileReceiptDao implements ReceiptDao {
     
-    public List<Receipt> receipts;
+    public ObservableList<Receipt> receipts;
     private String dbFile;
     
     /**
      * Konstruktori, jossa alustetaan receipts-olio tietokannan kuiteilla.
      * Jos tietokantaa ei vielä ole, se luodaan tauluineen.
-     * @param dbFile hakemisto, johon taulut tarvittaessa luodaan
      * @throws SQLException 
      */
-    public FileReceiptDao(String dbFile) throws SQLException {
-        this.receipts = new ArrayList<>();
-        this.dbFile = dbFile; // vaikka receiptAppDatabase tms
-        File dir = new File(this.dbFile);
+    public FileReceiptDao() throws SQLException {
+        this.receipts = FXCollections.observableArrayList();
+        this.dbFile = "receipts.db"; // vaikka receiptAppDatabase tms
+        File file = new File(this.dbFile);
         // lue tietokannasta kuitit ja tee niistä kuittiolioita
-        
         // katso onko annettu tiedosto jo olemassa, jos on niin lue sieltä tiedot
         // kuittilistaan
-        // jos ei, alusta uudet tarvittavat taulut?
-        if (!(dir.exists() && dir.isDirectory())) {
-            // eli not exists() or not a dir = joko ei ole olemassa tai ei ole dir
-            // luo uudet taulut = db-tietokantatiedostot
-            File dbReceipts = Paths.get(this.dbFile, "receipts.db").toFile();
-            File dbReceiptItems = Paths.get(this.dbFile, "receiptItems.db").toFile();
-            File dbReceiptXReceiptItems = Paths.get(this.dbFile, "receiptXReceiptItems.db").toFile();
-            
+        // jos ei, tee tiedosto ja sinne uudet tarvittavat taulut
+        
+        if (!(file.exists())) {
+            // tiedostoa ei ole olemassa
+            // luo tietokantatiedosto eli .db + luo uudet taulut sinne
+            //File dbReceipts = Paths.get(this.dbFile, "receipts.db").toFile();
+            try {
+                file.createNewFile();
+            } catch (Exception e) {
+                System.out.println("receiptapp.dao.FileReceiptDao.<init>(): "
+                        + e);
+            }
+            System.out.println("receiptapp.dao.FileReceiptDao.<init>(): tehty tiedosto");
         } // else {
             // lue jutut kuittiolioon
             //Connection dbReceipts = DriverManager.getConnection("jdbc:sqlite:" + this.dbFile + ".db");
             //Connection dbReceiptItems = DriverManager.getConnection("jdbc:sqlite:" + )
-            
         // }
+        
+        Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
+            Statement s = db.createStatement();
+            s.execute("CREATE TABLE IF NOT EXISTS Receipts (id INTEGER PRIMARY KEY, store TEXT);");
+            s.execute("CREATE TABLE IF NOT EXISTS Items (id INTEGER PRIMARY KEY, price INTEGER, is_unit_price BOOLEAN, unit TEXT);");
+            s.execute("CREATE TABLE IF NOT EXISTS receipts_items (receipt INTEGER REFERENCES Receipts, item INTEGER REFERENCES Items);");
+        
+        System.out.println("receiptapp.dao.FileReceiptDao.<init>(): Ei tehty databasea");
                 
     }
     
     private void save() throws Exception {
         // kirjoita receipts-olion kuitit tietokantaan
-        System.out.println("Tallennetaan leikisti");
+        System.out.println("receiptapp.dao.FileReceiptDao.save(): tallennetaan leikisti");
     }
     
     public int getLatestId() {

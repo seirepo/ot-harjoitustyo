@@ -2,10 +2,10 @@ package receiptapp.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import receiptapp.dao.FileReceiptDao;
 
 /**
  * Luokka, joka operoi käyttöliittymän ja tietojen tallennuksen välillä.
@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 public class ReceiptService {
     private ObservableList<ReceiptItem> items;
     private ObservableList<Receipt> receipts;
+    private FileReceiptDao fileReceiptDao;
     
     /**
      * Konstruktori luokalle.
@@ -26,6 +27,11 @@ public class ReceiptService {
     public ReceiptService() {
         this.items = FXCollections.observableArrayList();
         this.receipts = FXCollections.observableArrayList();
+        try {
+            this.fileReceiptDao = new FileReceiptDao();
+        } catch (Exception e) {
+            System.out.println("receiptapp.domain.ReceiptService.<init>(): " + e);
+        }
     }
     
     /**
