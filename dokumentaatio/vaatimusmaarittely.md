@@ -14,7 +14,7 @@ Yhteenvetonäkymässä on oletuksena viimeisen viikon aikana tehtyjen ostosten m
 ### Listausnäkymä
 - ~~mahdollisuus lisätä järjestelmään uusi kuitti~~
     - ~~kuitissa täytyy olla myymälä, päivämäärä ja vähintään yksi rivi (tuote), jossa määrä on vähintään 1~~        
-- mahdollisuus valita päänäkymästä esikatseltavaksi kuitti ja tarvittaessa muokata sitä
+- ~~mahdollisuus valita päänäkymästä esikatseltavaksi kuitti ja tarvittaessa muokata sitä~~
 - aikarajauksella voi tarkastella esimerkiksi kuluneen viikon aikana tehtyjä ostoksia
 - kuitin voi poistaa
 - tuotteiden yksinkertainen tarkastelu, listausnäkymään mahdollisuus valita myös tuotteet
