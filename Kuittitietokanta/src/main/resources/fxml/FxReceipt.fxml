@@ -121,7 +121,7 @@
                                        <HBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                        </HBox.margin></ChoiceBox>
-                                    <Button fx:id="addItemBtn" maxWidth="50.0" mnemonicParsing="false" onAction="#handleAddItem" prefWidth="50.0" text="OK">
+                                    <Button fx:id="addOrSaveItemBtn" maxWidth="50.0" mnemonicParsing="false" onAction="#handleAddOrSaveItem" prefWidth="50.0" text="OK">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin></Button>

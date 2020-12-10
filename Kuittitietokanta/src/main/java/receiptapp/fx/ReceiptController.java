@@ -42,8 +42,8 @@ public class ReceiptController implements Initializable {
     @FXML private Label receiptTotal;
     @FXML private DatePicker date;
     @FXML private ChoiceBox<String> unitChoice;
+    @FXML private Button addOrSaveItemBtn;
     @FXML private Button cancelEditReceiptBtn;
-    @FXML private Button okBtn;
     @FXML private Button addProductBtn;
     @FXML private Button addNewReceiptBtn;
     @FXML private Button deleteReceiptBtn;
@@ -124,7 +124,7 @@ public class ReceiptController implements Initializable {
 
 
     @FXML
-    void handleAddItem(ActionEvent event) {
+    void handleAddOrSaveItem(ActionEvent event) {
         addOrSaveItem();
     }
 
@@ -155,7 +155,7 @@ public class ReceiptController implements Initializable {
     
     @FXML
     void handleDeleteReceipt(ActionEvent event) {
-
+        deleteReceipt();
     }
     
     @FXML
@@ -233,25 +233,7 @@ public class ReceiptController implements Initializable {
         updateTotal();
         this.itemTable.refresh();
     }
-    
-    /**
-     * Päivitetään kuitin loppusumma.
-     */
-    public void updateTotal() {
-        String total = "" + this.receiptService.getTotal();
-        this.receiptTotal.setText(total);
-    }
-    
-    /**
-     * Tyhjennetään kaikki uuden tuotteen lisäämiseen liittyvät kentät.
-     */
-    public void clearAddFields() {
-        this.productField.setText("");
-        this.priceField.setText("");
-        this.unitPriceCheck.setSelected(false);
-        this.qntyField.setText("");
-    }
-    
+        
     /**
      * Tyhjennetään näkymän oikea puoli ja item-taulukko, jotta uuden kuitin
      * lisääminen on mahdollista.
@@ -292,7 +274,7 @@ public class ReceiptController implements Initializable {
         clearAllFields();
         updateTotal();        
     }
-    
+
     /**
      * Tyhjennetään jälleen näkymän oikea puoli, jos halutaankin perua
      * kuitin muokkaaminen tai uuden kuitin lisääminen. Kutsuu
@@ -302,7 +284,11 @@ public class ReceiptController implements Initializable {
     public void cancelEditReceipt() {
         addNewReceipt();
     }
-
+    
+    public void deleteReceipt() {
+        
+    }
+    
     public void editReceipt(Receipt receipt) {
         if (receipt == null) return;
         
@@ -315,6 +301,24 @@ public class ReceiptController implements Initializable {
     }
     
     /**
+     * Päivitetään kuitin loppusumma.
+     */
+    public void updateTotal() {
+        String total = "" + this.receiptService.getTotal();
+        this.receiptTotal.setText(total);
+    }
+    
+    /**
+     * Tyhjennetään kaikki uuden tuotteen lisäämiseen liittyvät kentät.
+     */
+    public void clearAddFields() {
+        this.productField.setText("");
+        this.priceField.setText("");
+        this.unitPriceCheck.setSelected(false);
+        this.qntyField.setText("");
+    }    
+    
+    /**
      * Tyhjentää kaikki täytettävät kentät.
      */
     public void clearAllFields() {
@@ -324,8 +328,8 @@ public class ReceiptController implements Initializable {
     }
 
     /**
-     * Avaa virhedialogin.
-     * @param message näytettävä virhe
+     * Avaa virhedialogin ja näyttää parametrina annetun viestin.
+     * @param message näytettävä viesti
      */
     public void errorDialog(String message) {
         Alert alert = new Alert(AlertType.ERROR);
