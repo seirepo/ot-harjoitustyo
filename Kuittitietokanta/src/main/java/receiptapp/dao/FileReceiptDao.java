@@ -108,7 +108,7 @@ public class FileReceiptDao implements ReceiptDao {
     
         
     @Override
-    public List<Receipt> getAll() {
+    public ObservableList<Receipt> getAll() {
         return receipts;
     }
     

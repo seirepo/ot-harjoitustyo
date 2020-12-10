@@ -29,6 +29,7 @@ public class ReceiptService {
         this.receipts = FXCollections.observableArrayList();
         try {
             this.fileReceiptDao = new FileReceiptDao();
+            this.receipts = this.fileReceiptDao.getAll();
         } catch (Exception e) {
             System.out.println("receiptapp.domain.ReceiptService.<init>(): " + e);
         }
