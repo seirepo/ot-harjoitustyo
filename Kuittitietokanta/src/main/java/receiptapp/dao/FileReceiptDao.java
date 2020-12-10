@@ -95,11 +95,40 @@ public class FileReceiptDao implements ReceiptDao {
             
             this.receipts.add(receipt);
         }
+        
+        // s.close();
     }
     
-    private void save() throws Exception {
-        // kirjoita receipts-olion kuitit tietokantaan
-        System.out.println("receiptapp.dao.FileReceiptDao.save(): tallennetaan leikisti");
+    public void save(ObservableList<Receipt> rcpts) throws Exception {
+
+        
+        Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
+        Statement s = db.createStatement();
+        
+        List<ReceiptItem> items;
+        
+        for (Receipt receipt : rcpts) {
+            
+            if (receipt.getId() < 0) { // kuitti ei vielä ole tietokannassa
+                String store = receipt.getStore();
+                String date = receipt.getDate().toString();
+                items = receipt.getItems();
+
+                PreparedStatement pr = db.prepareStatement("INSERT INTO Receipts (store, date)"
+                        + "VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
+                pr.setString(1, store);
+                pr.setString(2, date);
+
+                pr.executeUpdate();
+                ResultSet gk = pr.getGeneratedKeys();
+                gk.next();
+                System.out.println(gk.getInt(1));
+            } else {
+                System.out.println("kuitti " + receipt.getStore() + " oli jo tietokannassa "
+                        + "id:llä " + receipt.getId());
+            }
+            
+        }
     }
     
     public int getLatestId() {
