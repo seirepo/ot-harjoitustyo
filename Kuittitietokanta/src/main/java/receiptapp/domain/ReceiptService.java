@@ -20,6 +20,7 @@ public class ReceiptService {
     private ObservableList<ReceiptItem> items;
     private ObservableList<Receipt> receipts;
     private FileReceiptDao fileReceiptDao;
+    private List<Integer> deletedIds;
     
     /**
      * Konstruktori luokalle.
@@ -27,6 +28,7 @@ public class ReceiptService {
     public ReceiptService() {
         this.items = FXCollections.observableArrayList();
         this.receipts = FXCollections.observableArrayList();
+        this.deletedIds = new ArrayList<>();
         try {
             this.fileReceiptDao = new FileReceiptDao();
             this.receipts = this.fileReceiptDao.getAll();
@@ -50,6 +52,10 @@ public class ReceiptService {
         
         Receipt receipt = new Receipt(store, date, receiptItems);
         this.receipts.add(receipt);
+        
+        System.out.println("receiptapp.domain.ReceiptService.addReceiptItem(): "
+                + "lisätty kuitti id:llä " + receipt.getId());
+        
         this.items.clear();
         return true;
     }
@@ -60,7 +66,7 @@ public class ReceiptService {
      * @return true jos lisäys onnistuu, false jos ei
      */
     public boolean addReceiptItem(ReceiptItem item) {
-        this.items.add(item);
+        this.items.add(item);        
         return true;
     }
     
@@ -93,6 +99,9 @@ public class ReceiptService {
     }
     
     public boolean deleteReceipt(Receipt receipt) {
+        if (receipt.getId() > 0) {
+            this.deletedIds.add(receipt.getId());
+        }
         return this.receipts.remove(receipt);
     }
     
@@ -114,6 +123,16 @@ public class ReceiptService {
     public boolean clearItems() {
         this.items.clear();
         return true;
+    }
+    
+    public boolean save() {
+        try {
+            this.fileReceiptDao.save(this.receipts);
+            return true;
+        } catch (Exception e) {
+            System.out.println("receiptapp.domain.ReceiptService.save(): " + e);
+            return false;
+        }
     }
     
     public double getTotal() {
