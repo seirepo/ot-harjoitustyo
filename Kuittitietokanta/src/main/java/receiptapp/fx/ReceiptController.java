@@ -140,7 +140,7 @@ public class ReceiptController implements Initializable {
     
     @FXML
     void handleAddNewReceipt(ActionEvent event) {
-
+        addNewReceipt();
     }
     
     @FXML
@@ -150,7 +150,7 @@ public class ReceiptController implements Initializable {
 
     @FXML
     void handleCancelEditReceipt(ActionEvent event) {
-        
+        cancelEditReceipt();
     }
     
     @FXML
@@ -253,6 +253,16 @@ public class ReceiptController implements Initializable {
     }
     
     /**
+     * Tyhjennetään näkymän oikea puoli ja item-taulukko, jotta uuden kuitin
+     * lisääminen on mahdollista.
+     */
+    public void addNewReceipt() {
+        this.receiptService.clearItems();
+        clearAddFields();
+        clearAllFields();
+    }
+    
+    /**
      * Lisätään uusi kuitti. Samalla tarkistetaan onko kaikki lisäämiseen
      * vaadittavat kentät täytetty oikein.
      */    
@@ -282,11 +292,17 @@ public class ReceiptController implements Initializable {
         clearAllFields();
         updateTotal();        
     }
-
-    public void setSelectedReceipt(Receipt selected) {
-        //this.selectedReceipt = selected;
-    }
     
+    /**
+     * Tyhjennetään jälleen näkymän oikea puoli, jos halutaankin perua
+     * kuitin muokkaaminen tai uuden kuitin lisääminen. Kutsuu
+     * addNewReceipt-metodia.
+     * TODO: vahvistus?
+     */
+    public void cancelEditReceipt() {
+        addNewReceipt();
+    }
+
     public void editReceipt(Receipt receipt) {
         if (receipt == null) return;
         
