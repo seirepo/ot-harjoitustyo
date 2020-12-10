@@ -162,7 +162,7 @@ public class ReceiptController implements Initializable {
     
     @FXML
     void handleSave(ActionEvent event) {
-
+        save();
     }
     
     @FXML
@@ -321,6 +321,19 @@ public class ReceiptController implements Initializable {
         this.receiptService.setReceiptItems(receipt.getItems());
         this.itemTable.refresh();
         updateTotal();
+    }
+    
+    /**
+     * Tallennetaan kuitit tietokantaan. Jos tallennus epäonnistuu, avautuu
+     * virhedialogi.
+     * TODO: tarkista onko joku muokkaus kesken?
+     */
+    public void save() {
+        if (this.receiptService.save()) {
+            System.out.println("receiptapp.fx.ReceiptController.save(): " + "tallennus ok");
+        } else {
+            System.out.println("receiptapp.fx.ReceiptController.save(): " + "tallennus ei onnistunut");
+        }
     }
     
     /**
