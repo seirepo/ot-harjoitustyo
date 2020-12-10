@@ -86,7 +86,7 @@
                                  </GridPane.margin></Label>
                               <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <children>
-                                    <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
+                                    <Button fx:id="cancelEditReceiptBtn" mnemonicParsing="false" onAction="#handleCancelEditReceipt" text="Cancel">
                                        <HBox.margin>
                                           <Insets bottom="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
@@ -125,7 +125,7 @@
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin></Button>
-                                    <Button fx:id="cancelEditBtn" mnemonicParsing="false" onAction="#handleCancelEdit" text="Cancel">
+                                    <Button fx:id="cancelEditItemBtn" mnemonicParsing="false" onAction="#handleCancelEditItem" text="Cancel">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin>
@@ -176,11 +176,11 @@
                               <Insets bottom="5.0" left="5.0" top="5.0" />
                            </HBox.margin>
                         </MenuBar>
-                        <Button fx:id="addReceiptBtn" mnemonicParsing="false" onAction="#handleAddReceipt" text="Add receipt">
+                        <Button fx:id="addNewReceiptBtn" mnemonicParsing="false" onAction="#handleAddNewReceipt" text="Add receipt">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" top="5.0" />
                            </HBox.margin></Button>
-                        <Button fx:id="removeReceipt" mnemonicParsing="false" onAction="#handleRemoveReceipt" text="Delete">
+                        <Button fx:id="deleteReceiptBtn" mnemonicParsing="false" onAction="#handleDeleteReceipt" text="Delete">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" top="5.0" />
                            </HBox.margin></Button>

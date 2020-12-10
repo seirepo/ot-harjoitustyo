@@ -42,15 +42,15 @@ public class ReceiptController implements Initializable {
     @FXML private Label receiptTotal;
     @FXML private DatePicker date;
     @FXML private ChoiceBox<String> unitChoice;
-    @FXML private Button cancelBtn;
+    @FXML private Button cancelEditReceiptBtn;
     @FXML private Button okBtn;
     @FXML private Button addProductBtn;
-    @FXML private Button addReceiptBtn;
-    @FXML private Button removeReceipt;
+    @FXML private Button addNewReceiptBtn;
+    @FXML private Button deleteReceiptBtn;
     @FXML private Button editItemBtn;
     @FXML private Button deleteItemBtn;
     @FXML private Button addOrSaveReceiptBtn;
-    @FXML private Button cancelEditBtn;
+    @FXML private Button cancelEditItemBtn;
     @FXML private CheckBox unitPriceCheck;
 
     
@@ -120,9 +120,6 @@ public class ReceiptController implements Initializable {
                 .selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) ->
                               editReceipt(newSelection));
-        
-        //TODO: this.receiptTable.setItems(receiptService:n receiptit), ja sama itemeille
-        // VAIN YHDEN KERRAN. tee testi: nappi joka lisää random itemin listaan ja katso päivittyykö tableview  
     }
 
 
@@ -132,35 +129,32 @@ public class ReceiptController implements Initializable {
     }
 
     @FXML
-    void handleCancelEdit(ActionEvent event) {
-        cancelEditing();
+    void handleCancelEditItem(ActionEvent event) {
+        cancelEditingItem();
     }
-    
-    @FXML
-    void handleEditItem(ActionEvent event) {
-        System.out.println("receiptapp.fx.ReceiptController.handleEditItem(): " 
-        + "nyt voi muokata");
         
-        this.productField.setText(this.selectedItem.getProduct());
-        this.priceField.setText("" + this.selectedItem.getTotalPrice());
-        this.qntyField.setText("" + this.selectedItem.getQuantity());
-        this.unitChoice.setValue(this.selectedItem.getUnit());
-        int selectedId = this.selectedItem.getId();
-        
-    }
-    
     @FXML
     void handleDeleteItem(ActionEvent event) {
         deleteItem();
     }    
     
     @FXML
-    void handleAddOrSaveReceipt(ActionEvent event) {
-        addOrSaveReceipt();
+    void handleAddNewReceipt(ActionEvent event) {
+
     }
     
     @FXML
-    void handleRemoveReceipt(ActionEvent event) {
+    void handleAddOrSaveReceipt(ActionEvent event) {
+        addOrSaveReceipt();
+    }
+
+    @FXML
+    void handleCancelEditReceipt(ActionEvent event) {
+        
+    }
+    
+    @FXML
+    void handleDeleteReceipt(ActionEvent event) {
 
     }
     
@@ -168,16 +162,7 @@ public class ReceiptController implements Initializable {
     void HandleCheckDouble(KeyEvent event) {
         //System.out.println(event.getCharacter());
     }
-    
-    @FXML
-    void handleAddReceipt(ActionEvent event) {
-        
-    }
 
-    @FXML
-    void handleCancel(ActionEvent event) {
-        
-    }
 
     /**
      * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
@@ -230,7 +215,7 @@ public class ReceiptController implements Initializable {
         this.unitChoice.setValue(item.getUnit());
     }
     
-    public void cancelEditing() {
+    public void cancelEditingItem() {
         this.itemTable.getSelectionModel().clearSelection();
         clearAddFields();
     }
@@ -297,15 +282,7 @@ public class ReceiptController implements Initializable {
         clearAllFields();
         updateTotal();        
     }
-    
-    /**
-     * Kesken!
-     * @param selected 
-     */
-    public void enableEditAndRemove(ReceiptItem selected) {
 
-    }
-    
     public void setSelectedReceipt(Receipt selected) {
         //this.selectedReceipt = selected;
     }
