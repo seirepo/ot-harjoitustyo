@@ -92,6 +92,10 @@ public class ReceiptService {
         return this.items.remove(item);
     }
     
+    public boolean deleteReceipt(Receipt receipt) {
+        return this.receipts.remove(receipt);
+    }
+    
     public ObservableList<Receipt> getReceipts() {
         return this.receipts;
     }

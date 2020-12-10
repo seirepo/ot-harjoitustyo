@@ -16,6 +16,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -52,6 +53,7 @@ public class ReceiptController implements Initializable {
     @FXML private Button addOrSaveReceiptBtn;
     @FXML private Button cancelEditItemBtn;
     @FXML private CheckBox unitPriceCheck;
+    @FXML private MenuItem saveMenuItem;
 
     
     @FXML private TableView<ReceiptItem> itemTable;
@@ -159,10 +161,15 @@ public class ReceiptController implements Initializable {
     }
     
     @FXML
+    void handleSave(ActionEvent event) {
+
+    }
+    
+    @FXML
     void HandleCheckDouble(KeyEvent event) {
         //System.out.println(event.getCharacter());
     }
-
+    
 
     /**
      * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
@@ -285,8 +292,24 @@ public class ReceiptController implements Initializable {
         addNewReceipt();
     }
     
+    /**
+     * Poistetaan valittu kuitti. Näytetään virheviesti jos mitään kuittia ei
+     * ole valittuna.
+     * TODO: vahvistus?
+     */
     public void deleteReceipt() {
+        Receipt selected = this.receiptTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            errorDialog("No receipt selected ¯\\_(ツ)_/¯");
+            return;
+        }
         
+        this.receiptService.deleteReceipt(selected);
+        this.receiptTable.getSelectionModel().clearSelection();
+        this.receiptService.clearItems();
+        clearAllFields();
+        this.receiptTable.refresh();
+        this.itemTable.refresh();
     }
     
     public void editReceipt(Receipt receipt) {
