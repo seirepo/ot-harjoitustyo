@@ -48,7 +48,7 @@ public class FileReceiptDao implements ReceiptDao {
         Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
         Statement s = db.createStatement();
         s.execute("CREATE TABLE IF NOT EXISTS Receipts (id INTEGER PRIMARY KEY, store TEXT, date TEXT);");
-        s.execute("CREATE TABLE IF NOT EXISTS Items (id INTEGER PRIMARY KEY, product STRING, price INTEGER, is_unit_price BOOLEAN, quantity INTEGER, unit TEXT);");
+        s.execute("CREATE TABLE IF NOT EXISTS Items (id INTEGER PRIMARY KEY, product STRING, price INTEGER, is_unit_price BOOLEAN, quantity REAL, unit TEXT);");
         s.execute("CREATE TABLE IF NOT EXISTS receipts_items (receipt_id INTEGER REFERENCES Receipts, item_id INTEGER REFERENCES Items);");
         
         // lue kuittioliot tietokannasta receipts-olioon
@@ -129,9 +129,44 @@ public class FileReceiptDao implements ReceiptDao {
                 pr.executeUpdate();
                 ResultSet gk = pr.getGeneratedKeys();
                 gk.next();
-                System.out.println("uusi id: " + gk.getInt(1));
+                int kuitinId = gk.getInt(1);
+                System.out.println("uusi id: " + kuitinId);
+                pr.close();
+                gk.close();
                 
-                // tässä vielä itemien tallennus ja kuitti-item-tauluhomma
+                for (ReceiptItem item : items) {
+                    String product = item.getProduct();
+                    int price = item.getTotalPriceCents();
+                    boolean isUnitPrice = item.getIsUnitPrice();
+                    double quantity = item.getQuantity();
+                    String unit = item.getUnit();
+                    System.out.println("tuote: " + product + " " + price + " " +
+                            isUnitPrice + " " + quantity + " " + unit);
+                    
+                    PreparedStatement pi = 
+                            db.prepareStatement("INSERT INTO Items (product, price, is_unit_price, quantity, unit) "
+                            + "VALUES (?,?,?,?,?)",
+                                    Statement.RETURN_GENERATED_KEYS);
+                    pi.setString(1, product);
+                    pi.setInt(2, price);
+                    pi.setBoolean(3, isUnitPrice);
+                    pi.setDouble(4, quantity);
+                    pi.setString(5, unit);
+                    
+                    pi.executeUpdate();
+                    ResultSet rk = pi.getGeneratedKeys();
+                    rk.next();
+                    int tuotteenId = rk.getInt(1);
+                    System.out.println("uusi item lisätty id:llä " + rk.getInt(1));
+                    pi.close();
+                    rk.close();
+                    
+                    PreparedStatement p3 = db.prepareStatement("INSERT INTO receipts_items "
+                            + "VALUES (?,?)");
+                    p3.setInt(1, kuitinId);
+                    p3.setInt(2, tuotteenId);
+                    p3.executeUpdate();
+                }
                 
             } else {
                 // käsitellään jo tietokannassa olevat, päivittyneet kuitit
