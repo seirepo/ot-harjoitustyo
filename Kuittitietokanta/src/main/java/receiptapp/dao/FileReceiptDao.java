@@ -45,133 +45,142 @@ public class FileReceiptDao implements ReceiptDao {
             System.out.println("receiptapp.dao.FileReceiptDao.<init>(): tehty tiedosto");
         }
         
-        Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
-        Statement s = db.createStatement();
-        s.execute("CREATE TABLE IF NOT EXISTS Receipts (id INTEGER PRIMARY KEY, store TEXT, date TEXT);");
-        s.execute("CREATE TABLE IF NOT EXISTS Items (id INTEGER PRIMARY KEY, product STRING, price INTEGER, is_unit_price BOOLEAN, quantity REAL, unit TEXT);");
-        s.execute("CREATE TABLE IF NOT EXISTS receipts_items (receipt_id INTEGER REFERENCES Receipts, item_id INTEGER REFERENCES Items);");
-        
-        // lue kuittioliot tietokannasta receipts-olioon
-        
-        ResultSet receiptSet = s.executeQuery("SELECT * FROM Receipts");
-        
-        Receipt receipt;
-        ReceiptItem item;
-        
-        while (receiptSet.next()) {
-            int id = receiptSet.getInt("id");
-            String store = receiptSet.getString("store");
-            LocalDate date = LocalDate.parse(receiptSet.getString("date"));
-            
-            System.out.println("id: " + id);
-            System.out.println("store: " + store);
-            System.out.println("date: " + date);
-            
-            receipt = new Receipt(store, date, FXCollections.observableArrayList());
-            receipt.setId(id);
-            
-            PreparedStatement p = db.prepareStatement("SELECT * FROM Items I "
-                    + "LEFT JOIN receipts_items U ON I.id = U.item_id "
-                    + "WHERE receipt_id=?");
-            p.setInt(1, id);
-            ResultSet itemSet = p.executeQuery();
-            
-            
-            while (itemSet.next()) {
-                int idItem = itemSet.getInt("id");
-                String product = itemSet.getString("product");
-                int price = itemSet.getInt("price");
-                boolean isUnit = itemSet.getBoolean("is_unit_price");
-                int quantity = itemSet.getInt("quantity");
-                String unit = itemSet.getString("unit");
-                
-                System.out.println("\t" + idItem + " " + product + " " + price +
-                        " " + isUnit + " " + quantity + " " + unit);
-                
-                item = new ReceiptItem(product, price, isUnit, quantity, unit);
-                item.setId(idItem);
-                receipt.addItem(item);
+        try {
+            Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
+            Statement s = db.createStatement();
+            s.execute("PRAGMA foreign_keys = ON;");
+            s.execute("CREATE TABLE IF NOT EXISTS Receipts (id INTEGER PRIMARY KEY, store TEXT, date TEXT);");
+            s.execute("CREATE TABLE IF NOT EXISTS Items (id INTEGER PRIMARY KEY, product STRING, price INTEGER, is_unit_price BOOLEAN, quantity REAL, unit TEXT);");
+            s.execute("CREATE TABLE IF NOT EXISTS Purchases "
+                    + "(receipt_id INTEGER REFERENCES Receipts ON UPDATE CASCADE ON DELETE CASCADE,"
+                    + " item_id INTEGER REFERENCES Items ON UPDATE CASCADE ON DELETE CASCADE);");
+
+            ResultSet receiptSet = s.executeQuery("SELECT * FROM Receipts");
+
+            Receipt receipt;
+            ReceiptItem item;
+
+            // luetaan sql-rivit kuittiolioihin ja lisätään ne receipts-listaan
+            while (receiptSet.next()) {
+                int id = receiptSet.getInt("id");
+                String store = receiptSet.getString("store");
+                LocalDate date = LocalDate.parse(receiptSet.getString("date"));
+
+                System.out.println("id: " + id);
+                System.out.println("store: " + store);
+                System.out.println("date: " + date);
+
+                receipt = new Receipt(store, date, FXCollections.observableArrayList());
+                receipt.setId(id);
+
+                PreparedStatement p = db.prepareStatement("SELECT * FROM Items I LEFT JOIN Purchases P ON I.id = P.item_id WHERE receipt_id=?;");
+                p.setInt(1, id);
+                ResultSet itemSet = p.executeQuery();
+                // luodaan noudetun taulun sisältö ReceiptItem-olioihin ja lisätään ne
+                // juuri luodulle kuittioliolle
+                while (itemSet.next()) {
+                    int idItem = itemSet.getInt("id");
+                    String product = itemSet.getString("product");
+                    int price = itemSet.getInt("price");
+                    boolean isUnit = itemSet.getBoolean("is_unit_price");
+                    int quantity = itemSet.getInt("quantity");
+                    String unit = itemSet.getString("unit");
+
+                    System.out.println("\t" + idItem + " " + product + " " + price +
+                            " " + isUnit + " " + quantity + " " + unit);
+
+                    item = new ReceiptItem(product, price, isUnit, quantity, unit);
+                    item.setId(idItem);
+                    receipt.addItem(item);
+                }
+
+                this.receipts.add(receipt);
             }
-            
-            this.receipts.add(receipt);
+        } catch (SQLException e) {
+            System.out.println(e);
         }
-        
-        // s.close();
     }
     
     public void save(ObservableList<Receipt> deletedReceipts) throws Exception {
+        try {
+            Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
+            Statement s = db.createStatement();
+            s.execute("PRAGMA foreign_keys = ON;");
 
-        Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
-        
-        // ensin poistetaan tietokannasta sovelluksessa poistetut kuitit
-        for (Receipt deleted : deletedReceipts) {
-            System.out.println("poistettavan id: " + deleted.getId());
-            PreparedStatement pd = db.prepareStatement("DELETE FROM Receipts "
-                    + "WHERE id=?");
-            pd.setInt(1, deleted.getId());
-            pd.execute();
-        }
-        
-        List<ReceiptItem> items;
- 
-        for (Receipt receipt : this.receipts) {
-            
-            if (receipt.getId() < 0) { // kuitti ei vielä ole tietokannassa
-                String store = receipt.getStore();
-                String date = receipt.getDate().toString();
-                items = receipt.getItems();
+            List<ReceiptItem> items;
 
-                PreparedStatement pr = db.prepareStatement("INSERT INTO Receipts (store, date)"
-                        + "VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
-                pr.setString(1, store);
-                pr.setString(2, date);
+            // ensin poistetaan tietokannasta sovelluksessa poistetut kuitit ja niiden tuotteet
+            for (Receipt deleted : deletedReceipts) {
+                System.out.println("poistettavan id: " + deleted.getId());
+                int rid = deleted.getId();
+                PreparedStatement pd1 = db.prepareStatement("DELETE FROM Receipts WHERE id=?;");
+                pd1.setInt(1, rid);
+                pd1.executeUpdate();
 
-                pr.executeUpdate();
-                ResultSet gk = pr.getGeneratedKeys();
-                gk.next();
-                int kuitinId = gk.getInt(1);
-                System.out.println("uusi id: " + kuitinId);
-                pr.close();
-                gk.close();
-                
-                for (ReceiptItem item : items) {
-                    String product = item.getProduct();
-                    int price = item.getTotalPriceCents();
-                    boolean isUnitPrice = item.getIsUnitPrice();
-                    double quantity = item.getQuantity();
-                    String unit = item.getUnit();
-                    System.out.println("tuote: " + product + " " + price + " " +
-                            isUnitPrice + " " + quantity + " " + unit);
-                    
-                    PreparedStatement pi = 
-                            db.prepareStatement("INSERT INTO Items (product, price, is_unit_price, quantity, unit) "
-                            + "VALUES (?,?,?,?,?)",
-                                    Statement.RETURN_GENERATED_KEYS);
-                    pi.setString(1, product);
-                    pi.setInt(2, price);
-                    pi.setBoolean(3, isUnitPrice);
-                    pi.setDouble(4, quantity);
-                    pi.setString(5, unit);
-                    
-                    pi.executeUpdate();
-                    ResultSet rk = pi.getGeneratedKeys();
-                    rk.next();
-                    int tuotteenId = rk.getInt(1);
-                    System.out.println("uusi item lisätty id:llä " + rk.getInt(1));
-                    pi.close();
-                    rk.close();
-                    
-                    PreparedStatement p3 = db.prepareStatement("INSERT INTO receipts_items "
-                            + "VALUES (?,?)");
-                    p3.setInt(1, kuitinId);
-                    p3.setInt(2, tuotteenId);
-                    p3.executeUpdate();
+                for (ReceiptItem item : deleted.getItems()) {
+                    int iid = item.getId();
+                    PreparedStatement pd2 = db.prepareStatement("DELETE FROM Items WHERE id=?;");
+                    pd2.setInt(1, iid);
+                    pd2.executeUpdate();
                 }
-                
-            } else {
-                // käsitellään jo tietokannassa olevat, päivittyneet kuitit
             }
-            
+
+ 
+            for (Receipt receipt : this.receipts) {
+
+                if (receipt.getId() < 0) {
+                    String store = receipt.getStore();
+                    String date = receipt.getDate().toString();
+                    items = receipt.getItems();
+
+                    PreparedStatement pr = db.prepareStatement("INSERT INTO Receipts (store, date)"
+                            + "VALUES (?,?);", Statement.RETURN_GENERATED_KEYS);
+                    pr.setString(1, store);
+                    pr.setString(2, date);
+
+                    pr.executeUpdate();
+                    ResultSet gk = pr.getGeneratedKeys();
+                    gk.next();
+                    int kuitinId = gk.getInt(1);
+                    System.out.println("uusi id: " + kuitinId);
+
+                    for (ReceiptItem item : items) {
+                        String product = item.getProduct();
+                        int price = item.getTotalPriceCents();
+                        boolean isUnitPrice = item.getIsUnitPrice();
+                        double quantity = item.getQuantity();
+                        String unit = item.getUnit();
+                        System.out.println("tuote: " + product + " " + price + " " +
+                                isUnitPrice + " " + quantity + " " + unit);
+
+                        PreparedStatement pi = 
+                                db.prepareStatement("INSERT INTO Items (product, price, is_unit_price, quantity, unit) VALUES (?,?,?,?,?);",
+                                        Statement.RETURN_GENERATED_KEYS);
+                        pi.setString(1, product);
+                        pi.setInt(2, price);
+                        pi.setBoolean(3, isUnitPrice);
+                        pi.setDouble(4, quantity);
+                        pi.setString(5, unit);
+
+                        pi.executeUpdate();
+                        ResultSet rk = pi.getGeneratedKeys();
+                        rk.next();
+                        int tuotteenId = rk.getInt(1);
+                        System.out.println("uusi item lisätty id:llä " + rk.getInt(1));
+
+                        PreparedStatement p3 = db.prepareStatement("INSERT INTO Purchases VALUES (?,?);");
+                        p3.setInt(1, kuitinId);
+                        p3.setInt(2, tuotteenId);
+                        p3.executeUpdate();
+                    } 
+
+                } else {
+                    // käsitellään jo tietokannassa olevat, päivittyneet kuitit
+                }
+            }
+        }
+        catch (Exception e) {
+                System.out.println(e);
         }
     }
     
