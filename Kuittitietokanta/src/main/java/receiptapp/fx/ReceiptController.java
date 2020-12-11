@@ -247,6 +247,7 @@ public class ReceiptController implements Initializable {
      */
     public void addNewReceipt() {
         this.receiptService.clearItems();
+        this.receiptTable.getSelectionModel().clearSelection();
         clearAddFields();
         clearAllFields();
     }
