@@ -12,4 +12,5 @@
 | 3.12. | 9h | Selvitelty aika monta tuntia miksi tableViewit ei toimi odotetusti, lisäksi epäselvää miksi välillä jostain tulee concurrentModificationException. Lopulta hylätty koko branch ja aloitettu käyttämään tableViewejä huolellisemmin |
 | 4.12. | 7h | Jatkettu eilen valittua linjaa, ja nyt toteutettu uudestaan tuotteen lisääminen, muokkaaminen ja poistaminen, ja aloitettu kuitin näyttämistä ja muokkaamista. |
 | 8.12. | 8h | Aloitettu tallennustoiminnallisuuden rakentamista sql:llä. Toteutettu joitain koodikatselmuksessa saatuja korjausehdotuksia. Tehty muita pieniä korjauksia sovellukseen. Korjattu testien ajamisen kanssa ollut ongelma, ja eriytetty käyttöliittymän rakennus omaan pakettiin. | 
-| yht. | 76.5h |
+| 10.12. | 5h | Jatkettu tallennustoiminnallisuuden toteuttamista: nyt kuittien tallentaminen kuittitauluun on jotenkin toteutettu. Kuitit luetaan sovelluksen käynnistyessä tietokannasta ja näytetään käyttöliittymässä.
+| yht. | 81.5h |
