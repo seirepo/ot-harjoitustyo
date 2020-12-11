@@ -20,7 +20,7 @@ public class ReceiptService {
     private ObservableList<ReceiptItem> items;
     private ObservableList<Receipt> receipts;
     private FileReceiptDao fileReceiptDao;
-    private List<Integer> deletedIds;
+    private ObservableList<Receipt> deletedReceipts;
     
     /**
      * Konstruktori luokalle.
@@ -28,7 +28,7 @@ public class ReceiptService {
     public ReceiptService() {
         this.items = FXCollections.observableArrayList();
         this.receipts = FXCollections.observableArrayList();
-        this.deletedIds = new ArrayList<>();
+        this.deletedReceipts = FXCollections.observableArrayList();
         try {
             this.fileReceiptDao = new FileReceiptDao();
             this.receipts = this.fileReceiptDao.getAll();
@@ -100,7 +100,7 @@ public class ReceiptService {
     
     public boolean deleteReceipt(Receipt receipt) {
         if (receipt.getId() > 0) {
-            this.deletedIds.add(receipt.getId());
+            this.deletedReceipts.add(receipt);
         }
         return this.receipts.remove(receipt);
     }
@@ -127,7 +127,8 @@ public class ReceiptService {
     
     public boolean save() {
         try {
-            this.fileReceiptDao.save(this.receipts);
+            this.fileReceiptDao.save(this.deletedReceipts);
+            this.deletedReceipts.clear();
             return true;
         } catch (Exception e) {
             System.out.println("receiptapp.domain.ReceiptService.save(): " + e);

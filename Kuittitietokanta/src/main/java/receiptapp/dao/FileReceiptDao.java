@@ -99,15 +99,22 @@ public class FileReceiptDao implements ReceiptDao {
         // s.close();
     }
     
-    public void save(ObservableList<Receipt> rcpts) throws Exception {
+    public void save(ObservableList<Receipt> deletedReceipts) throws Exception {
 
-        
         Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
-        Statement s = db.createStatement();
+        
+        // ensin poistetaan tietokannasta sovelluksessa poistetut kuitit
+        for (Receipt deleted : deletedReceipts) {
+            System.out.println("poistettavan id: " + deleted.getId());
+            PreparedStatement pd = db.prepareStatement("DELETE FROM Receipts "
+                    + "WHERE id=?");
+            pd.setInt(1, deleted.getId());
+            pd.execute();
+        }
         
         List<ReceiptItem> items;
-        
-        for (Receipt receipt : rcpts) {
+ 
+        for (Receipt receipt : this.receipts) {
             
             if (receipt.getId() < 0) { // kuitti ei vielä ole tietokannassa
                 String store = receipt.getStore();
@@ -122,10 +129,12 @@ public class FileReceiptDao implements ReceiptDao {
                 pr.executeUpdate();
                 ResultSet gk = pr.getGeneratedKeys();
                 gk.next();
-                System.out.println(gk.getInt(1));
+                System.out.println("uusi id: " + gk.getInt(1));
+                
+                // tässä vielä itemien tallennus ja kuitti-item-tauluhomma
+                
             } else {
-                System.out.println("kuitti " + receipt.getStore() + " oli jo tietokannassa "
-                        + "id:llä " + receipt.getId());
+                // käsitellään jo tietokannassa olevat, päivittyneet kuitit
             }
             
         }
@@ -138,6 +147,8 @@ public class FileReceiptDao implements ReceiptDao {
         
     @Override
     public ObservableList<Receipt> getAll() {
+        // palautettavan pitää olla joko deep clone receipts-attribuutista
+        // tai sitten poistaminen täytyy tehdä jotenkin toisin
         return receipts;
     }
     
