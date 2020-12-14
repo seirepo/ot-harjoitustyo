@@ -273,8 +273,6 @@ public class FileReceiptDao implements ReceiptDao {
         
     @Override
     public ObservableList<Receipt> getAll() {
-        // palautettavan pitää olla joko deep clone receipts-attribuutista
-        // tai sitten poistaminen täytyy tehdä jotenkin toisin
         return receipts;
     }
     
