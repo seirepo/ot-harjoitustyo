@@ -3,6 +3,7 @@ package receiptapp.domain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.decimal4j.util.DoubleRounder;
 
 /**
  * Kuitti yhdelle kuitilla olevalle riville.
@@ -30,17 +31,22 @@ public class ReceiptItem {
     public ReceiptItem(String product, double price, boolean isUnitPrice, double quantity, String unit) {
         this.product = product;
         this.isUnitPrice = isUnitPrice;
-        
+                
         if (quantity <= 0) {
             this.quantity = 1;
         } else {
-            this.quantity = quantity;
-        }     
+            double q = HelperFunctions.shiftDouble(DoubleRounder.round(quantity, 3), 3);
+            if (((int) q) == 0) {
+                this.quantity = 0.001;
+            } else {
+                this.quantity = HelperFunctions.shiftDouble(q, -3);
+            }
+        }
         
         if (price < 0) {
             this.totalPrice = 0;
         } else {
-            int cents = (int) (price * 100);
+            int cents = (int) HelperFunctions.shiftDouble(DoubleRounder.round(price, 3), 2); // (int) (price * 100);
             if (cents == 0) {
                 this.totalPrice = 1;
             } else {
@@ -59,18 +65,29 @@ public class ReceiptItem {
         return this.product;
     }
     
+    /**
+     * Palauttaa kokonaishinnan sentteinä.
+     * @return 
+     */
     public int getTotalPriceCents() {
         if (this.isUnitPrice) {
-            return (int) (this.totalPrice * this.quantity);
+            int cents = (int) (this.totalPrice * this.quantity);
+            if (cents == 0) return 1;
+            else return cents;
         }
         return this.totalPrice;
     }
     
+    /**
+     * Palauttaa tuotteen kokonaishinnan. Huomioi tarvittaessa kappalemäärän.
+     * @return 
+     */
     public double getTotalPrice() {
         if (this.isUnitPrice) {
-            return this.totalPrice * this.quantity / 100.0;
+            // return this.totalPrice * this.quantity / 100.0;
+            return HelperFunctions.shiftDouble(this.totalPrice * this.quantity, -2);
         }
-        double sum = this.totalPrice / 100.0;
+        double sum = HelperFunctions.shiftDouble(this.totalPrice, -2); // this.totalPrice / 100.0;
         return sum;
     }
     
@@ -78,6 +95,10 @@ public class ReceiptItem {
         return this.isUnitPrice;
     }
     
+    /**
+     * Palauttaa tuotteen yksikköhinnan kokonaishinnasta laskettuna.
+     * @return 
+     */
     public double getUnitPrice() {
         double val = getTotalPrice() / this.quantity;
         val = (int) (val * 100);
@@ -87,7 +108,7 @@ public class ReceiptItem {
     public double getQuantity() {
         return this.quantity;
     }
-    
+        
     public String getUnit() {
         return this.unit;
     }
@@ -104,6 +125,11 @@ public class ReceiptItem {
         this.product = product;
     }
     
+    /**
+     * Asettaa tuotteelle uuden kokonaishinnan. Varmistaa ettei asetettava hinta
+     * ole negatiivista tai pyöristy nollaan.
+     * @param price uusi hinta
+     */
     public void setTotalPrice(double price) {
         if (price <= 0) return;
         int cents = (int) (price * 100);
@@ -120,7 +146,13 @@ public class ReceiptItem {
     
     public void setQuantity(double quantity) {
         if (quantity > 0) {
-            this.quantity = quantity;
+            double q = HelperFunctions.shiftDouble(DoubleRounder.round(quantity, 3), 3);
+            if (((int) q) == 0) {
+                this.quantity = 0.001;
+            } else {
+                this.quantity = HelperFunctions.shiftDouble(q, -3);
+            }
+            //this.quantity = quantity;
         }
     }
     
@@ -147,7 +179,7 @@ public class ReceiptItem {
      */
     public String getItem() {
         String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
-                this.product, HelperFunctions.centsToEuros(this.totalPrice), this.quantity, this.unit,
+                this.product, HelperFunctions.shiftDouble(this.totalPrice, -2), this.quantity, this.unit,
                 getUnitPrice(), this.unit);
         return s;
     }

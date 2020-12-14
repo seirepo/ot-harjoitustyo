@@ -142,14 +142,32 @@ public class ReceiptItemTest {
     }
     
     @Test
-    public void unitCannotBeSetOtherThanAllowed() {
-        item.setUnit("hp");
-        assertEquals("pc", item.getUnit());
-    }
-    
-    @Test
     public void setUnitDoesNotChangeUnitIfUnitIsNotLegal() {
         item.setUnit("dkg");
         assertEquals("pc", item.getUnit());
+    }
+        
+    @Test
+    public void quantityRoundsToThreeDecimals() {
+        item.setQuantity(0.56785345);
+        assertEquals(0.568, item.getQuantity(), 0.001);
+        item.setQuantity(0.56742);
+        assertEquals(0.567, item.getQuantity(), 0.001);
+    }
+    
+    @Test
+    public void quantityIsSetToMinimumIfItRoundsToZero() {
+        item.setQuantity(0.000000001);
+        assertEquals(0.001, item.getQuantity(), 0.001);
+    }
+    
+    @Test
+    public void constructorSetsQuantityAndPriceToMinimumIfItRoundsToZero() {
+        item = new ReceiptItem("name", 0.014, true, 0.00002, "kg");
+        assertEquals(1, item.getTotalPriceCents());
+        assertEquals(0.001, item.getQuantity(), 0.001);
+        item = new ReceiptItem("name", 0.00001241, false, 5, "pc");
+        assertEquals(0.01, item.getTotalPrice(), 0.001);
+        assertEquals(0.001, item.getUnitPrice(), 0.001);
     }
 }
