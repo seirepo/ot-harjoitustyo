@@ -82,7 +82,7 @@ public class FileReceiptDao implements ReceiptDao {
                 while (itemSet.next()) {
                     int idItem = itemSet.getInt("id");
                     String product = itemSet.getString("product");
-                    int price = itemSet.getInt("price");
+                    double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
                     boolean isUnit = itemSet.getBoolean("is_unit_price");
                     int quantity = itemSet.getInt("quantity");
                     String unit = itemSet.getString("unit");
