@@ -30,6 +30,7 @@ public class ReceiptService {
         this.items = FXCollections.observableArrayList();
         this.receipts = FXCollections.observableArrayList();
         this.deletedReceipts = FXCollections.observableArrayList();
+        this.deletedItems = FXCollections.observableArrayList();
         try {
             this.fileReceiptDao = new FileReceiptDao();
             this.receipts = this.fileReceiptDao.getAll();
@@ -96,6 +97,9 @@ public class ReceiptService {
     }
     
     public boolean deleteItem(ReceiptItem item) {
+        if (item.getId() > 0) {
+            this.deletedItems.add(item);
+        }
         return this.items.remove(item);
     }
     

@@ -128,6 +128,12 @@ public class FileReceiptDao implements ReceiptDao {
             }
 
             // TODO: tee jotain tuotteille jotka on poistettu muuten vaan!
+            for (ReceiptItem item : deletedItems) {
+                int iid = item.getId();
+                PreparedStatement p = db.prepareStatement("DELETE FROM Items WHERE id=?;");
+                p.setInt(1,iid);
+                p.executeUpdate();
+            }
             
  
             for (Receipt receipt : this.receipts) {
@@ -256,7 +262,7 @@ public class FileReceiptDao implements ReceiptDao {
         }
         catch (Exception e) {
             // heitä oikeesti exception
-            System.out.println(e);
+            System.out.println("FileReceiptDao.save() koko metodi: " + e);
         }
     }
     
