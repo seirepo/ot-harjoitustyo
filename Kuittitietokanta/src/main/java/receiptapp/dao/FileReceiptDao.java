@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import receiptapp.domain.HelperFunctions;
 import receiptapp.domain.Receipt;
 import receiptapp.domain.ReceiptItem;
 
@@ -89,7 +90,8 @@ public class FileReceiptDao implements ReceiptDao {
                     System.out.println("\t" + idItem + " " + product + " " + price +
                             " " + isUnit + " " + quantity + " " + unit);
 
-                    item = new ReceiptItem(product, price, isUnit, quantity, unit);
+                    item = new ReceiptItem(product, 0, isUnit, quantity, unit);
+                    item.setTotalPrice(price);
                     item.setId(idItem);
                     receipt.addItem(item);
                 }
@@ -101,7 +103,7 @@ public class FileReceiptDao implements ReceiptDao {
         }
     }
     
-    public void save(ObservableList<Receipt> deletedReceipts) throws Exception {
+    public void save(ObservableList<Receipt> deletedReceipts, ObservableList<ReceiptItem> deletedItems) throws Exception {
         try {
             Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
             Statement s = db.createStatement();
@@ -125,14 +127,16 @@ public class FileReceiptDao implements ReceiptDao {
                 }
             }
 
+            // TODO: tee jotain tuotteille jotka on poistettu muuten vaan!
+            
  
             for (Receipt receipt : this.receipts) {
+                int receiptId = receipt.getId();
+                String store = receipt.getStore();
+                String date = receipt.getDate().toString();
+                items = receipt.getItems();
 
-                if (receipt.getId() < 0) {
-                    String store = receipt.getStore();
-                    String date = receipt.getDate().toString();
-                    items = receipt.getItems();
-
+                if (receiptId < 0) {
                     PreparedStatement pr = db.prepareStatement("INSERT INTO Receipts (store, date)"
                             + "VALUES (?,?);", Statement.RETURN_GENERATED_KEYS);
                     pr.setString(1, store);
@@ -175,12 +179,84 @@ public class FileReceiptDao implements ReceiptDao {
                     } 
 
                 } else {
-                    // käsitellään jo tietokannassa olevat, päivittyneet kuitit
+                    // käsitellään jo tietokannassa olevat, päivittyneet kuitit. niiden id > 0!
+                    try {
+                        PreparedStatement p = db.prepareStatement("UPDATE Receipts "
+                                + "SET store=?, date=? "
+                                + "WHERE id=?");
+                        p.setString(1, store);
+                        p.setString(2, date);
+                        p.setInt(3, receiptId);
+                        p.executeUpdate();
+                    } catch (Exception e) {
+                        // heitä oikeesti exception
+                        System.out.println("FileReceiptDao.save() updateReceipts: " + e);
+                    }
+                                        
+                    // lisätään kuitille lisätyt tuotteet tai päivitetään olemassaolevat
+                    int itemId;
+                    for (ReceiptItem item : items) {
+                        itemId = item.getId();
+                        if (itemId < 0) {
+                            try {
+                                String product = item.getProduct();
+                                int price = item.getTotalPriceCents();
+                                boolean isUnitPrice = item.getIsUnitPrice();
+                                double quantity = item.getQuantity();
+                                String unit = item.getUnit();
+                                
+                                PreparedStatement p = db.prepareStatement("INSERT INTO Items (product, price, is_unit_price, quantity, unit) "
+                                        + "VALUES (?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
+                                p.setString(1, product);
+                                p.setInt(2, price);
+                                p.setBoolean(3, isUnitPrice);
+                                p.setDouble(4, quantity);
+                                p.setString(5, unit);
+                                p.executeUpdate();
+                                ResultSet rs = p.getGeneratedKeys();
+                                rs.next();
+                                int newItemId = rs.getInt(1);
+                                
+                                // aika sama copypaste kuin ylempänäkin uutta kuittia lisätessä
+                                PreparedStatement ps = db.prepareStatement("INSERT INTO Purchases VALUES(?,?);");
+                                ps.setInt(1, receiptId);
+                                ps.setInt(2, newItemId);
+                                ps.executeUpdate();
+                            } catch (Exception e) {
+                                System.out.println("FileReceiptDao.save() update new items: " + e + 
+                                        "\nadding item " + item.getProduct());
+                            }
+                        } else {
+                            try {
+                                String product = item.getProduct();
+                                int price = item.getTotalPriceCents();
+                                boolean isUnitPrice = item.getIsUnitPrice();
+                                double quantity = item.getQuantity();
+                                String unit = item.getUnit();
+
+                                PreparedStatement p = db.prepareStatement("UPDATE Items " +
+                                        "SET product=?, price=?, is_unit_price=?, quantity=?, unit=? "
+                                        + "WHERE id=?");
+                                p.setString(1, product);
+                                p.setInt(2, price);
+                                p.setBoolean(3, isUnitPrice);
+                                p.setDouble(4, quantity);
+                                p.setString(5, unit);
+                                p.setInt(6, itemId);
+                                p.executeUpdate();
+                            } catch (Exception e) {
+                                // heitä exception
+                                System.out.println("FileReceiptDao.save() update items that already exist: " + e +
+                                        "\nadding item " + item.getProduct());
+                            }
+                        }
+                    }
                 }
             }
         }
         catch (Exception e) {
-                System.out.println(e);
+            // heitä oikeesti exception
+            System.out.println(e);
         }
     }
     
