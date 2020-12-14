@@ -174,7 +174,6 @@ public class ReceiptController implements Initializable {
     /**
      * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
      * täytetty oikein.
-     * TODO: error-dialogi jos ei
      */
     public void addOrSaveItem() {
         String error = checkAddItemFields();
