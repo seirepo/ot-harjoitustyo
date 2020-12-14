@@ -21,6 +21,7 @@ public class ReceiptService {
     private ObservableList<Receipt> receipts;
     private FileReceiptDao fileReceiptDao;
     private ObservableList<Receipt> deletedReceipts;
+    private ObservableList<ReceiptItem> deletedItems;
     
     /**
      * Konstruktori luokalle.
@@ -127,7 +128,7 @@ public class ReceiptService {
     
     public boolean save() {
         try {
-            this.fileReceiptDao.save(this.deletedReceipts);
+            this.fileReceiptDao.save(this.deletedReceipts, this.deletedItems);
             this.deletedReceipts.clear();
             return true;
         } catch (Exception e) {
