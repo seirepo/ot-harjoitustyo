@@ -127,13 +127,12 @@ public class ReceiptItemTest {
     }
     
     @Test
-    public void settingIsUnitPriceFalseAffectsUnitPricec() {
+    public void settingIsUnitPriceFalseAffectsUnitPrice() {
         item = new ReceiptItem("name", 14.75, true, 5, "pc");
         assertEquals(14.75, item.getUnitPrice(), 0.01);
         item.setIsUnitPrice(false);
         assertEquals(2.95, item.getUnitPrice(), 0.01);
     }
-    
     
     @Test
     public void quantityCannotBeSetZeroOrLess() {
