@@ -51,25 +51,6 @@ public class FileReceiptDao implements ReceiptDao {
         } else {
             System.out.println("\ttaulujen luonti ei onnistunut");
         }
-//        Connection db = DriverManager.getConnection("jdbc:sqlite:receipts.db");
-//        try {
-//            Statement s = db.createStatement();
-//            s.execute("PRAGMA foreign_keys = ON;");
-//            s.execute("CREATE TABLE IF NOT EXISTS Receipts (id INTEGER PRIMARY KEY, store TEXT, date TEXT);");
-//            s.execute("CREATE TABLE IF NOT EXISTS Items (id INTEGER PRIMARY KEY, product STRING, price INTEGER, is_unit_price BOOLEAN, quantity REAL, unit TEXT);");
-//            s.execute("CREATE TABLE IF NOT EXISTS Purchases "
-//                    + "(receipt_id INTEGER REFERENCES Receipts ON UPDATE CASCADE ON DELETE CASCADE,"
-//                    + " item_id INTEGER REFERENCES Items ON UPDATE CASCADE ON DELETE CASCADE);");
-//
-//            ResultSet receiptSet = s.executeQuery("SELECT * FROM Receipts");
-//
-//            Receipt receipt;
-//            ReceiptItem item;
-//        } catch (Exception e) {
-//            System.out.println("FileReceiptDao.<init>(): " + e);
-//        } finally {
-//            db.close();
-//        }
     }
     
     public boolean createTables() throws SQLException {
