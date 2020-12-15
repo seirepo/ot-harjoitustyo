@@ -56,7 +56,7 @@ public class FileReceiptDaoTest {
         } catch (Exception e) {
             System.out.println("FileReceiptDaoTest.databaseExists(): " + e);
         }
-    }  
+    }
     
     @Test
     public void receiptsCanBeEdited() throws Exception {
