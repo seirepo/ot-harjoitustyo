@@ -108,7 +108,7 @@ public class ReceiptItem {
 //            return DoubleRounder.round(val/this.quantity, 3);
         } else {
             double val = DoubleRounder.round(getTotalPrice() / this.quantity, 3);
-            System.out.println("ReceiptItem.getUnitPrice(); val: " + val);
+            //System.out.println("ReceiptItem.getUnitPrice(); val: " + val);
             return val;
         }
         //double val = getTotalPrice() / this.quantity;

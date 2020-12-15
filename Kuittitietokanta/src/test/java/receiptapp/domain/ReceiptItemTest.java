@@ -132,6 +132,7 @@ public class ReceiptItemTest {
         assertEquals(14.75, item.getUnitPrice(), 0.01);
         item.setIsUnitPrice(false);
         assertEquals(2.95, item.getUnitPrice(), 0.01);
+        assertEquals(14.75, item.getTotalPrice(), 0.01);
     }
     
     @Test
