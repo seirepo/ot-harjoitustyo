@@ -53,7 +53,7 @@ public class ReceiptController implements Initializable {
     @FXML private Button addOrSaveReceiptBtn;
     @FXML private Button cancelEditItemBtn;
     @FXML private CheckBox unitPriceCheck;
-    @FXML private MenuItem saveMenuItem;
+//    @FXML private MenuItem saveMenuItem;
 
     
     @FXML private TableView<ReceiptItem> itemTable;
@@ -160,10 +160,10 @@ public class ReceiptController implements Initializable {
         deleteReceipt();
     }
     
-    @FXML
-    void handleSave(ActionEvent event) {
-        save();
-    }
+//    @FXML
+//    void handleSave(ActionEvent event) {
+//        save();
+//    }
     
     @FXML
     void HandleCheckDouble(KeyEvent event) {
@@ -323,18 +323,18 @@ public class ReceiptController implements Initializable {
         updateTotal();
     }
     
-    /**
-     * Tallennetaan kuitit tietokantaan. Jos tallennus epäonnistuu, avautuu
-     * virhedialogi.
-     * TODO: tarkista onko joku muokkaus kesken?
-     */
-    public void save() {
-        if (this.receiptService.save()) {
-            System.out.println("receiptapp.fx.ReceiptController.save(): " + "tallennus ok");
-        } else {
-            System.out.println("receiptapp.fx.ReceiptController.save(): " + "tallennus ei onnistunut");
-        }
-    }
+//    /**
+//     * Tallennetaan kuitit tietokantaan. Jos tallennus epäonnistuu, avautuu
+//     * virhedialogi.
+//     * TODO: tarkista onko joku muokkaus kesken?
+//     */
+//    public void save() {
+//        if (this.receiptService.save()) {
+//            System.out.println("receiptapp.fx.ReceiptController.save(): " + "tallennus ok");
+//        } else {
+//            System.out.println("receiptapp.fx.ReceiptController.save(): " + "tallennus ei onnistunut");
+//        }
+//    }
     
     /**
      * Päivitetään kuitin loppusumma.

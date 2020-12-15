@@ -3,16 +3,14 @@ package receiptapp.dao;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import receiptapp.domain.HelperFunctions;
 import receiptapp.domain.Receipt;
 import receiptapp.domain.ReceiptItem;
 
@@ -80,6 +78,9 @@ public class FileReceiptDao implements ReceiptDao {
         } finally {
             db.close();
         }
+        
+        //List<Receipt> newReceipts = this.receipts.stream().filter(r -> r.getId() < 0).collect(Collectors.toList());
+        
     }
     
     public int getLatestId() {

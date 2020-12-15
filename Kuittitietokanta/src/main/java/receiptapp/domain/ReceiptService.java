@@ -55,8 +55,8 @@ public class ReceiptService {
         Receipt receipt = new Receipt(store, date, receiptItems);
         this.receipts.add(receipt);
         
-        System.out.println("receiptapp.domain.ReceiptService.addReceiptItem(): "
-                + "lisätty kuitti id:llä " + receipt.getId());
+//        System.out.println("receiptapp.domain.ReceiptService.addReceiptItem(): "
+//                + "lisätty kuitti id:llä " + receipt.getId());
         
         this.items.clear();
         return true;
@@ -130,16 +130,16 @@ public class ReceiptService {
         return true;
     }
     
-    public boolean save() {
-        try {
-            this.fileReceiptDao.save(this.deletedReceipts, this.deletedItems);
-            this.deletedReceipts.clear();
-            return true;
-        } catch (Exception e) {
-            System.out.println("receiptapp.domain.ReceiptService.save(): " + e);
-            return false;
-        }
-    }
+//    public boolean save() {
+//        try {
+//            this.fileReceiptDao.save(this.deletedReceipts, this.deletedItems);
+//            this.deletedReceipts.clear();
+//            return true;
+//        } catch (Exception e) {
+//            System.out.println("receiptapp.domain.ReceiptService.save(): " + e);
+//            return false;
+//        }
+//    }
     
     public double getTotal() {
         double sum = 0;

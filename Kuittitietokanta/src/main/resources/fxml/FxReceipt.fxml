@@ -7,9 +7,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -163,19 +160,6 @@
                <bottom>
                   <HBox BorderPane.alignment="CENTER">
                      <children>
-                        <MenuBar>
-                          <menus>
-                            <Menu mnemonicParsing="false" text="File">
-                              <items>
-                                <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#handleSave" text="save" />
-                                    <MenuItem mnemonicParsing="false" text="load" />
-                              </items>
-                            </Menu>
-                          </menus>
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" top="5.0" />
-                           </HBox.margin>
-                        </MenuBar>
                         <Button fx:id="addNewReceiptBtn" mnemonicParsing="false" onAction="#handleAddNewReceipt" text="Add receipt">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" top="5.0" />
