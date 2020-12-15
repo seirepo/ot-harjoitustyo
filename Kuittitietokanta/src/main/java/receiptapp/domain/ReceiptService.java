@@ -32,7 +32,7 @@ public class ReceiptService {
         this.deletedReceipts = FXCollections.observableArrayList();
         this.deletedItems = FXCollections.observableArrayList();
         try {
-            this.fileReceiptDao = new FileReceiptDao();
+            this.fileReceiptDao = new FileReceiptDao("receipts.db");
             this.receipts = this.fileReceiptDao.getAll();
         } catch (Exception e) {
             System.out.println("receiptapp.domain.ReceiptService.<init>(): " + e);
