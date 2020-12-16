@@ -63,25 +63,43 @@ public class FileReceiptDaoTest {
     
     @Test
     public void receiptCanBeSavedToDatabase() throws Exception {
-        Receipt r = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
+        Receipt receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
 
-        assertTrue(testDao.saveNewReceipt(r));
-        Receipt rr = getReceipt(r.getId());
-        assertTrue(rr != null);
-        assertEquals(rr.getId(), r.getId());
-        assertEquals(rr.getStore(), r.getStore());
-        assertEquals(rr.getDate(), r.getDate());
+        assertTrue(testDao.saveNewReceipt(receipt));
+        Receipt dbReceipt = getReceipt(receipt.getId());
+        assertTrue(dbReceipt != null);
+        assertEquals(dbReceipt.getId(), receipt.getId());
+        assertEquals(dbReceipt.getStore(), receipt.getStore());
+        assertEquals(dbReceipt.getDate(), receipt.getDate());
     }
     
     @Test
-    public void receiptsCanBeEdited() throws Exception {
-
-    }       
+    public void receiptsCanBeDeleted() throws Exception {
+        Receipt receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
+        
+        testDao.saveNewReceipt(receipt);
+        assertEquals(1, testDao.deleteReceipt(receipt));
+        assertEquals(null, getReceipt(receipt.getId()));
+    }
+    
+    @Test
+    public void receiptsNotSavedCannotBeDeleted() throws Exception {
+        Receipt receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
+        assertEquals(0, testDao.deleteReceipt(receipt));
+    }
+    
+    
+    
     
     @After
     public void tearDown() {
         testFile.delete();
     }
+    
+    
+    
+    
+    
     
     public Receipt getReceipt(int receiptId) {
         Receipt r = null;

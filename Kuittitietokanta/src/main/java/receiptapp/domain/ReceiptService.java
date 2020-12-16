@@ -100,11 +100,21 @@ public class ReceiptService {
         return this.items.remove(item);
     }
     
+    // ongelmia tiedossa:
     public boolean deleteReceipt(Receipt receipt) {
-        if (receipt.getId() > 0) {
-            this.deletedReceipts.add(receipt);
+        boolean success = false;
+        try {
+            int result = this.fileReceiptDao.deleteReceipt(receipt);
+            if (result > 0) {
+                this.receipts.remove(receipt);
+                success = true;
+            }
+        } catch (Exception e) {
+            return false;
+        } finally {
+            System.out.println(this.receipts.contains(receipt));
         }
-        return this.receipts.remove(receipt);
+        return success;
     }
     
     public ObservableList<Receipt> getReceipts() {
