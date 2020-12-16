@@ -188,32 +188,32 @@ public class FileReceiptDao implements ReceiptDao {
         return this.dbFile;
     }
    
-    public Receipt getReceipt(int receiptId) throws SQLException {
-        Connection db = DriverManager.getConnection(dbFileName);
-        try {
-            PreparedStatement p = db.prepareStatement("SELECT * FROM Receipts "
-                    + "WHERE id=?");
-            p.setInt(1, receiptId);
-            ResultSet rs = p.executeQuery();
-            
-            if (rs.next()) {
-                int id = rs.getInt("id");
-                String store = rs.getString("store");
-                String date = rs.getString("date");
-                return new Receipt(store, LocalDate.parse(date), FXCollections.observableArrayList());
-            } else {
-                System.out.println("??no data??");
-                return null;
-            }
-            
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.getReceipt(): " + e);
-            return null;
-        } finally {
-            db.close();
-        }
-        
-    }
+//    public Receipt getReceipt(int receiptId) throws SQLException {
+//        Receipt r = null;
+//        Connection db = DriverManager.getConnection(dbFileName);
+//        try {
+//            PreparedStatement p = db.prepareStatement("SELECT * FROM Receipts "
+//                    + "WHERE id=?");
+//            p.setInt(1, receiptId);
+//            ResultSet rs = p.executeQuery();
+//            
+//            if (rs.next()) {
+//                int id = rs.getInt("id");
+//                String store = rs.getString("store");
+//                String date = rs.getString("date");
+//                r = new Receipt(store, LocalDate.parse(date), FXCollections.observableArrayList());
+//                return r;
+//            } else {
+//                System.out.println("??no data??");
+//            }
+//            
+//        } catch (Exception e) {
+//            System.out.println("FileReceiptDao.getReceipt(): " + e);
+//        } finally {
+//            db.close();
+//        }
+//        return r;
+//    }
     
     // not working
 //    public boolean databaseContainsReceipt(Receipt receipt) throws SQLException {

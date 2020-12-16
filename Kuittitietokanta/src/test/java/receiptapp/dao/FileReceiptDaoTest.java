@@ -3,7 +3,9 @@ package receiptapp.dao;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,7 +50,7 @@ public class FileReceiptDaoTest {
     @Test
     public void databaseExists() {
         assertTrue(testFile.exists());
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + testFileName)) {
+        try (Connection conn = getConnection()) {
             ResultSet rs = conn.getMetaData().getTables(null, null, null, null);
             assertTrue(rs.next());
             assertTrue(rs.next());
@@ -60,19 +62,15 @@ public class FileReceiptDaoTest {
     }
     
     @Test
-    public void receiptCanBeSavedToDatabase() {
+    public void receiptCanBeSavedToDatabase() throws Exception {
         Receipt r = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
 
-        try {
             assertTrue(testDao.saveNewReceipt(r));
-            Receipt rr = testDao.getReceipt(r.getId());
+            Receipt rr = getReceipt(r.getId());
             assertTrue(rr != null);
             assertEquals(rr.getId(), r.getId());
             assertEquals(rr.getStore(), r.getStore());
             assertEquals(rr.getDate(), r.getDate());
-        } catch (Exception e) {
-            
-        }
     }
     
     @Test
@@ -83,5 +81,36 @@ public class FileReceiptDaoTest {
     @After
     public void tearDown() {
         testFile.delete();
+    }
+    
+    public Receipt getReceipt(int receiptId) {
+        Receipt r = null;
+        
+        try (Connection db = getConnection()) {
+            PreparedStatement p = db.prepareStatement("SELECT * FROM Receipts "
+                    + "WHERE id=?");
+            p.setInt(1, receiptId);
+            ResultSet rs = p.executeQuery();
+            
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String store = rs.getString("store");
+                String date = rs.getString("date");
+                r = new Receipt(store, LocalDate.parse(date), FXCollections.observableArrayList());
+                r.setId(id);
+                return r;
+            } else {
+                System.out.println("??no data??");
+            }
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.getReceipt(): " + e);
+        }
+        
+        return r;
+    }
+    
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection("jdbc:sqlite:" + testFileName);
     }
 }
