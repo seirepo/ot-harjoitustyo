@@ -49,10 +49,6 @@ public class FileReceiptDaoTest {
         testFile = testDao.getFile();
         item = new ReceiptItem("product_name", 10.5, true, 0.5, "kg");
         receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
-        Receipt r1 = new Receipt("store1", LocalDate.parse("2020-10-10"), FXCollections.observableArrayList());
-        Receipt r2 = new Receipt("store2", LocalDate.parse("2020-10-05"), FXCollections.observableArrayList());
-        Receipt r3 = new Receipt("store3", LocalDate.parse("2020-10-03"), FXCollections.observableArrayList());
-        testReceipts.add(r1); testReceipts.add(r2); testReceipts.add(r3);        
     }
    
     @Test
