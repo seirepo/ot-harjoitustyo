@@ -45,7 +45,7 @@ public class ReceiptService {
      * @param date kuitin päivämäärä
      * @return true jos lisäys onnistuu, false jos ei
      */
-    public boolean addReceipt(String store, LocalDate date) { //throws Exception {
+    public boolean addReceipt(String store, LocalDate date) {
         ObservableList<ReceiptItem> receiptItems = FXCollections.observableArrayList();
         
         for (ReceiptItem item : this.items) {
@@ -56,8 +56,6 @@ public class ReceiptService {
         try {
             this.fileReceiptDao.saveReceipt(receipt);
         } catch (Exception e) {
-            // avaa error-dialogi tms. heitä virhe eteenpäin
-            //throw new Exception("virhe kuitin tallennuksessa: " + e);
             return false;
         }
         this.receipts.add(receipt);
