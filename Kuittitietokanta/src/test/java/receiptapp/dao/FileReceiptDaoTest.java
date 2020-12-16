@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.After;
@@ -17,7 +18,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import receiptapp.domain.HelperFunctions;
 import receiptapp.domain.Receipt;
+import receiptapp.domain.ReceiptItem;
 
 /**
  *
@@ -31,6 +34,9 @@ public class FileReceiptDaoTest {
     String testFileName;
     FileReceiptDao testDao;
     ObservableList<Receipt> testReceipts;
+    ReceiptItem item;
+    Receipt receipt;
+    Random rand = new Random();
     
     public FileReceiptDaoTest() {
     }
@@ -41,6 +47,8 @@ public class FileReceiptDaoTest {
         testDao = new FileReceiptDao(testFileName);
         testReceipts = testDao.getAll();
         testFile = testDao.getFile();
+        item = new ReceiptItem("product_name", 10.5, true, 0.5, "kg");
+        receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
         Receipt r1 = new Receipt("store1", LocalDate.parse("2020-10-10"), FXCollections.observableArrayList());
         Receipt r2 = new Receipt("store2", LocalDate.parse("2020-10-05"), FXCollections.observableArrayList());
         Receipt r3 = new Receipt("store3", LocalDate.parse("2020-10-03"), FXCollections.observableArrayList());
@@ -88,8 +96,32 @@ public class FileReceiptDaoTest {
         assertEquals(0, testDao.deleteReceipt(receipt));
     }
     
-    
-    
+    @Test
+    public void saveReceiptItemsSavesItemsToDB() throws Exception {
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        assertEquals(0, testDao.saveNewReceiptItems(items, 1));
+        ReceiptItem randItem1 = getRandomItem();
+        ReceiptItem randItem2 = getRandomItem();
+        items.add(randItem1);
+        items.add(randItem2);
+        
+        assertEquals(2, testDao.saveNewReceiptItems(items, 1));
+        
+        ReceiptItem dbItem1 = getItem(randItem1.getId());
+        ReceiptItem dbItem2 = getItem(randItem2.getId());
+        
+        assertEquals(dbItem1.getId(), randItem1.getId());
+        assertEquals(dbItem1.getProduct(), randItem1.getProduct());
+        assertEquals(dbItem1.getIsUnitPrice(), randItem1.getIsUnitPrice());
+        assertEquals(dbItem1.getQuantity(), randItem1.getQuantity(), 0.01);
+        assertEquals(dbItem1.getUnit(), randItem1.getUnit());
+        
+        assertEquals(dbItem2.getId(), randItem2.getId());
+        assertEquals(dbItem2.getProduct(), randItem2.getProduct());
+        assertEquals(dbItem2.getIsUnitPrice(), randItem2.getIsUnitPrice());
+        assertEquals(dbItem2.getQuantity(), randItem2.getQuantity(), 0.01);
+        assertEquals(dbItem2.getUnit(), randItem2.getUnit());
+    }
     
     @After
     public void tearDown() {
@@ -118,7 +150,7 @@ public class FileReceiptDaoTest {
                 r.setId(id);
                 return r;
             } else {
-                System.out.println("??no data??");
+                System.out.println("getReceipt: no data");
             }
             
         } catch (Exception e) {
@@ -128,7 +160,52 @@ public class FileReceiptDaoTest {
         return r;
     }
     
+    public ReceiptItem getItem(int itemId) {
+        ReceiptItem i = null;
+        
+        try (Connection db = getConnection()) {
+            PreparedStatement p = db.prepareStatement("SELECT * FROM Items "
+                    + "WHERE id=?");
+            p.setInt(1, itemId);
+            ResultSet rs = p.executeQuery();
+            
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String product = rs.getString("product");
+                int price = rs.getInt("price");
+                boolean isUnitPrice = rs.getBoolean("is_unit_price");
+                double quantity = rs.getDouble("quantity");
+                String unit = rs.getString("unit");
+                
+                i = new ReceiptItem(product, HelperFunctions.shiftDouble(price, -2), isUnitPrice, quantity, unit);
+                i.setId(id);
+                return i;
+            } else {
+                System.out.println("getItem: no data");
+            }
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.getReceipt(): " + e);
+        }
+        
+        return i;
+    }
+    
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:sqlite:" + testFileName);
+    }
+    
+    public ReceiptItem getRandomItem() {
+        double price = rand.nextInt(11) + 1 + rand.nextDouble();
+        double quantity = rand.nextInt(5) + 1 + rand.nextDouble();
+        String product = "product_" + rand.nextInt(51);
+        int u = rand.nextInt(3);
+        String unit = "pc";
+        if (u % 3 == 0) {
+            unit = "kg";
+        } else if (u % 3 == 1) {
+            unit = "l";
+        }
+        return new ReceiptItem(product, price, rand.nextBoolean(), quantity, unit);
     }
 }

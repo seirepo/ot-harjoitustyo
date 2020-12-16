@@ -155,8 +155,10 @@ public class FileReceiptDao implements ReceiptDao {
             ResultSet rs = p.getGeneratedKeys();
             rs.next();
             int receiptId = rs.getInt(1);
-            System.out.println("uusi id: " + receiptId);
+            System.out.println("uuden kuitin uusi id: " + receiptId);
             receipt.setId(receiptId);
+            
+            saveNewReceiptItems(receipt.getItems(), receiptId);
             
         } catch (Exception e) {
             System.out.println("FileReceiptDao.saveNewReceipt(): " + e);
@@ -165,6 +167,44 @@ public class FileReceiptDao implements ReceiptDao {
             db.close();
         }
         return true;
+    }
+    
+    public int saveNewReceiptItems(ObservableList<ReceiptItem> items, int receiptId) throws SQLException {
+        //boolean success = false;
+        int affectedRows = 0;
+        Connection db = DriverManager.getConnection(dbFileName);
+        try {
+            Statement s = db.createStatement();
+            s.execute("PRAGMA foreign_keys = ON;");
+            
+            PreparedStatement p;
+            for (ReceiptItem item : items) {
+                p = db.prepareStatement("INSERT INTO Items (product, price, is_unit_price, quantity, unit) "
+                        + "VALUES (?, ?, ?, ?, ?);",
+                        Statement.RETURN_GENERATED_KEYS);
+                p.setString(1, item.getProduct());
+                p.setInt(2, item.getTotalPriceCents());
+                p.setBoolean(3, item.getIsUnitPrice());
+                p.setDouble(4, item.getQuantity());
+                p.setString(5, item.getUnit());
+                affectedRows += p.executeUpdate();
+                
+                ResultSet rs = p.getGeneratedKeys();
+                rs.next();
+                int itemId = rs.getInt(1);
+                item.setId(itemId);
+                System.out.println("uuden itemin id: " + itemId);
+                
+            }                
+            return affectedRows;
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.saveNewReceiptItems(): " + e);
+        } finally {
+            db.close();
+        }
+        //return success;
+        return affectedRows;
     }
     
     public int deleteReceipt(Receipt receipt) throws SQLException {
