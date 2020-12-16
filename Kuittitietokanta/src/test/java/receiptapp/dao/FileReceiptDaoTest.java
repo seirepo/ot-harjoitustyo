@@ -137,23 +137,22 @@ public class FileReceiptDaoTest {
             assertEquals(1, pairs.getInt("receipt_id"));
             assertEquals(2, pairs.getInt("item_id"));
             
-            p = db.prepareStatement("SELECT * FROM Purchases WHERE receipt_id=1 AND item_id=4");
+            p = db.prepareStatement("SELECT * FROM Purchases WHERE receipt_id=1 AND item_id=4;");
             pairs = p.executeQuery();
             
-            assertTrue(pairs.next());
-            pairs.previous();
             assertEquals(1, pairs.getInt("receipt_id"));
             assertEquals(4, pairs.getInt("item_id"));
             
             p = db.prepareStatement("SELECT * FROM Purchases WHERE receipt_id=2");
             pairs = p.executeQuery();
+            pairs.next();
             assertEquals(2, pairs.getInt("receipt_id"));
             assertEquals(4, pairs.getInt("item_id"));
             assertFalse(pairs.next());
             
             p = db.prepareStatement("SELECT * FROM Purchases WHERE receipt_id=3");
             pairs = p.executeQuery();
-            assertFalse(pairs.first());
+            assertFalse(pairs.next());
             
         } catch (Exception e) {
             System.out.println("FileReceiptDaoTest.saveNewPurchasesSavesPurchasesToDB(): " + e);
