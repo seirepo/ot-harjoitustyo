@@ -108,7 +108,7 @@ public class ReceiptItem {
             double roundX = DoubleRounder.round(x, 2);
             return HelperFunctions.shiftDouble(roundX, -2);
         }
-        double sum = HelperFunctions.shiftDouble(this.price, -2); // this.totalPrice / 100.0;
+        double sum = DoubleRounder.round(HelperFunctions.shiftDouble(this.price, -2), 2); // this.totalPrice / 100.0;
         return sum;
     }
     
@@ -122,15 +122,16 @@ public class ReceiptItem {
      */
     public double getUnitPrice() {
         if (this.isUnitPrice) {
-            return HelperFunctions.shiftDouble(this.price, -2);
+            return DoubleRounder.round(HelperFunctions.shiftDouble(this.price, -2), 2);
         } else {
-            double val = DoubleRounder.round(getTotalPrice() / this.quantity, 3);
+            double val = DoubleRounder.round(getTotalPrice() / this.quantity, 2);
             return val;
         }
     }
     
     public double getQuantity() {
-        return this.quantity;
+        return DoubleRounder.round(this.quantity, 3);
+        //return this.quantity;
     }
         
     public String getUnit() {
