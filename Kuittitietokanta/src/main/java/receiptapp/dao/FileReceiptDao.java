@@ -116,7 +116,7 @@ public class FileReceiptDao implements ReceiptDao {
                             " " + isUnit + " " + quantity + " " + unit);
 
                     item = new ReceiptItem(product, 0, isUnit, quantity, unit);
-                    item.setTotalPrice(price);
+                    item.setPrice(price);
                     item.setId(idItem);
                     receipt.addItem(item);
                 }

@@ -11,7 +11,7 @@ import org.decimal4j.util.DoubleRounder;
  */
 public class ReceiptItem {
     private String product;
-    private int totalPrice;
+    private int price; // total price or unit price of item, depending on isUnitPrice
     private boolean isUnitPrice;
     private double quantity;
     private List<String> units = new ArrayList<>(Arrays.asList("pc", "kg", "l"));
@@ -44,13 +44,13 @@ public class ReceiptItem {
         }
         
         if (price < 0) {
-            this.totalPrice = 1;
+            this.price = 1;
         } else {
             int cents = (int) HelperFunctions.shiftDouble(DoubleRounder.round(price, 3), 2);
             if (cents == 0) {
-                this.totalPrice = 1;
+                this.price = 1;
             } else {
-                this.totalPrice = cents;
+                this.price = cents;
             }
         }
         
@@ -72,13 +72,7 @@ public class ReceiptItem {
     public void updateProperties(String product, double price, boolean isUnitPrice, double qnty, String unit) {
         setIsUnitPrice(isUnitPrice);
         setProduct(product);
-        
-        if (isUnitPrice) {
-            setTotalPrice(price * qnty);
-        } else {
-            setTotalPrice(price);
-        }
-        
+        setPrice(price);        
         setQuantity(qnty);
         setUnit(unit);
     }
@@ -87,17 +81,21 @@ public class ReceiptItem {
         return this.product;
     }
     
+    public double getPrice() {
+        return HelperFunctions.shiftDouble(this.price, -2);
+    }
+    
     /**
      * Palauttaa kokonaishinnan sentteinä.
      * @return 
      */
     public int getTotalPriceCents() {
         if (this.isUnitPrice) {
-            int cents = (int) (this.totalPrice * this.quantity);
+            int cents = (int) (this.price * this.quantity);
             if (cents == 0) return 1;
             else return cents;
         }
-        return this.totalPrice;
+        return this.price;
     }
     
     /**
@@ -106,12 +104,11 @@ public class ReceiptItem {
      */
     public double getTotalPrice() {
         if (this.isUnitPrice) {
-            // return this.totalPrice * this.quantity / 100.0;
-            double x = this.totalPrice * this.quantity;
+            double x = this.price * this.quantity;
             double roundX = DoubleRounder.round(x, 2);
             return HelperFunctions.shiftDouble(roundX, -2);
         }
-        double sum = HelperFunctions.shiftDouble(this.totalPrice, -2); // this.totalPrice / 100.0;
+        double sum = HelperFunctions.shiftDouble(this.price, -2); // this.totalPrice / 100.0;
         return sum;
     }
     
@@ -125,7 +122,7 @@ public class ReceiptItem {
      */
     public double getUnitPrice() {
         if (this.isUnitPrice) {
-            return HelperFunctions.shiftDouble(this.totalPrice, -2);
+            return HelperFunctions.shiftDouble(this.price, -2);
         } else {
             double val = DoubleRounder.round(getTotalPrice() / this.quantity, 3);
             return val;
@@ -157,14 +154,14 @@ public class ReceiptItem {
      * ole negatiivista tai pyöristy nollaan.
      * @param price uusi hinta
      */
-    public void setTotalPrice(double price) {
+    public void setPrice(double price) {
         if (price <= 0) return;
         
         int cents = (int) HelperFunctions.shiftDouble(DoubleRounder.round(price, 3), 2);
         if (cents == 0) {
-            this.totalPrice = 1;
+            this.price = 1;
         } else {
-            this.totalPrice = cents;
+            this.price = cents;
         }
     }
 
@@ -196,7 +193,7 @@ public class ReceiptItem {
     
     @Override
     public String toString() {
-        return this.product + ";" + this.totalPrice + ";" + this.quantity + ";" +
+        return this.product + ";" + this.price + ";" + this.quantity + ";" +
                 this.unit;
     }
     
@@ -207,7 +204,7 @@ public class ReceiptItem {
      */
     public String getItem() {
         String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
-                this.product, HelperFunctions.shiftDouble(this.totalPrice, -2), this.quantity, this.unit,
+                this.product, HelperFunctions.shiftDouble(this.price, -2), this.quantity, this.unit,
                 getUnitPrice(), this.unit);
         return s;
     }
@@ -217,7 +214,7 @@ public class ReceiptItem {
      * @return 
      */
     public String getItem1() {
-        String s = this.product + "\t" + this.totalPrice + "\t" +
+        String s = this.product + "\t" + this.price + "\t" +
                 this.quantity + "\t" + this.isUnitPrice + "\t" + this.unit;
         return s;
     }

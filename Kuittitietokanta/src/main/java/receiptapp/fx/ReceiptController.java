@@ -215,7 +215,7 @@ public class ReceiptController implements Initializable {
                 + this.itemTable.getSelectionModel().getSelectedItem());
         
         this.productField.setText(item.getProduct());
-        this.priceField.setText("" + item.getTotalPrice());
+        this.priceField.setText("" + item.getPrice());
         this.unitPriceCheck.setSelected(item.getIsUnitPrice());
         this.qntyField.setText("" + item.getQuantity());
         this.unitChoice.setValue(item.getUnit());

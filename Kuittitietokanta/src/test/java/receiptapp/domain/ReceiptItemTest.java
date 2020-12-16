@@ -84,13 +84,13 @@ public class ReceiptItemTest {
     
     @Test
     public void priceCanBeSetUsingSetPrice() {
-        item.setTotalPrice(10.50);
+        item.setPrice(10.50);
         assertEquals(1050, item.getTotalPriceCents());
     }
     
     @Test
     public void priceCannotBeSetZeroOrLess() {
-        item.setTotalPrice(-1.5);
+        item.setPrice(-1.5);
         assertEquals(1475, item.getTotalPriceCents());
     }
     
@@ -102,7 +102,7 @@ public class ReceiptItemTest {
     
     @Test
     public void priceSetTooCloseToZeroRoundsToOneCent() {
-        item.setTotalPrice(0.000005);
+        item.setPrice(0.000005);
         assertEquals(1, item.getTotalPriceCents());
     }
     
