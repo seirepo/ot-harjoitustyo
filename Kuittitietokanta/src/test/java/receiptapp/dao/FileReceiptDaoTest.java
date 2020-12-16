@@ -6,7 +6,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,6 +65,41 @@ public class FileReceiptDaoTest {
             assertFalse(rs.next());
         } catch (Exception e) {
             System.out.println("FileReceiptDaoTest.databaseExists(): " + e);
+        }
+    }
+    
+    @Test
+    public void readingEmptyDBReturnsEmptyReceiptList() throws Exception {
+        testDao.readReceiptDatabase();
+        assertEquals(0, testDao.getAll().size());
+    }
+    
+    @Test
+    public void readDatabaseCreatesReceiptObjectsToItsAttributeList() throws Exception {
+        try (Connection db = getConnection()) {
+            PreparedStatement p;
+            List<String> stores = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                p = db.prepareStatement("INSERT INTO Receipts (store, date) VALUES (?,?);",
+                        Statement.RETURN_GENERATED_KEYS);
+                String store = "store_" + i;
+                p.setString(1, store);
+                String date = "2020-12-" + (16-i);
+                p.setString(2, date);
+                p.executeUpdate();
+                
+                stores.add(store);
+            }
+            
+            testDao.readReceiptDatabase();
+            assertEquals(5, testDao.receipts.size());
+            
+            for (Receipt r : testDao.receipts) {
+                assertTrue(stores.contains(r.getStore()));
+            }
+            
+        } catch (Exception e) {
+            
         }
     }
     
