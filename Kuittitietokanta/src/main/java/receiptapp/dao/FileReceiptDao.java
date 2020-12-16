@@ -158,7 +158,9 @@ public class FileReceiptDao implements ReceiptDao {
             System.out.println("uuden kuitin uusi id: " + receiptId);
             receipt.setId(receiptId);
             
-            saveNewReceiptItems(receipt.getItems(), receiptId);
+            int result = saveNewReceiptItems(receipt.getItems(), receiptId);
+            
+            return result >= 0;
             
         } catch (Exception e) {
             System.out.println("FileReceiptDao.saveNewReceipt(): " + e);
@@ -166,7 +168,7 @@ public class FileReceiptDao implements ReceiptDao {
         } finally {
             db.close();
         }
-        return true;
+        // return true;
     }
     
     public int saveNewReceiptItems(ObservableList<ReceiptItem> items, int receiptId) throws SQLException {
@@ -200,11 +202,12 @@ public class FileReceiptDao implements ReceiptDao {
             
         } catch (Exception e) {
             System.out.println("FileReceiptDao.saveNewReceiptItems(): " + e);
+            return -1;
         } finally {
             db.close();
         }
         //return success;
-        return affectedRows;
+        //return affectedRows;
     }
     
     public int deleteReceipt(Receipt receipt) throws SQLException {
