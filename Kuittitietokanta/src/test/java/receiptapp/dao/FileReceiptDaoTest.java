@@ -91,7 +91,7 @@ public class FileReceiptDaoTest {
     }
     
     @Test
-    public void receiptsNotSavedCannotBeDeleted() throws Exception {
+    public void nothingHappensWhenTryingToDeleteReceiptsNotInDB() throws Exception {
         Receipt receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
         assertEquals(0, testDao.deleteReceipt(receipt));
     }
@@ -99,7 +99,6 @@ public class FileReceiptDaoTest {
     @Test
     public void saveReceiptItemsSavesItemsToDB() throws Exception {
         ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
-        assertEquals(0, testDao.saveNewReceiptItems(items, 1));
         ReceiptItem randItem1 = getRandomItem();
         ReceiptItem randItem2 = getRandomItem();
         items.add(randItem1);
@@ -121,6 +120,12 @@ public class FileReceiptDaoTest {
         assertEquals(dbItem2.getIsUnitPrice(), randItem2.getIsUnitPrice());
         assertEquals(dbItem2.getQuantity(), randItem2.getQuantity(), 0.01);
         assertEquals(dbItem2.getUnit(), randItem2.getUnit());
+    }
+    
+    @Test
+    public void nothingHappensWhenSavingEmptyItemList() throws Exception {
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        assertEquals(0, testDao.saveNewReceiptItems(items, 1));
     }
     
     @Test
@@ -161,6 +166,22 @@ public class FileReceiptDaoTest {
         assertEquals(-1, testDao.saveNewPurchases(-1, 4));
         assertEquals(-1, testDao.saveNewPurchases(1, -4));
         assertEquals(-1, testDao.saveNewPurchases(1, 0));
+    }
+    
+    @Test
+    public void deleteItemsDeletesItemsFromDB() throws Exception {
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        items.add(getRandomItem());
+        items.add(getRandomItem());
+        items.add(getRandomItem());
+        assertEquals(3, testDao.saveNewReceiptItems(items, 1));
+        assertEquals(3, testDao.deleteReceiptItems(items));
+    }
+    
+    @Test
+    public void nothingHappensWhenTryingToDeleteEmptyItemsList() throws Exception {
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        assertEquals(0, testDao.deleteReceiptItems(items));        
     }
     
     @After

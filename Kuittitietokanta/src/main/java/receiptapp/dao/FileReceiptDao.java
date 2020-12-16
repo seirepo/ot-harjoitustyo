@@ -255,6 +255,29 @@ public class FileReceiptDao implements ReceiptDao {
         return -1;
     }
     
+    public int deleteReceiptItems(ObservableList<ReceiptItem> items) throws Exception {
+        Connection db = DriverManager.getConnection(dbFileName);
+        try {
+            Statement s = db.createStatement();
+            s.execute("PRAGMA foreign_keys = ON;");
+            
+            int affectedRows = 0;
+            for (ReceiptItem item : items) {
+                
+                PreparedStatement p = db.prepareStatement("DELETE FROM Items WHERE id=?");
+                p.setInt(1, item.getId());
+                affectedRows += p.executeUpdate();
+            }
+            
+            return affectedRows;
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.databaseContainsReceipt(): " + e);
+            return -1;
+        } finally {
+            db.close();
+        }
+    }
+    
     public boolean updateExistingReceipt(Receipt receipt) throws SQLException {
         Connection db = DriverManager.getConnection(dbFileName);
         try {
