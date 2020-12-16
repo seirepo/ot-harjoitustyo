@@ -302,7 +302,7 @@ public class FileReceiptDao { //implements ReceiptDao {
     }
     
     public ObservableList<Receipt> getAll() throws Exception {
-        readReceiptDatabase();
+//        readReceiptDatabase();
         return receipts;
     }
 }
