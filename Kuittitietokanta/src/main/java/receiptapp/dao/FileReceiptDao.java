@@ -35,7 +35,7 @@ public class FileReceiptDao implements ReceiptDao {
     public FileReceiptDao(String fileName) throws Exception {
         this.receipts = FXCollections.observableArrayList();
         this.dbFileName = "jdbc:sqlite:" + fileName;
-        this.dbFile = new File(this.dbFileName);
+        this.dbFile = new File(fileName);
         
         if (!(dbFile.exists())) {
             try {
