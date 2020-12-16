@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -55,6 +56,22 @@ public class FileReceiptDaoTest {
             assertFalse(rs.next());
         } catch (Exception e) {
             System.out.println("FileReceiptDaoTest.databaseExists(): " + e);
+        }
+    }
+    
+    @Test
+    public void receiptCanBeSavedToDatabase() {
+        Receipt r = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
+
+        try {
+            assertTrue(testDao.saveNewReceipt(r));
+            Receipt rr = testDao.getReceipt(r.getId());
+            assertTrue(rr != null);
+            assertEquals(rr.getId(), r.getId());
+            assertEquals(rr.getStore(), r.getStore());
+            assertEquals(rr.getDate(), r.getDate());
+        } catch (Exception e) {
+            
         }
     }
     
