@@ -19,7 +19,7 @@ import receiptapp.domain.ReceiptItem;
  * Luokka tiedon tallentamista varten.
  * @author resure
  */
-public class FileReceiptDao implements ReceiptDao {
+public class FileReceiptDao { //implements ReceiptDao {
     
     public ObservableList<Receipt> receipts;
     private String dbFileName; // "jdbc:sqlite:receipts.db";
@@ -300,15 +300,9 @@ public class FileReceiptDao implements ReceiptDao {
     public File getFile() {
         return this.dbFile;
     }
-        
-    @Override
-    public ObservableList<Receipt> getAll() {
-        return receipts;
-    }
     
-    @Override
-    public Receipt create(Receipt receipt) {
-        receipts.add(receipt);
-        return receipt;
+    public ObservableList<Receipt> getAll() throws Exception {
+        readReceiptDatabase();
+        return receipts;
     }
 }

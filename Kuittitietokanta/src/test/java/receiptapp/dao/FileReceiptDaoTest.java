@@ -162,7 +162,10 @@ public class FileReceiptDaoTest {
         } catch (Exception e) {
             System.out.println("FileReceiptDaoTest.saveNewPurchasesSavesPurchasesToDB(): " + e);
         }
-        
+    }
+    
+    @Test
+    public void purchasesWithIllegalIdsDontGetSaved() throws Exception {                
         assertEquals(-1, testDao.saveNewPurchases(-1, 4));
         assertEquals(-1, testDao.saveNewPurchases(1, -4));
         assertEquals(-1, testDao.saveNewPurchases(1, 0));
