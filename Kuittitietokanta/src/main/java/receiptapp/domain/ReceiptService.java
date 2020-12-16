@@ -109,6 +109,7 @@ public class ReceiptService {
                 this.receipts.remove(receipt);
                 success = true;
             }
+            int result2 = this.fileReceiptDao.deleteReceiptItems(receipt.getItems());
         } catch (Exception e) {
             return false;
         } finally {

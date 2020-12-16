@@ -197,7 +197,9 @@ public class FileReceiptDao implements ReceiptDao {
                 item.setId(itemId);
                 System.out.println("uuden itemin id: " + itemId);
                 
-            }                
+                int result = saveNewPurchases(receiptId, itemId);
+                if (result < 0) return -1;
+            }
             return affectedRows;
             
         } catch (Exception e) {
@@ -208,6 +210,28 @@ public class FileReceiptDao implements ReceiptDao {
         }
         //return success;
         //return affectedRows;
+    }
+    
+    public int saveNewPurchases(int receiptId, int itemId) throws Exception {
+        if (receiptId < 1 || itemId < 1) return -1;
+        
+        Connection db = DriverManager.getConnection(dbFileName);
+        try {
+            Statement s = db.createStatement();
+//            s.execute("PRAGMA foreign_keys = ON;");
+            
+            PreparedStatement p = db.prepareStatement("INSERT INTO Purchases (receipt_id, item_id) "
+                    + "VALUES(?,?);");
+            p.setInt(1, receiptId);
+            p.setInt(2, itemId);
+            return p.executeUpdate(); // kuinka moneen riviin muutos vaikutti?
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.saveNewPurchases(): " + e);
+            return -1;
+        } finally {
+            db.close();
+        }
     }
     
     public int deleteReceipt(Receipt receipt) throws SQLException {

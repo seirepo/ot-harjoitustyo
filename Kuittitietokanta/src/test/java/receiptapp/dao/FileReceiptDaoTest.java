@@ -123,6 +123,46 @@ public class FileReceiptDaoTest {
         assertEquals(dbItem2.getUnit(), randItem2.getUnit());
     }
     
+    @Test
+    public void saveNewPurchasesSavesPurchasesToDB() throws Exception {
+        testDao.saveNewPurchases(1, 2);
+        testDao.saveNewPurchases(1, 4);
+        testDao.saveNewPurchases(2, 4);
+        
+        try (Connection db = getConnection()) {
+            PreparedStatement p = db.prepareStatement("SELECT * FROM Purchases WHERE receipt_id=1 AND item_id=2");
+            ResultSet pairs = p.executeQuery();
+            
+            assertEquals(1, pairs.getInt("receipt_id"));
+            assertEquals(2, pairs.getInt("item_id"));
+            
+            p = db.prepareStatement("SELECT * FROM Purchases WHERE receipt_id=1 AND item_id=4");
+            pairs = p.executeQuery();
+            
+            assertTrue(pairs.next());
+            pairs.previous();
+            assertEquals(1, pairs.getInt("receipt_id"));
+            assertEquals(4, pairs.getInt("item_id"));
+            
+            p = db.prepareStatement("SELECT * FROM Purchases WHERE receipt_id=2");
+            pairs = p.executeQuery();
+            assertEquals(2, pairs.getInt("receipt_id"));
+            assertEquals(4, pairs.getInt("item_id"));
+            assertFalse(pairs.next());
+            
+            p = db.prepareStatement("SELECT * FROM Purchases WHERE receipt_id=3");
+            pairs = p.executeQuery();
+            assertFalse(pairs.first());
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDaoTest.saveNewPurchasesSavesPurchasesToDB(): " + e);
+        }
+        
+        assertEquals(-1, testDao.saveNewPurchases(-1, 4));
+        assertEquals(-1, testDao.saveNewPurchases(1, -4));
+        assertEquals(-1, testDao.saveNewPurchases(1, 0));
+    }
+    
     @After
     public void tearDown() {
         testFile.delete();
