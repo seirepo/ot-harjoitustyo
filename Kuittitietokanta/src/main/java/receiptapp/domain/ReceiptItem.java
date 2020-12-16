@@ -61,6 +61,28 @@ public class ReceiptItem {
         }   
     }
     
+    /**
+     * Päivittää tuotteen kaikki attribuutit.
+     * @param product tuote
+     * @param price hinta
+     * @param isUnitPrice onko yksikköhinta
+     * @param qnty määrä
+     * @param unit yksikkö
+     */
+    public void updateProperties(String product, double price, boolean isUnitPrice, double qnty, String unit) {
+        setIsUnitPrice(isUnitPrice);
+        setProduct(product);
+        
+        if (isUnitPrice) {
+            setTotalPrice(price * qnty);
+        } else {
+            setTotalPrice(price);
+        }
+        
+        setQuantity(qnty);
+        setUnit(unit);
+    }
+    
     public String getProduct() {
         return this.product;
     }
@@ -104,16 +126,10 @@ public class ReceiptItem {
     public double getUnitPrice() {
         if (this.isUnitPrice) {
             return HelperFunctions.shiftDouble(this.totalPrice, -2);
-//            double val = HelperFunctions.shiftDouble(this.totalPrice, -2);
-//            return DoubleRounder.round(val/this.quantity, 3);
         } else {
             double val = DoubleRounder.round(getTotalPrice() / this.quantity, 3);
-            //System.out.println("ReceiptItem.getUnitPrice(); val: " + val);
             return val;
         }
-        //double val = getTotalPrice() / this.quantity;
-        //val = (int) (val * 100);
-        //return val / 100;
     }
     
     public double getQuantity() {
@@ -144,35 +160,15 @@ public class ReceiptItem {
     public void setTotalPrice(double price) {
         if (price <= 0) return;
         
-        if (this.isUnitPrice) {
-            int cents = (int) HelperFunctions.shiftDouble(DoubleRounder.round(price / this.quantity, 3), 2);
-            if (cents == 0) {
-                this.totalPrice = 1;
-            } else {
-                this.totalPrice = cents;
-            }
+        int cents = (int) HelperFunctions.shiftDouble(DoubleRounder.round(price, 3), 2);
+        if (cents == 0) {
+            this.totalPrice = 1;
         } else {
-            int cents = (int) (price * 100);
-            if (cents == 0) {
-                this.totalPrice = 1;
-                return;
-            }
             this.totalPrice = cents;
         }
     }
-    
-    public void setTotalPriceTest(double price) {
-//        if (this.isUnitPrice) {
-//            setTotalPrice(price / this.quantity);
-//        } else {
-//            setTotalPrice(price);
-//        }
-    }
-    
+
     public void setIsUnitPrice(boolean isUnitPrice) {
-//        if (this.isUnitPrice) {
-//            setTotalPrice(this.totalPrice / this.quantity);
-//        }
         this.isUnitPrice = isUnitPrice;
     }
     

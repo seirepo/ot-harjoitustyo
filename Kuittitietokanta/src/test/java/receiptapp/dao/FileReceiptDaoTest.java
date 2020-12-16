@@ -65,12 +65,12 @@ public class FileReceiptDaoTest {
     public void receiptCanBeSavedToDatabase() throws Exception {
         Receipt r = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
 
-            assertTrue(testDao.saveNewReceipt(r));
-            Receipt rr = getReceipt(r.getId());
-            assertTrue(rr != null);
-            assertEquals(rr.getId(), r.getId());
-            assertEquals(rr.getStore(), r.getStore());
-            assertEquals(rr.getDate(), r.getDate());
+        assertTrue(testDao.saveNewReceipt(r));
+        Receipt rr = getReceipt(r.getId());
+        assertTrue(rr != null);
+        assertEquals(rr.getId(), r.getId());
+        assertEquals(rr.getStore(), r.getStore());
+        assertEquals(rr.getDate(), r.getDate());
     }
     
     @Test

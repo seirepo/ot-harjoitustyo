@@ -165,9 +165,31 @@ public class ReceiptItemTest {
     public void constructorSetsQuantityAndPriceToMinimumIfItRoundsToZero() {
         item = new ReceiptItem("name", 0.014, true, 0.00002, "kg");
         assertEquals(1, item.getTotalPriceCents());
+        assertEquals(0.01, item.getTotalPrice(), 0.01);
         assertEquals(0.001, item.getQuantity(), 0.001);
         item = new ReceiptItem("name", 0.00001241, false, 5, "pc");
         assertEquals(0.01, item.getTotalPrice(), 0.001);
         assertEquals(0.001, item.getUnitPrice(), 0.001);
     }
+    
+    @Test
+    public void updatePropertiesUpdatesProperties() {
+        item.updateProperties("new name", 5, false, 100, "kg");
+        assertEquals("new name", item.getProduct());
+        assertEquals(5, item.getTotalPrice(), 0.01);
+        assertEquals(false, item.getIsUnitPrice());
+        assertEquals(100, item.getQuantity(), 0.001);
+        assertEquals("kg", item.getUnit());
+    }
+    
+    @Test
+    public void updatePropertiesUpdatesProperties1() {
+        item.updateProperties("new name", 5, true, 100, "kg");
+        assertEquals("new name", item.getProduct());
+        assertEquals(500, item.getTotalPrice(), 0.01);
+        assertEquals(true, item.getIsUnitPrice());
+        assertEquals(100, item.getQuantity(), 0.001);
+        assertEquals("kg", item.getUnit());
+    }
+
 }
