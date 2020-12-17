@@ -64,7 +64,7 @@ public class ReceiptServiceTest {
     
     @Test
     public void serviceItemsListEmptyInTheBeginning() {
-        assertEquals(0, service.getReceiptItems());
+        assertEquals(0, service.getReceiptItems().size());
     }
     
     @Test
