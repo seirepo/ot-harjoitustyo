@@ -353,6 +353,56 @@ public class FileReceiptDao { //implements ReceiptDao {
         return success;
     }
 
+    public boolean dbContainsItem(ReceiptItem item) throws Exception {
+        Connection db = DriverManager.getConnection(dbFileName);
+        int res = 0;
+        try {
+            PreparedStatement p = db.prepareStatement("SELECT COUNT(*) FROM Items "
+                    + "WHERE id=?");
+            p.setInt(1, item.getId());
+            ResultSet rs = p.executeQuery();
+            
+            res = rs.getInt(1);
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.dbContainsItem(): " + e);
+        } finally {
+            db.close();
+        }
+        
+        if (res == 1) {
+                return true;
+            } else {
+                System.out.println("containsin tulos: " + res);
+                return false;
+        }
+    }
+    
+    public boolean dbContainsReceipt(Receipt receipt) throws Exception {
+        Connection db = DriverManager.getConnection(dbFileName);
+        int res = 0;
+        try {
+            PreparedStatement p = db.prepareStatement("SELECT COUNT(*) FROM Receipts "
+                    + "WHERE id=?");
+            p.setInt(1, receipt.getId());
+            ResultSet rs = p.executeQuery();
+            
+            res = rs.getInt(1);
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.dbContainsItem(): " + e);
+        } finally {
+            db.close();
+        }
+        
+        if (res == 1) {
+                return true;
+            } else {
+                System.out.println("containsin tulos: " + res);
+                return false;
+        }
+    }
+    
     public int getLatestId() {
         return 0;
     }
