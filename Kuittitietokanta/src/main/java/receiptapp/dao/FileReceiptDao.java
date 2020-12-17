@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import receiptapp.domain.HelperFunctions;
@@ -100,29 +102,42 @@ public class FileReceiptDao { //implements ReceiptDao {
                 receipt = new Receipt(store, date, FXCollections.observableArrayList());
                 receipt.setId(id);
                 
-                PreparedStatement p = db.prepareStatement("SELECT * FROM Items I"
-                        + " LEFT JOIN Purchases P ON I.id = P.item_id WHERE receipt_id=?;");
+                PreparedStatement p = db.prepareStatement("SELECT item_id FROM Purchases "
+                        + "WHERE receipt_id=?");
                 p.setInt(1, id);
-                ResultSet itemSet = p.executeQuery();
+                ResultSet itemIdSet = p.executeQuery();
+                
+                List<Integer> itemIds = new ArrayList<>();
+                while (itemIdSet.next()) {
+                    itemIds.add(itemIdSet.getInt("item_id"));
+                }
+                
+                ObservableList<ReceiptItem> items = readItemsFromDB(itemIds);
+                
+//                PreparedStatement p = db.prepareStatement("SELECT * FROM Items I"
+//                        + " LEFT JOIN Purchases P ON I.id = P.item_id WHERE receipt_id=?;");
+//                p.setInt(1, id);
+//                ResultSet itemSet = p.executeQuery();
                 
 //                ObservableList<ReceiptItem> items = readItemsFromDB(itemSet);
                 
-                while (itemSet.next()) {
-                    int idItem = itemSet.getInt("id");
-                    String product = itemSet.getString("product");
-                    double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
-                    boolean isUnit = itemSet.getBoolean("is_unit_price");
-                    double quantity = itemSet.getDouble("quantity");
-                    String unit = itemSet.getString("unit");
+//                while (itemSet.next()) {
+//                    int idItem = itemSet.getInt("id");
+//                    String product = itemSet.getString("product");
+//                    double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
+//                    boolean isUnit = itemSet.getBoolean("is_unit_price");
+//                    double quantity = itemSet.getDouble("quantity");
+//                    String unit = itemSet.getString("unit");
+//
+//                    System.out.println("\t" + idItem + " " + product + " " + price +
+//                            " " + isUnit + " " + quantity + " " + unit);
+//
+//                    item = new ReceiptItem(product, price, isUnit, quantity, unit);
+//                    item.setId(idItem);
+//                    receipt.addItem(item);
+//                }
 
-                    System.out.println("\t" + idItem + " " + product + " " + price +
-                            " " + isUnit + " " + quantity + " " + unit);
-
-                    item = new ReceiptItem(product, price, isUnit, quantity, unit);
-                    item.setId(idItem);
-                    receipt.addItem(item);
-                }
-//                receipt.setItems(items);
+                receipt.setItems(items);
                 this.receipts.add(receipt);
             }            
         } catch (Exception e) {
@@ -134,10 +149,37 @@ public class FileReceiptDao { //implements ReceiptDao {
         return success;
     }
     
-//    public ObservableList<ReceiptItem> readItemsFromDB(ResultSet itemSet) throws SQLException {
-//        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
-//        ReceiptItem item;
-//        
+    public ObservableList<ReceiptItem> readItemsFromDB(List<Integer> itemIds) throws SQLException {        
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        ReceiptItem item;
+        
+        Connection db = DriverManager.getConnection(dbFileName);
+        try {
+            PreparedStatement p;
+            for (int itemId : itemIds) {
+                p = db.prepareStatement("SELECT * FROM Items WHERE id=?;");
+                p.setInt(1, itemId);
+                ResultSet itemSet = p.executeQuery();
+                
+                int dbId = itemSet.getInt("id");
+                String product = itemSet.getString("product");
+                double price = HelperFunctions.shiftDouble(itemSet.getInt("price"), -2);
+                boolean isUnitPrice = itemSet.getBoolean("is_unit_price");
+                double quantity = itemSet.getDouble("quantity");
+                String unit = itemSet.getString("unit");
+                
+                item = new ReceiptItem(product, price, isUnitPrice, quantity, unit);
+                item.setId(dbId);
+                items.add(item);                
+            }
+            
+        } catch (Exception e) {
+            
+        } finally {
+            db.close();
+        }
+
+        
 //        while (itemSet.next()) {
 //            int idItem = itemSet.getInt("id");
 //            String product = itemSet.getString("product");
@@ -154,8 +196,8 @@ public class FileReceiptDao { //implements ReceiptDao {
 //            item.setId(idItem);
 //            items.add(item);
 //        }
-//        return items;
-//    }
+        return items;
+    }
     
     public boolean saveReceipt(Receipt receipt) throws SQLException {
         if (receipt.getId() < 0) {
