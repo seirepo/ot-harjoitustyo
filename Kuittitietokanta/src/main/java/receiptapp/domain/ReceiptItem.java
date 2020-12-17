@@ -109,10 +109,10 @@ public class ReceiptItem {
     public double getTotalPrice() {
         if (this.isUnitPrice) {
             double x = this.price * this.quantity;
-            double roundX = DoubleRounder.round(x, 2);
-            return HelperFunctions.shiftDouble(roundX, -2);
+            double toEuros = HelperFunctions.shiftDouble(x, -2);
+            return DoubleRounder.round(toEuros, 2);
         }
-        double sum = DoubleRounder.round(HelperFunctions.shiftDouble(this.price, -2), 2); // this.totalPrice / 100.0;
+        double sum = DoubleRounder.round(HelperFunctions.shiftDouble(this.price, -2), 2);
         return sum;
     }
     
