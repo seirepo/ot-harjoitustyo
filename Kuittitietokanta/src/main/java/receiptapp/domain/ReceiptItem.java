@@ -85,6 +85,10 @@ public class ReceiptItem {
         return HelperFunctions.shiftDouble(this.price, -2);
     }
     
+    public int getPriceCents() {
+        return this.price;
+    }
+    
     /**
      * Palauttaa kokonaishinnan sentteinä.
      * @return 
@@ -163,6 +167,14 @@ public class ReceiptItem {
             this.price = 1;
         } else {
             this.price = cents;
+        }
+    }
+    
+    public void setTotalPrice(double price) {
+        if (this.isUnitPrice) {
+            setPrice(price * this.quantity);
+        } else {
+            setPrice(price);
         }
     }
 

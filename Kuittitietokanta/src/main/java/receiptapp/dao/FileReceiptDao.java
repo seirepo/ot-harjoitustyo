@@ -211,7 +211,8 @@ public class FileReceiptDao { //implements ReceiptDao {
                         + "VALUES (?, ?, ?, ?, ?);",
                         Statement.RETURN_GENERATED_KEYS);
                 p.setString(1, item.getProduct());
-                p.setInt(2, item.getTotalPriceCents());
+                //p.setInt(2, item.getTotalPriceCents());
+                p.setInt(2, item.getPriceCents());
                 p.setBoolean(3, item.getIsUnitPrice());
                 p.setDouble(4, item.getQuantity());
                 p.setString(5, item.getUnit());
