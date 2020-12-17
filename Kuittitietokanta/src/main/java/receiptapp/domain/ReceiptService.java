@@ -73,11 +73,22 @@ public class ReceiptService {
         return true;
     }
     
+    /**
+     * Päivittää parametrina annetun kuitin annetuilla tiedoilla ja tallentaa
+     * muutokset tietokantaan. Kuitin lisäksi päivitetään myös sen tuotteissa
+     * tapahtuneet muutokset.
+     * @param receipt päivitettävä kuitti
+     * @param store uusi myymälä
+     * @param date uusi päiväys
+     * @return onnistuuko päivitys
+     */
     public boolean updateReceipt(Receipt receipt, String store, LocalDate date) {
         try {
-            boolean result = this.fileReceiptDao.updateExistingReceipt(receipt, store, date);
+            boolean receiptUpdateResult = this.fileReceiptDao.updateExistingReceipt(receipt, store, date);
             
-            if (!result) return false;
+            if (!receiptUpdateResult) {
+                return false;
+            }
             
             receipt.setStore(store);
             receipt.setDate(date);
@@ -86,7 +97,14 @@ public class ReceiptService {
             for (ReceiptItem item : this.items) {
                 receiptItems.add(item);
             }
-            receipt.setItems(receiptItems);
+            
+            int receiptItemsUpdateResult = this.fileReceiptDao.saveNewReceiptItems(receiptItems, receipt.getId());
+            
+            if (receiptItemsUpdateResult < 0) {
+                System.out.println("\nkuitin päivityksessä päivitettyjen itemien määrä: " + receiptUpdateResult);
+                return false;
+            }
+            receipt.setItems(receiptItems);            
             
             return true;
         } catch (Exception e) {
