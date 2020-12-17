@@ -247,6 +247,14 @@ public class ReceiptService {
     }
 
     /**
+     * Palauttaa tallennukseen käytettävän tietokannan tiedoston.
+     * @return tiedosto
+     */
+    public File getDbFile() {
+        return this.fileReceiptDao.getFile();
+    }
+    
+    /**
      * Palauttaa kuittien summien keskiarvon annetulla aikavälillä.
      * @param start alkupvm
      * @param end loppupvm
