@@ -46,11 +46,11 @@ public class FileReceiptDao { //implements ReceiptDao {
                 System.out.println("receiptapp.dao.FileReceiptDao.<init>(): "
                         + e);
             }
-            System.out.println("receiptapp.dao.FileReceiptDao.<init>(): tehty tiedosto");
+//            System.out.println("receiptapp.dao.FileReceiptDao.<init>(): tehty tiedosto");
         }
         
         if (createTables()) {
-            System.out.println("\ttaulujen luonti onnistui");
+//            System.out.println("\ttaulujen luonti onnistui");
         } else {
             System.out.println("\ttaulujen luonti ei onnistunut");
         }
@@ -212,7 +212,6 @@ public class FileReceiptDao { //implements ReceiptDao {
                         + "VALUES (?, ?, ?, ?, ?);",
                         Statement.RETURN_GENERATED_KEYS);
                 p.setString(1, item.getProduct());
-                //p.setInt(2, item.getTotalPriceCents());
                 p.setInt(2, item.getPriceCents());
                 p.setBoolean(3, item.getIsUnitPrice());
                 p.setDouble(4, item.getQuantity());

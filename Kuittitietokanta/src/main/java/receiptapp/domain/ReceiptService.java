@@ -101,7 +101,6 @@ public class ReceiptService {
             boolean result = this.fileReceiptDao.updateExistingItem(item, product, p, isUnitPrice, qnty, unit);
             if (!result) return false;
             item.updateProperties(product, price, isUnitPrice, qnty, unit);
-            System.out.println("itemin uusi hinta: " + item.getPrice());
             success = true;
         } catch (Exception e) {
             return false;

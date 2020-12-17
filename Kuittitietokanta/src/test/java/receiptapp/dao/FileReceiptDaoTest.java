@@ -193,7 +193,7 @@ public class FileReceiptDaoTest {
         ReceiptItem randItem2 = getRandomItem();
         items.add(randItem1);
         items.add(randItem2);
-        
+
         assertEquals(2, testDao.saveNewReceiptItems(items, 1));
         
         ReceiptItem dbItem1 = getItem(randItem1.getId());
