@@ -91,9 +91,22 @@ public class ReceiptServiceTest {
         assertEquals(2, r.getItems().size());
         service.setReceiptItems(r.getItems());
         assertTrue(service.updateReceipt(r, "store_1", LocalDate.parse("2020-12-10")));
-        assertEquals(2, service.getReceipts().get(0).getItems());
+        assertEquals(2, service.getReceipts().get(0).getItems().size());
         assertEquals("store_1", r.getStore());
         assertEquals("2020-12-10", r.getDate().toString());
+    }
+    
+    @Test
+    public void updateItemUpdatesItemProperties() {
+        ReceiptItem item = new ReceiptItem("prod_1", 1.5, true, 2, "l");
+        service.addReceiptItem(item);
+        service.addReceipt("store", LocalDate.parse("2020-12-12"));
+        assertTrue(service.updateItem(item, "prod_2", 1.5, false, 3, "pc"));
+        assertEquals("prod_2", item.getProduct());
+        assertEquals(1.5, item.getPrice(), 0.01);
+        assertFalse(item.getIsUnitPrice());
+        assertEquals(3, item.getQuantity(), 0.001);
+        assertEquals("pc", item.getUnit());
     }
     
     @Test
