@@ -274,20 +274,55 @@ public class FileReceiptDaoTest {
     public void nothingHappensWhenTryingToDeleteEmptyItemsList() throws Exception {
         ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
         assertEquals(0, testDao.deleteReceiptItems(items));        
-    }
+    }    
         
     @Test
-    public void updateItemUpdatesItemProperties() throws SQLException {
+    public void updateReceiptReturnsFalseIfReceiptNotInDB() throws Exception {
+        assertFalse(testDao.updateExistingReceipt(receipt, "store_1", LocalDate.parse("2020-01-01")));
+    }
+    
+    @Test
+    public void updateReceiptUpdatesReceiptPropertiesWhenItemsListIsEmpty() throws Exception {
+        testDao.saveReceipt(receipt);
+        int receiptId = receipt.getId();
+        assertTrue(testDao.updateExistingReceipt(receipt, "store_1", LocalDate.parse("2020-01-02")));
+        
+        try (Connection db = getConnection()) {
+            PreparedStatement p = db.prepareStatement("SELECT * FROM Receipts "
+                    + "WHERE id=?;");
+            p.setInt(1, receiptId);
+            ResultSet updatedReceipt = p.executeQuery();
+            
+            assertEquals("store_1", updatedReceipt.getString("store"));
+            assertEquals("2020-01-02", updatedReceipt.getString("date"));
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDaoTest.updateReceiptUpdatesReceiptPropertiesWhenItemsListIsEmpty(): " + e);
+        }
+    }
+    
+    @Test
+    public void updateItemReturnsFalseIFItemNotInDB() throws SQLException {
         ReceiptItem item = new ReceiptItem("product_1", 110, true, 5, "pc");
         int itemId = item.getId();
-        testDao.updateExistingItem(item, "product_1", 550, false, 0.501, "pc");
+        assertFalse(testDao.updateExistingItem(item, "product_1", 550, false, 0.501, "pc"));
+    }
+    
+    @Test
+    public void updateItemUpdatesExistingItemProperties() throws SQLException {
+        ReceiptItem item = new ReceiptItem("product_1", 110, true, 5, "pc");
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        items.add(item);
+        testDao.saveNewReceiptItems(items, 1);
+        int itemId = item.getId();
+        assertTrue(testDao.updateExistingItem(item, "product_1", 550, false, 0.501, "pc"));
         
         try (Connection db = getConnection()) {
             PreparedStatement p = db.prepareStatement("SELECT * FROM Items "
                     + "WHERE id=?;");
             p.setInt(1, itemId);
             ResultSet updatedItem = p.executeQuery();
-            
+                        
             assertEquals(updatedItem.getString("product"), "product_1");
             assertEquals(550, updatedItem.getInt("price"));
             assertFalse(updatedItem.getBoolean("is_unit_price"));

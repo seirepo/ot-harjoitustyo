@@ -306,11 +306,24 @@ public class FileReceiptDao { //implements ReceiptDao {
         }
     }
     
-    public boolean updateExistingReceipt(Receipt receipt) throws SQLException {
+    public boolean updateExistingReceipt(Receipt receipt, String store, LocalDate date) throws SQLException {
         Connection db = DriverManager.getConnection(dbFileName);
         try {
+            if (!dbContainsReceipt(receipt)) return false;
+            
             Statement s = db.createStatement();
             s.execute("PRAGMA foreign_keys = ON;");
+            
+            PreparedStatement p = db.prepareStatement("UPDATE Receipts "
+                    + "SET store=?, date=? "
+                    + "WHERE id=?");
+            p.setString(1, store);
+            p.setString(2, date.toString());
+            p.setInt(3, receipt.getId());
+            
+            int affRows = p.executeUpdate();
+            
+            return affRows > 0;
             
         } catch (Exception e) {
             System.out.println("FileReceiptDao.updateExistingReceipt(): " + e);
@@ -318,16 +331,17 @@ public class FileReceiptDao { //implements ReceiptDao {
         } finally {
             db.close();
         }
-        return true;
     }
     
     public boolean updateExistingItem(ReceiptItem item, String product, int price, boolean isUnitPrice, double qnty, String unit) throws SQLException {
         Connection db = DriverManager.getConnection(dbFileName);
         boolean success = true;
         try {
+            if (!dbContainsItem(item)) return false;
+        
             Statement s = db.createStatement();
             s.execute("PRAGMA foreign_keys = ON;");
-            
+                        
             PreparedStatement p = db.prepareStatement("UPDATE Items "
                     + "SET product=?, price=?, is_unit_price=?, quantity=?, unit=? "
                     + "WHERE id=?;");

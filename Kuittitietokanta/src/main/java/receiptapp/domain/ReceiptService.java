@@ -74,18 +74,24 @@ public class ReceiptService {
     }
     
     public boolean updateReceipt(Receipt receipt, String store, LocalDate date) {
-        receipt.setStore(store);
-        receipt.setDate(date);
-        
-        ObservableList<ReceiptItem> receiptItems = FXCollections.observableArrayList();
-        
-        for (ReceiptItem item : this.items) {
-            receiptItems.add(item);
+        try {
+            boolean result = this.fileReceiptDao.updateExistingReceipt(receipt, store, date);
+            
+            if (!result) return false;
+            
+            receipt.setStore(store);
+            receipt.setDate(date);
+            ObservableList<ReceiptItem> receiptItems = FXCollections.observableArrayList();
+
+            for (ReceiptItem item : this.items) {
+                receiptItems.add(item);
+            }
+            receipt.setItems(receiptItems);
+            
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        
-        receipt.setItems(receiptItems);
-        
-        return true;
     }
     
     public boolean updateItem(ReceiptItem item, String product, double price, boolean isUnitPrice, double qnty, String unit) {
