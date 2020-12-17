@@ -309,6 +309,31 @@ public class FileReceiptDao { //implements ReceiptDao {
         }
     }
     
+    public int deleteItem(ReceiptItem item) throws SQLException {
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        items.add(item);
+        try {
+            return deleteReceiptItems(items);
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.deleteItem(): " + e);
+            return -1;
+        }
+//        Connection db = DriverManager.getConnection(dbFileName);
+//        try {
+//            Statement s = db.createStatement();
+//            s.execute("PRAGMA foreign_keys = ON;");
+//            
+//            PreparedStatement p = db.prepareStatement("DELETE FROM Items WHERE");
+//            
+//        } catch (Exception e) {
+//            System.out.println("FileReceiptDao.deleteItem(): " + e);
+//            return -1;
+//        } finally {
+//            db.close();
+//        }
+//        return 1;
+    }
+    
     public boolean updateExistingReceipt(Receipt receipt, String store, LocalDate date) throws SQLException {
         Connection db = DriverManager.getConnection(dbFileName);
         try {
