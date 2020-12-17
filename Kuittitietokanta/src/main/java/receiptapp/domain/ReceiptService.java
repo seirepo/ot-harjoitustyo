@@ -1,11 +1,11 @@
 package receiptapp.domain;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.decimal4j.util.DoubleRounder;
 import receiptapp.dao.FileReceiptDao;
 
 /**
@@ -72,7 +72,7 @@ public class ReceiptService {
      * @return true jos lisäys onnistuu, false jos ei
      */
     public boolean addReceiptItem(ReceiptItem item) {
-        this.items.add(item);        
+        this.items.add(item);
         return true;
     }
     

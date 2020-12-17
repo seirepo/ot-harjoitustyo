@@ -89,12 +89,15 @@ public class Receipt {
         
         for (ReceiptItem item : this.items) {
             if (item.getUnit().equals("pc")) {
-                count += item.getQuantity();
+//                if (item.getQuantity() < 1) {
+//                    count++;
+//                } else {
+                    count += item.getQuantity();
+//                }
             } else {
                 count += 1;
             }
         }
-        
         return count;
     }
     

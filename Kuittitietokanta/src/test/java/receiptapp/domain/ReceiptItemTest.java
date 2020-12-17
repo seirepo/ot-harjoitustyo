@@ -191,5 +191,17 @@ public class ReceiptItemTest {
         assertEquals(100, item.getQuantity(), 0.001);
         assertEquals("kg", item.getUnit());
     }
+    
+    @Test
+    public void getQuantityReturnsCorrectlyRoundedQuantity() {        
+        item = new ReceiptItem("name", 0.014, true, 0.00002, "kg");
+        assertEquals(0.001, item.getQuantity(), 0.001);
+        item = new ReceiptItem("name", 0.014, true, 0.250, "kg");
+        assertEquals(0.250, item.getQuantity(), 0.001);
+        item = new ReceiptItem("name", 0.014, true, 0.123456, "kg");
+        assertEquals(0.123, item.getQuantity(), 0.001);
+        item = new ReceiptItem("name", 0.014, true, 1.2935, "kg");
+        assertEquals(1.294, item.getQuantity(), 0.001);
+    }
 
 }

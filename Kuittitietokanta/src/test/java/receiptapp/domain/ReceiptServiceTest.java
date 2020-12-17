@@ -43,11 +43,6 @@ public class ReceiptServiceTest {
     }
     
     @Test
-    public void addReceiptItemAddsItem() {
-        
-    }
-    
-    @Test
     public void addReceiptAddsReceiptAndItems() {
         items.add(new ReceiptItem("prod_1", 1.5, true, 2, "l"));
         items.add(new ReceiptItem("prod_2", 2.95, false, 1, "kg"));
