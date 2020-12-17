@@ -156,12 +156,15 @@ public class FileReceiptDao { //implements ReceiptDao {
         return items;
     }
     
+    // ei voi olla kuitteja joiden id < 0 ?
     public boolean saveReceipt(Receipt receipt) throws SQLException {
-        if (receipt.getId() < 0) {
-            return saveNewReceipt(receipt);
-        } else {
-            return updateExistingReceipt(receipt);
-        }
+//        if (receipt.getId() < 0) {
+//            return saveNewReceipt(receipt);
+//        }
+//        else {
+//            return updateExistingReceipt(receipt);
+//        }
+        return saveNewReceipt(receipt);
     }
     
     public boolean saveNewReceipt(Receipt receipt) throws SQLException {
