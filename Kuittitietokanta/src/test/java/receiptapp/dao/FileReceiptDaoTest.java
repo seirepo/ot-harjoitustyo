@@ -282,7 +282,7 @@ public class FileReceiptDaoTest {
     }
     
     @Test
-    public void updateReceiptUpdatesReceiptPropertiesWhenItemsListIsEmpty() throws Exception {
+    public void updateReceiptUpdatesReceiptProperties() throws Exception {
         testDao.saveReceipt(receipt);
         int receiptId = receipt.getId();
         assertTrue(testDao.updateExistingReceipt(receipt, "store_1", LocalDate.parse("2020-01-02")));
@@ -298,6 +298,60 @@ public class FileReceiptDaoTest {
             
         } catch (Exception e) {
             System.out.println("FileReceiptDaoTest.updateReceiptUpdatesReceiptPropertiesWhenItemsListIsEmpty(): " + e);
+        }
+    }
+    
+    @Test
+    public void updateReceiptUpdatesReceiptPropertiesAndItsItems() throws SQLException {
+        ReceiptItem i1 = new ReceiptItem("item_1", 5, true, 0.5, "pc");
+        ReceiptItem i2 = new ReceiptItem("item_2", 2.5, false, 1, "kg");
+        receipt.addItem(i1);
+        receipt.addItem(i2);
+        testDao.saveReceipt(receipt);
+        
+        assertTrue(testDao.updateExistingReceipt(receipt, "store", LocalDate.parse("2020-02-05")));
+        assertTrue(testDao.updateExistingItem(i1, "item_1", 700, false, 0.5, "kg"));
+        assertTrue(testDao.updateExistingItem(i2, "item_22", 250, false, 0.75, "l"));
+        
+        PreparedStatement p;
+        try (Connection db = getConnection()) {
+            p = db.prepareStatement("SELECT * FROM Receipts "
+                    + "WHERE id=?");
+            p.setInt(1, receipt.getId());
+            ResultSet updatedReceipt = p.executeQuery();
+            
+            assertEquals("store", updatedReceipt.getString("store"));
+            assertEquals("2020-02-05", updatedReceipt.getString("date"));
+            
+            p = db.prepareStatement("SELECT price FROM Items WHERE id=?;");
+            p.setInt(1, i1.getId());
+            ResultSet updatedItem1 = p.executeQuery();
+            assertEquals(700, updatedItem1.getInt("price"));
+            
+            p = db.prepareStatement("SELECT product FROM Items WHERE id=?;");
+            p.setInt(1, i2.getId());
+            ResultSet updatedItem2 = p.executeQuery();
+            assertEquals("item_22", updatedItem2.getString("product"));
+            
+            p = db.prepareStatement("SELECT item_id FROM Purchases WHERE receipt_id=?;");
+            p.setInt(1, receipt.getId());
+            ResultSet itemIds = p.executeQuery();
+            int count = 0;
+            List<Integer> ids = new ArrayList<>();
+            
+            while(itemIds.next()) {
+                ids.add(itemIds.getInt("item_id"));
+                count++;
+            }
+            
+            assertEquals(2, count);
+            assertEquals(2, ids.size());
+            for (ReceiptItem i : receipt.getItems()) {
+                ids.contains(i.getId());
+            }
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDaoTest.updateReceiptUpdatesReceiptPropertiesAndItsItems(): " + e);
         }
     }
     
