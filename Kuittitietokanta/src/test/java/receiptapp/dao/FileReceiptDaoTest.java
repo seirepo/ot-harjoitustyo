@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.decimal4j.util.DoubleRounder;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -106,7 +105,7 @@ public class FileReceiptDaoTest {
     }
 
     @Test
-    public void readEmptyItemSetReturnEmptyItemList() throws SQLException {
+    public void readReceiptWithEmptyItemSetReturnEmptyItemList() throws SQLException {
         ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
         Receipt rcpt = new Receipt("store_1", LocalDate.parse("2020-01-01"), items);
         testDao.saveReceipt(rcpt);
@@ -115,18 +114,23 @@ public class FileReceiptDaoTest {
     }
     
     @Test
-    public void readItemsFromDBReturnsItemObjects() throws Exception {
-//        try (Connection db = getConnection()) {
+    public void readItemsFromDBWithEmptyIdListReturnsEmptyList() throws SQLException {
+        assertEquals(0, testDao.readItemsFromDB(new ArrayList()).size());
+    }
+    
+    @Test
+    public void readItemsFromDBReturnsItemCorrectObjects() throws Exception {
         ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
-        items.add(new ReceiptItem("prod_1", 10.5, false, 2, "pc"));
-        items.add(new ReceiptItem("prod_2", 17.95, true, 0.250111, "kg"));
-        items.add(new ReceiptItem("prod_3", 1.45, true, 1.5, "l"));
-        Receipt rcpt = new Receipt("store_1", LocalDate.parse("2020-01-01"), items);
-
-        testDao.saveReceipt(rcpt);
-        testDao.readReceiptDatabase();
-
-        ObservableList<ReceiptItem> DBitems = testDao.receipts.get(0).getItems();
+        ReceiptItem item1 = new ReceiptItem("prod_1", 10.5, false, 2, "pc");
+        ReceiptItem item2 = new ReceiptItem("prod_2", 17.95, true, 0.250111, "kg");
+        ReceiptItem item3 = new ReceiptItem("prod_3", 1.45, true, 1.5, "l");
+        
+        items.add(item1);
+        items.add(item2);
+        items.add(item3);
+        
+        testDao.saveNewReceiptItems(items, 1);
+        ObservableList<ReceiptItem> DBitems = testDao.readItemsFromDB(new ArrayList(List.of(item1.getId(), item2.getId(), item3.getId())));
         assertEquals(3, DBitems.size());
 
         Collections.sort(DBitems, (ReceiptItem i1, ReceiptItem i2) -> { 
@@ -134,38 +138,25 @@ public class FileReceiptDaoTest {
         });
 
         ReceiptItem i1 = DBitems.get(0);
-        assertEquals("prod_1", i1.getProduct());
-        assertEquals(10.5, i1.getPrice(), 0.01);
-        assertEquals(2, i1.getQuantity(), 0.01);
-        assertEquals(false, i1.getIsUnitPrice());
-        assertEquals("pc", i1.getUnit());
+        assertEquals(item1.getProduct(), i1.getProduct());
+        assertEquals(item1.getPrice(), i1.getPrice(), 0.01);
+        assertEquals(item1.getQuantity(), i1.getQuantity(), 0.01);
+        assertEquals(item1.getIsUnitPrice(), i1.getIsUnitPrice());
+        assertEquals(item1.getUnit(), i1.getUnit());
 
         ReceiptItem i2 = DBitems.get(1);
         assertEquals("prod_2", i2.getProduct());
-        assertEquals(17.95, i2.getPrice(), 0.01);
-        assertEquals(0.250, i2.getQuantity(), 0.001);
-        assertEquals(true, i2.getIsUnitPrice());
-        assertEquals("kg", i2.getUnit());
+        assertEquals(item2.getPrice(), i2.getPrice(), 0.01);
+        assertEquals(item2.getQuantity(), i2.getQuantity(), 0.001);
+        assertEquals(item2.getIsUnitPrice(), i2.getIsUnitPrice());
+        assertEquals(item2.getUnit(), i2.getUnit());
 
         ReceiptItem i3 = DBitems.get(2);
         assertEquals("prod_3", i3.getProduct());
-        assertEquals(1.45, i3.getPrice(), 0.01);
-        assertEquals(1.5, i3.getQuantity(), 0.001);
-        assertEquals("l", i3.getUnit());
-        assertEquals(true, i3.getIsUnitPrice());
-        
-            
-//            PreparedStatement p = db.prepareStatement("INSERT INTO Receipts (store, date)"
-//                    + " VALUES (\"store_1\", \"2020-01-01\");",
-//                    Statement.RETURN_GENERATED_KEYS);
-//            p.executeUpdate();
-//            ResultSet keys = p.getGeneratedKeys();
-//            keys.next();
-//            int receiptId = keys.getInt(1);
-//            
-//        } catch (Exception e) {
-//            
-//        }
+        assertEquals(item3.getPrice(), i3.getPrice(), 0.01);
+        assertEquals(item3.getQuantity(), i3.getQuantity(), 0.001);
+        assertEquals(item3.getIsUnitPrice(), i3.getIsUnitPrice());
+        assertEquals(item3.getUnit(), i3.getUnit());
     }
     
     @Test
@@ -289,11 +280,6 @@ public class FileReceiptDaoTest {
     public void tearDown() {
         testFile.delete();
     }
-    
-    
-    
-    
-    
     
     public Receipt getReceipt(int receiptId) {
         Receipt r = null;
