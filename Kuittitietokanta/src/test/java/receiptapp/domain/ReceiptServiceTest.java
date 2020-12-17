@@ -68,6 +68,40 @@ public class ReceiptServiceTest {
     }
     
     @Test
+    public void serviceItemsListEmptyInTheBeginning() {
+        assertEquals(0, service.getReceiptItems());
+    }
+    
+    @Test
+    public void addReceiptItemAddsItem() {
+        ReceiptItem item = new ReceiptItem("prod_1", 3.85, false, 2, "pc");
+        assertTrue(service.addReceiptItem(item));
+        items = service.getReceiptItems();
+        assertEquals(1, items.size());
+        assertEquals("prod_1", item.getProduct());
+        assertEquals(3.85, item.getPrice(), 0.01);
+        assertEquals(false, item.getIsUnitPrice());
+        assertEquals(2, item.getQuantity(), 0.001);
+        assertEquals("pc", item.getUnit());        
+    }
+    
+    @Test
+    public void updateReceiptUpdatesReceiptAndItsItems() {
+        items.add(new ReceiptItem("prod_1", 1.5, true, 2, "l"));
+        service.setReceiptItems(items);
+        service.addReceipt("store", LocalDate.parse("2020-12-10"));
+        
+        service.getReceipts().get(0).addItem(new ReceiptItem("prod_2", 1, true, 2, "pc"));
+        Receipt r = service.getReceipts().get(0);
+        assertEquals(2, r.getItems().size());
+        service.setReceiptItems(r.getItems());
+        assertTrue(service.updateReceipt(r, "store_1", LocalDate.parse("2020-12-10")));
+        assertEquals(2, service.getReceipts().get(0).getItems());
+        assertEquals("store_1", r.getStore());
+        assertEquals("2020-12-10", r.getDate().toString());
+    }
+    
+    @Test
     public void getTotalReturnsCorrectTotal() {
         ReceiptItem i1 = new ReceiptItem("a", 0.5, true, 5, "pc");
         ReceiptItem i2 = new ReceiptItem("b", 1.5, true, 2, "pc");
