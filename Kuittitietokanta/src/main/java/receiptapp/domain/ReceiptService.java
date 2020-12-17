@@ -112,6 +112,17 @@ public class ReceiptService {
         }
     }
     
+    /**
+     * Päivittää parametrina annetun kuittirivin annetuilla tiedoilla ja
+     * tallentaa muutokset tietokantaan.
+     * @param item päivitettävä kuittirivi
+     * @param product uusi tuote
+     * @param price uusi hinta
+     * @param isUnitPrice yksikköhintacheckboxin uusi valinta
+     * @param qnty uusi määrä
+     * @param unit uusi yksikkö
+     * @return onnistuuko päivitys
+     */
     public boolean updateItem(ReceiptItem item, String product, double price, boolean isUnitPrice, double qnty, String unit) {
         boolean success = false;
         try {
@@ -129,7 +140,7 @@ public class ReceiptService {
     /**
      * Poistaa annetun kuittirivin.
      * @param item
-     * @return 
+     * @return onnistuiko poisto
      */
     public boolean deleteItem(ReceiptItem item) {
         if (item.getId() < 0) {
@@ -171,14 +182,27 @@ public class ReceiptService {
         return success;
     }
     
+    /**
+     * Palauttaa listna kaikista kuiteista.
+     * @return lista kuiteista
+     */
     public ObservableList<Receipt> getReceipts() {
         return this.receipts;
     }
     
+    /**
+     * Palauttaa listan kaikista tällä hetkellä tarkasteltavista kuittiriveistä.
+     * @return lista kuittiriveistä
+     */
     public ObservableList<ReceiptItem> getReceiptItems() {
         return this.items;
     }
     
+    /**
+     * Asettaa tarkasteltaviksi kuittiriveiksi parametrina annetun listan.
+     * @param items kuittirivit
+     * @return onnistuuko asetus
+     */
     public boolean setReceiptItems(ObservableList<ReceiptItem> items) {
         for (ReceiptItem item : items) {
             this.items.add(item);
@@ -186,22 +210,19 @@ public class ReceiptService {
         return true;
     }
     
+    /**
+     * Poistaa kaikki tarkasteltavat kuittirivit.
+     * @return onnistuuko poisto
+     */
     public boolean clearItems() {
         this.items.clear();
         return true;
     }
-    
-//    public boolean save() {
-//        try {
-//            this.fileReceiptDao.save(this.deletedReceipts, this.deletedItems);
-//            this.deletedReceipts.clear();
-//            return true;
-//        } catch (Exception e) {
-//            System.out.println("receiptapp.domain.ReceiptService.save(): " + e);
-//            return false;
-//        }
-//    }
-    
+
+    /**
+     * Palauttaa tarkasteltavana olevien kuittirivien yhteishinnan.
+     * @return hinta
+     */
     public double getTotal() {
         double sum = 0;
         for (ReceiptItem item : this.items) {
@@ -210,6 +231,10 @@ public class ReceiptService {
         return sum;
     }
     
+    /**
+     * Palauttaa sovelluksessa käytettävät yksiköt.
+     * @return lista käytetyistä yksiköistä
+     */
     public List getUnits() {
         List<String> units = new ArrayList<String>();
         units.add("pc"); units.add("kg"); units.add("l");
@@ -217,7 +242,7 @@ public class ReceiptService {
     }
 
     /**
-     * Metodi palauttaa kuittien summien keskiarvon annetulla aikavälillä.
+     * Palauttaa kuittien summien keskiarvon annetulla aikavälillä.
      * @param start alkupvm
      * @param end loppupvm
      * @return keskiarvo
@@ -228,7 +253,7 @@ public class ReceiptService {
     }
     
     /**
-     * Metodi palauttaa listana ostetuimmat tuotteet annetulla aikavälillä.
+     * Palauttaa listana ostetuimmat tuotteet annetulla aikavälillä.
      * Palautettavien tuotteiden määrän voi valita.
      * @param start alkupvm
      * @param end loppupvm
@@ -241,7 +266,7 @@ public class ReceiptService {
     }
 
     /**
-     * Metodi palauttaa ne kauppojen nimet, joissa on käyty eniten annetulla
+     * Palauttaa ne kauppojen nimet, joissa on käyty eniten annetulla
      * aikavälillä. Palautettavien kauppojen määrän voi valita.
      * @param start alkupvm
      * @param end loppupvm
