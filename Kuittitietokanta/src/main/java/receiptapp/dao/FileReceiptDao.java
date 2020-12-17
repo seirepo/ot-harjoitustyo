@@ -105,25 +105,24 @@ public class FileReceiptDao { //implements ReceiptDao {
                 p.setInt(1, id);
                 ResultSet itemSet = p.executeQuery();
                 
-                ObservableList<ReceiptItem> items = readItemsFromDB(itemSet);
+//                ObservableList<ReceiptItem> items = readItemsFromDB(itemSet);
                 
-//                while (itemSet.next()) {
-//                    int idItem = itemSet.getInt("id");
-//                    String product = itemSet.getString("product");
-//                    double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
-//                    boolean isUnit = itemSet.getBoolean("is_unit_price");
-//                    int quantity = itemSet.getInt("quantity");
-//                    String unit = itemSet.getString("unit");
-//
-//                    System.out.println("\t" + idItem + " " + product + " " + price +
-//                            " " + isUnit + " " + quantity + " " + unit);
-//
-//                    item = new ReceiptItem(product, 0, isUnit, quantity, unit);
-//                    item.setPrice(price);
-//                    item.setId(idItem);
-//                    //receipt.addItem(item);
-//                }
-                receipt.setItems(items);
+                while (itemSet.next()) {
+                    int idItem = itemSet.getInt("id");
+                    String product = itemSet.getString("product");
+                    double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
+                    boolean isUnit = itemSet.getBoolean("is_unit_price");
+                    double quantity = itemSet.getDouble("quantity");
+                    String unit = itemSet.getString("unit");
+
+                    System.out.println("\t" + idItem + " " + product + " " + price +
+                            " " + isUnit + " " + quantity + " " + unit);
+
+                    item = new ReceiptItem(product, price, isUnit, quantity, unit);
+                    item.setId(idItem);
+                    receipt.addItem(item);
+                }
+//                receipt.setItems(items);
                 this.receipts.add(receipt);
             }            
         } catch (Exception e) {
@@ -135,28 +134,28 @@ public class FileReceiptDao { //implements ReceiptDao {
         return success;
     }
     
-    public ObservableList<ReceiptItem> readItemsFromDB(ResultSet itemSet) throws SQLException {
-        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
-        ReceiptItem item;
-        
-        while (itemSet.next()) {
-            int idItem = itemSet.getInt("id");
-            String product = itemSet.getString("product");
-            double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
-            boolean isUnit = itemSet.getBoolean("is_unit_price");
-            int quantity = itemSet.getInt("quantity");
-            String unit = itemSet.getString("unit");
-
-            System.out.println("\t" + idItem + " " + product + " " + price +
-                    " " + isUnit + " " + quantity + " " + unit);
-
-            item = new ReceiptItem(product, 0, isUnit, quantity, unit);
-            item.setPrice(price);
-            item.setId(idItem);
-            items.add(item);
-        }
-        return items;
-    }
+//    public ObservableList<ReceiptItem> readItemsFromDB(ResultSet itemSet) throws SQLException {
+//        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+//        ReceiptItem item;
+//        
+//        while (itemSet.next()) {
+//            int idItem = itemSet.getInt("id");
+//            String product = itemSet.getString("product");
+//            double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
+//            boolean isUnit = itemSet.getBoolean("is_unit_price");
+//            int quantity = itemSet.getInt("quantity");
+//            String unit = itemSet.getString("unit");
+//
+//            System.out.println("\t" + idItem + " " + product + " " + price +
+//                    " " + isUnit + " " + quantity + " " + unit);
+//
+//            item = new ReceiptItem(product, 0, isUnit, quantity, unit);
+//            item.setPrice(price);
+//            item.setId(idItem);
+//            items.add(item);
+//        }
+//        return items;
+//    }
     
     public boolean saveReceipt(Receipt receipt) throws SQLException {
         if (receipt.getId() < 0) {
