@@ -113,30 +113,6 @@ public class FileReceiptDao { //implements ReceiptDao {
                 }
                 
                 ObservableList<ReceiptItem> items = readItemsFromDB(itemIds);
-                
-//                PreparedStatement p = db.prepareStatement("SELECT * FROM Items I"
-//                        + " LEFT JOIN Purchases P ON I.id = P.item_id WHERE receipt_id=?;");
-//                p.setInt(1, id);
-//                ResultSet itemSet = p.executeQuery();
-                
-//                ObservableList<ReceiptItem> items = readItemsFromDB(itemSet);
-                
-//                while (itemSet.next()) {
-//                    int idItem = itemSet.getInt("id");
-//                    String product = itemSet.getString("product");
-//                    double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
-//                    boolean isUnit = itemSet.getBoolean("is_unit_price");
-//                    double quantity = itemSet.getDouble("quantity");
-//                    String unit = itemSet.getString("unit");
-//
-//                    System.out.println("\t" + idItem + " " + product + " " + price +
-//                            " " + isUnit + " " + quantity + " " + unit);
-//
-//                    item = new ReceiptItem(product, price, isUnit, quantity, unit);
-//                    item.setId(idItem);
-//                    receipt.addItem(item);
-//                }
-
                 receipt.setItems(items);
                 this.receipts.add(receipt);
             }            
@@ -171,31 +147,12 @@ public class FileReceiptDao { //implements ReceiptDao {
                 item = new ReceiptItem(product, price, isUnitPrice, quantity, unit);
                 item.setId(dbId);
                 items.add(item);                
-            }
-            
+            }            
         } catch (Exception e) {
-            
+            System.out.println("FileReceiptDao.readItemsFromDB(): " + e);
         } finally {
             db.close();
         }
-
-        
-//        while (itemSet.next()) {
-//            int idItem = itemSet.getInt("id");
-//            String product = itemSet.getString("product");
-//            double price = HelperFunctions.shiftDouble(itemSet.getInt("price"),-2);
-//            boolean isUnit = itemSet.getBoolean("is_unit_price");
-//            int quantity = itemSet.getInt("quantity");
-//            String unit = itemSet.getString("unit");
-//
-//            System.out.println("\t" + idItem + " " + product + " " + price +
-//                    " " + isUnit + " " + quantity + " " + unit);
-//
-//            item = new ReceiptItem(product, 0, isUnit, quantity, unit);
-//            item.setPrice(price);
-//            item.setId(idItem);
-//            items.add(item);
-//        }
         return items;
     }
     
