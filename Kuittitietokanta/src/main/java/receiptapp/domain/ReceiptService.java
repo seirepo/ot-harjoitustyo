@@ -126,14 +126,34 @@ public class ReceiptService {
         return success;
     }
     
+    /**
+     * Poistaa annetun kuittirivin.
+     * @param item
+     * @return 
+     */
     public boolean deleteItem(ReceiptItem item) {
-        if (item.getId() > 0) {
+        if (item.getId() < 0) {
+            return this.items.remove(item);
+        } else {
             this.deletedItems.add(item);
+            try {
+                boolean result = this.fileReceiptDao.deleteItem(item) > 0;
+                if (result) {
+                    this.items.remove(item);
+                }
+                return result;
+            } catch (Exception e) {
+                return false;
+            }
         }
-        return this.items.remove(item);
     }
     
-    // ongelmia tiedossa:
+    /**
+     * Poistaa parametrina annetun kuitin ja poistaa sen tuotteineen myös
+     * tietokannasta. Palauttaa true/false poiston onnistumisesta riippuen.
+     * @param receipt poistettava kuitti
+     * @return onnistuiko poisto
+     */
     public boolean deleteReceipt(Receipt receipt) {
         boolean success = false;
         try {
