@@ -208,24 +208,28 @@ public class FileReceiptDao { //implements ReceiptDao {
             
             PreparedStatement p;
             for (ReceiptItem item : items) {
-                p = db.prepareStatement("INSERT INTO Items (product, price, is_unit_price, quantity, unit) "
-                        + "VALUES (?, ?, ?, ?, ?);",
-                        Statement.RETURN_GENERATED_KEYS);
-                p.setString(1, item.getProduct());
-                p.setInt(2, item.getPriceCents());
-                p.setBoolean(3, item.getIsUnitPrice());
-                p.setDouble(4, item.getQuantity());
-                p.setString(5, item.getUnit());
-                affectedRows += p.executeUpdate();
-                
-                ResultSet rs = p.getGeneratedKeys();
-                rs.next();
-                int itemId = rs.getInt(1);
-                item.setId(itemId);
-                System.out.println("uuden itemin id: " + itemId);
-                
-                int result = saveNewPurchases(receiptId, itemId);
-                if (result < 0) return -1;
+                if (dbContainsItem(item)) {
+                    updateExistingItem(item, item.getProduct(), item.getPriceCents(), item.getIsUnitPrice(), item.getQuantity(), item.getUnit());
+                } else {
+                    p = db.prepareStatement("INSERT INTO Items (product, price, is_unit_price, quantity, unit) "
+                            + "VALUES (?, ?, ?, ?, ?);",
+                            Statement.RETURN_GENERATED_KEYS);
+                    p.setString(1, item.getProduct());
+                    p.setInt(2, item.getPriceCents());
+                    p.setBoolean(3, item.getIsUnitPrice());
+                    p.setDouble(4, item.getQuantity());
+                    p.setString(5, item.getUnit());
+                    affectedRows += p.executeUpdate();
+
+                    ResultSet rs = p.getGeneratedKeys();
+                    rs.next();
+                    int itemId = rs.getInt(1);
+                    item.setId(itemId);
+                    System.out.println("uuden itemin id: " + itemId);
+
+                    int result = saveNewPurchases(receiptId, itemId);
+                    if (result < 0) return -1;
+                }
             }
             return affectedRows;
             
