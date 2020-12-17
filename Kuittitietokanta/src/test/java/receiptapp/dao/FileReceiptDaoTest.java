@@ -9,10 +9,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.decimal4j.util.DoubleRounder;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -101,6 +103,69 @@ public class FileReceiptDaoTest {
         } catch (Exception e) {
             
         }
+    }
+
+    @Test
+    public void readEmptyItemSetReturnEmptyItemList() throws SQLException {
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        Receipt rcpt = new Receipt("store_1", LocalDate.parse("2020-01-01"), items);
+        testDao.saveReceipt(rcpt);
+        testDao.readReceiptDatabase();
+        assertEquals(0, testDao.receipts.get(0).getItems().size());
+    }
+    
+    @Test
+    public void readItemsFromDBReturnsItemObjects() throws Exception {
+//        try (Connection db = getConnection()) {
+        ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
+        items.add(new ReceiptItem("prod_1", 10.5, false, 2, "pc"));
+        items.add(new ReceiptItem("prod_2", 17.95, true, 0.250111, "kg"));
+        items.add(new ReceiptItem("prod_3", 1.45, true, 1.5, "l"));
+        Receipt rcpt = new Receipt("store_1", LocalDate.parse("2020-01-01"), items);
+
+        testDao.saveReceipt(rcpt);
+        testDao.readReceiptDatabase();
+
+        ObservableList<ReceiptItem> DBitems = testDao.receipts.get(0).getItems();
+        assertEquals(3, DBitems.size());
+
+        Collections.sort(DBitems, (ReceiptItem i1, ReceiptItem i2) -> { 
+            return i1.getProduct().compareTo(i2.getProduct());
+        });
+
+        ReceiptItem i1 = DBitems.get(0);
+        assertEquals("prod_1", i1.getProduct());
+        assertEquals(10.5, i1.getPrice(), 0.01);
+        assertEquals(2, i1.getQuantity(), 0.01);
+        assertEquals(false, i1.getIsUnitPrice());
+        assertEquals("pc", i1.getUnit());
+
+        ReceiptItem i2 = DBitems.get(1);
+        assertEquals("prod_2", i2.getProduct());
+        assertEquals(17.95, i2.getPrice(), 0.01);
+        assertEquals(0.250, i2.getQuantity(), 0.001);
+        assertEquals(true, i2.getIsUnitPrice());
+        assertEquals("kg", i2.getUnit());
+
+        ReceiptItem i3 = DBitems.get(2);
+        assertEquals("prod_3", i3.getProduct());
+        assertEquals(1.45, i3.getPrice(), 0.01);
+        assertEquals(1.5, i3.getQuantity(), 0.001);
+        assertEquals("l", i3.getUnit());
+        assertEquals(true, i3.getIsUnitPrice());
+        
+            
+//            PreparedStatement p = db.prepareStatement("INSERT INTO Receipts (store, date)"
+//                    + " VALUES (\"store_1\", \"2020-01-01\");",
+//                    Statement.RETURN_GENERATED_KEYS);
+//            p.executeUpdate();
+//            ResultSet keys = p.getGeneratedKeys();
+//            keys.next();
+//            int receiptId = keys.getInt(1);
+//            
+//        } catch (Exception e) {
+//            
+//        }
     }
     
     @Test
