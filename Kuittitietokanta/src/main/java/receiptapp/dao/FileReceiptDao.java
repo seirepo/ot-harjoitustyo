@@ -239,8 +239,6 @@ public class FileReceiptDao { //implements ReceiptDao {
         } finally {
             db.close();
         }
-        //return success;
-        //return affectedRows;
     }
     
     public int saveNewPurchases(int receiptId, int itemId) throws Exception {

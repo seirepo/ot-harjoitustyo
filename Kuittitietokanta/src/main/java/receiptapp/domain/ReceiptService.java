@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.decimal4j.util.DoubleRounder;
 import receiptapp.dao.FileReceiptDao;
 
 /**
@@ -101,7 +102,6 @@ public class ReceiptService {
             int receiptItemsUpdateResult = this.fileReceiptDao.saveNewReceiptItems(receiptItems, receipt.getId());
             
             if (receiptItemsUpdateResult < 0) {
-                System.out.println("\nkuitin päivityksessä päivitettyjen itemien määrä: " + receiptUpdateResult);
                 return false;
             }
             receipt.setItems(receiptItems);            
@@ -174,6 +174,9 @@ public class ReceiptService {
                 success = true;
             }
             int result2 = this.fileReceiptDao.deleteReceiptItems(receipt.getItems());
+            if (result2 < 1) {
+                success = false;
+            }
         } catch (Exception e) {
             return false;
         } finally {
