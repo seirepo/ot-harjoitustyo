@@ -317,6 +317,38 @@ public class FileReceiptDao { //implements ReceiptDao {
         }
         return true;
     }
+    
+    public boolean updateExistingItem(ReceiptItem item, String product, int price, boolean isUnitPrice, double qnty, String unit) throws SQLException {
+        Connection db = DriverManager.getConnection(dbFileName);
+        boolean success = true;
+        try {
+            Statement s = db.createStatement();
+            s.execute("PRAGMA foreign_keys = ON;");
+            
+            PreparedStatement p = db.prepareStatement("UPDATE Items "
+                    + "SET product=?, price=?, is_unit_price=?, quantity=?, unit=? "
+                    + "WHERE id=?;");
+            p.setString(1, product);
+            p.setInt(2, price);
+            p.setBoolean(3, isUnitPrice);
+            p.setDouble(4, qnty);
+            p.setString(5, unit);
+            p.setInt(6, item.getId());
+            
+            int affRows = p.executeUpdate();
+            
+            if (affRows < 1) {
+                success = false;
+            }
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDao.updateExistingItem(): " + e);
+            return false;
+        } finally {
+            db.close();
+        }
+        return success;
+    }
 
     public int getLatestId() {
         return 0;

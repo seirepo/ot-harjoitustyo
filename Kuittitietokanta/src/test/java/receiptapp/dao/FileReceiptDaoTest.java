@@ -275,6 +275,29 @@ public class FileReceiptDaoTest {
         ObservableList<ReceiptItem> items = FXCollections.observableArrayList();
         assertEquals(0, testDao.deleteReceiptItems(items));        
     }
+        
+    @Test
+    public void updateItemUpdatesItemProperties() throws SQLException {
+        ReceiptItem item = new ReceiptItem("product_1", 110, true, 5, "pc");
+        int itemId = item.getId();
+        testDao.updateExistingItem(item, "product_1", 550, false, 0.501, "pc");
+        
+        try (Connection db = getConnection()) {
+            PreparedStatement p = db.prepareStatement("SELECT * FROM Items "
+                    + "WHERE id=?;");
+            p.setInt(1, itemId);
+            ResultSet updatedItem = p.executeQuery();
+            
+            assertEquals(updatedItem.getString("product"), "product_1");
+            assertEquals(550, updatedItem.getInt("price"));
+            assertFalse(updatedItem.getBoolean("is_unit_price"));
+            assertEquals(0.501, updatedItem.getDouble("quantity"), 0.001);
+            assertEquals("pc", updatedItem.getString("unit"));
+            
+        } catch (Exception e) {
+            System.out.println("FileReceiptDaoTest.updateItemUpdatesItemProperties(): " + e);
+        }
+    }
     
     @After
     public void tearDown() {

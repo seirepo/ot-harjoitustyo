@@ -89,8 +89,18 @@ public class ReceiptService {
     }
     
     public boolean updateItem(ReceiptItem item, String product, double price, boolean isUnitPrice, double qnty, String unit) {
-        item.updateProperties(product, price, isUnitPrice, qnty, unit);
-        return true;
+        boolean success = false;
+        try {
+            int p = (int) HelperFunctions.shiftDouble(price, 2);
+            boolean result = this.fileReceiptDao.updateExistingItem(item, product, p, isUnitPrice, qnty, unit);
+            if (!result) return false;
+            item.updateProperties(product, price, isUnitPrice, qnty, unit);
+            System.out.println("itemin uusi hinta: " + item.getPrice());
+            success = true;
+        } catch (Exception e) {
+            return false;
+        }
+        return success;
     }
     
     public boolean deleteItem(ReceiptItem item) {
