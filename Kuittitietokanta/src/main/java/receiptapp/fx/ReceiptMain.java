@@ -21,7 +21,7 @@ public class ReceiptMain extends Application {
     
     @Override
     public void init() throws Exception {
-        receiptService = new ReceiptService();
+        receiptService = new ReceiptService("receipts.db");
         
         FXMLLoader loader = new FXMLLoader(getClass()
                 .getResource("/fxml/FxReceipt.fxml"));

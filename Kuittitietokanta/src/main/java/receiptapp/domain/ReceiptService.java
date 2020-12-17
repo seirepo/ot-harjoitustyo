@@ -25,15 +25,17 @@ public class ReceiptService {
     private ObservableList<ReceiptItem> deletedItems;
     
     /**
-     * Konstruktori luokalle.
+     * Konstruktori luokalle. Parametrina tiedoston nimi johon halutaan
+     * tietojen tallentuvan.
+     * @param filename tiedoston nimi
      */
-    public ReceiptService() {
+    public ReceiptService(String filename) {
         this.items = FXCollections.observableArrayList();
         this.receipts = FXCollections.observableArrayList();
         this.deletedReceipts = FXCollections.observableArrayList();
         this.deletedItems = FXCollections.observableArrayList();
         try {
-            this.fileReceiptDao = new FileReceiptDao("receipts.db");
+            this.fileReceiptDao = new FileReceiptDao(filename);
             this.receipts = this.fileReceiptDao.getAll();
         } catch (Exception e) {
             System.out.println("receiptapp.domain.ReceiptService.<init>(): " + e);
