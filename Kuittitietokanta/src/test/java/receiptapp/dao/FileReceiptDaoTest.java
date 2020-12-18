@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import receiptapp.domain.HelperFunctions;
 import receiptapp.domain.Receipt;
@@ -33,6 +34,9 @@ import receiptapp.domain.ReceiptItem;
 public class FileReceiptDaoTest {
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
+    
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
     
     File testFile;
     String testFileName;
@@ -281,9 +285,9 @@ public class FileReceiptDaoTest {
         assertEquals(0, testDao.deleteReceiptItems(items));        
     }    
         
-    @Test
+    @Test(expected = SQLException.class)
     public void updateReceiptReturnsFalseIfReceiptNotInDB() throws Exception {
-        assertFalse(testDao.updateExistingReceipt(receipt, "store_1", LocalDate.parse("2020-01-01")));
+        testDao.updateExistingReceipt(receipt, "store_1", LocalDate.parse("2020-01-01"));
     }
     
     @Test
@@ -360,11 +364,11 @@ public class FileReceiptDaoTest {
         }
     }
     
-    @Test
+    @Test(expected = SQLException.class)
     public void updateItemReturnsFalseIFItemNotInDB() throws SQLException {
         ReceiptItem item = new ReceiptItem("product_1", 110, true, 5, "pc");
         int itemId = item.getId();
-        assertFalse(testDao.updateExistingItem(item, "product_1", 550, false, 0.501, "pc"));
+        testDao.updateExistingItem(item, "product_1", 550, false, 0.501, "pc");
     }
     
     @Test
