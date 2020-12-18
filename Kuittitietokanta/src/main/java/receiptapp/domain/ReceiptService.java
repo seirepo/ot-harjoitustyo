@@ -193,7 +193,6 @@ public class ReceiptService {
         } catch (SQLException e) {
             this.sqlErrorMessage = e.getMessage();
             return false;
-        } finally {
         }
         return success;
     }

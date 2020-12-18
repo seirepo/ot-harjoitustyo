@@ -506,10 +506,6 @@ public class FileReceiptDao {
         }
     }
     
-    public int getLatestId() {
-        return 0;
-    }
-    
     public File getFile() {
         return this.dbFile;
     }
