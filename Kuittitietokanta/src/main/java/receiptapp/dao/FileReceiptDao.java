@@ -46,18 +46,17 @@ public class FileReceiptDao {
                 System.out.println("receiptapp.dao.FileReceiptDao.<init>(): "
                         + e);
             }
-//            System.out.println("receiptapp.dao.FileReceiptDao.<init>(): tehty tiedosto");
         }
-        
-        if (createTables()) {
-//            System.out.println("\ttaulujen luonti onnistui");
-        } else {
-            System.out.println("\ttaulujen luonti ei onnistunut");
-        }
-        
+        createTables();
         readReceiptDatabase();
     }
     
+    /**
+     * Luo tietokantataulut kuiteille, kuittiriveille ja näiden id:lle, jotta kuitit
+     * ja sen rivit saadaan yhdistettyä.
+     * @return onnistuuko taulujen luonti
+     * @throws SQLException jos tietokantayhteys epäonnistuu
+     */
     public boolean createTables() throws SQLException {
         Connection db = DriverManager.getConnection(dbFileName);
         try {
