@@ -121,6 +121,7 @@ public class Receipt {
     }
     
     public void setId(int id) {
+        if (id <= 0) return;
         this.id = id;
     }
     
