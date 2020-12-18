@@ -418,8 +418,6 @@ public class FileReceiptDaoTest {
                 r = new Receipt(store, LocalDate.parse(date), FXCollections.observableArrayList());
                 r.setId(id);
                 return r;
-            } else {
-                System.out.println("getReceipt: no data");
             }
             
         } catch (Exception e) {
