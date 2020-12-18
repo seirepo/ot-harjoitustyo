@@ -193,14 +193,20 @@ public class ReceiptController implements Initializable {
         String unit = this.unitChoice.getValue();
         
         ReceiptItem selected = this.itemTable.getSelectionModel().getSelectedItem();
+        boolean result;
         
         if (selected == null) {            
             ReceiptItem i = new ReceiptItem(product, price, isUnitPrice, qnty, unit);
-            this.receiptService.addReceiptItem(i);
+            result = this.receiptService.addReceiptItem(i);
         } else {
-            this.receiptService.updateItem(selected, product, price, isUnitPrice,
+            result = this.receiptService.updateItem(selected, product, price, isUnitPrice,
                     qnty, unit);
         }
+        
+        if (!result) {
+            errorDialog("Virhe tuotteen tallennuksessa :^(");
+        }
+        
         this.itemTable.refresh();
         this.itemTable.getSelectionModel().clearSelection();
         clearAddFields();
@@ -245,7 +251,10 @@ public class ReceiptController implements Initializable {
             return;
         }
         
-        this.receiptService.deleteItem(selected);
+        boolean result = this.receiptService.deleteItem(selected);
+        if (!result) {
+            errorDialog("Virhe tuotteen poistossa :^(");
+        }
         this.itemTable.getSelectionModel().clearSelection();
         clearAddFields();
         updateTotal();
@@ -281,10 +290,16 @@ public class ReceiptController implements Initializable {
         String store = this.storeField.getText();
         LocalDate dt = this.date.getValue();
         
+        boolean result;
+        
         if (selected == null) {
-            this.receiptService.addReceipt(store, dt);
+            result = this.receiptService.addReceipt(store, dt);
         } else {
-            this.receiptService.updateReceipt(selected, store, dt);
+            result = this.receiptService.updateReceipt(selected, store, dt);
+        }
+        
+        if (!result) {
+            errorDialog("Virhe kuitin tallennuksessa :^(");
         }
 
         this.receiptTable.getSelectionModel().clearSelection();

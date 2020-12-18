@@ -1,6 +1,7 @@
 package receiptapp.domain;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class ReceiptService {
         Receipt receipt = new Receipt(store, date, receiptItems);
         try {
             this.fileReceiptDao.saveReceipt(receipt);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return false;
         }
         this.receipts.add(receipt);
