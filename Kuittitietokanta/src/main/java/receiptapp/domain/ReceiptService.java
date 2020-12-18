@@ -134,6 +134,7 @@ public class ReceiptService {
             int p = (int) HelperFunctions.shiftDouble(price, 2);
             boolean result = this.fileReceiptDao.updateExistingItem(item, product, p, isUnitPrice, qnty, unit);
             if (!result) {
+                this.sqlErrorMessage = "Tuotteen päivittäminen ei onnistunut";
                 return false;
             }
             item.updateProperties(product, price, isUnitPrice, qnty, unit);
