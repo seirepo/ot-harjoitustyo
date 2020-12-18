@@ -12,7 +12,7 @@ public class HelperFunctions {
      * negatiivisen siirron ja muutoin vasemmalle.
      * @param value liu'utettava luku
      * @param shift siirron määrä
-     * @return 
+     * @return luku liu'utettuna
      */
     public static double shiftDouble(double value, int shift) {
         return value * Math.pow(10, shift);
