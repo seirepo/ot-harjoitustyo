@@ -46,6 +46,7 @@ public class FileReceiptDao {
             } catch (Exception e) {
                 System.out.println("receiptapp.dao.FileReceiptDao.<init>(): "
                         + e);
+                throw new Exception("Tiedoston luominen ei onnistunut");
             }
         }
         createTables();
@@ -73,9 +74,8 @@ public class FileReceiptDao {
 
             Receipt receipt;
             ReceiptItem item;
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.<init>(): " + e);
-            return false;
+        } catch (SQLException e) {
+            throw new SQLException("Tietokantataulujen luominen epäonnistui: " + ERR_MSG);
         } finally {
             db.close();
         }
@@ -124,9 +124,9 @@ public class FileReceiptDao {
                 receipt.setItems(items);
                 this.receipts.add(receipt);
             }            
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.readReceiptDatabase(): " + e);
-            success = false;
+        } catch (SQLException e) {
+            //System.out.println("FileReceiptDao.readReceiptDatabase(): " + e);
+            throw new SQLException("Tietokannan lukeminen epäonnistui: " + ERR_MSG);
         } finally {
             db.close();
         }
@@ -163,8 +163,9 @@ public class FileReceiptDao {
                 item.setId(dbId);
                 items.add(item);                
             }            
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.readItemsFromDB(): " + e);
+        } catch (SQLException e) {
+            //System.out.println("FileReceiptDao.readItemsFromDB(): " + e);
+            throw new SQLException("Kuittirivien lukeminen epäonnistui: " + ERR_MSG);
         } finally {
             db.close();
         }
