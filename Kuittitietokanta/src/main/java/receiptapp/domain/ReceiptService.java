@@ -294,7 +294,7 @@ public class ReceiptService {
      */
     public List<String> getMostBoughtProducts(LocalDate start, LocalDate end, int top) {
         // hae daosta ostetuimmat tuotteet ja palauta top kappaletta tuotteita
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     /**
