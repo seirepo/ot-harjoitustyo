@@ -69,7 +69,6 @@ public class FileReceiptDaoTest {
             assertTrue(rs.next());
             assertFalse(rs.next());
         } catch (Exception e) {
-            System.out.println("FileReceiptDaoTest.databaseExists(): " + e);
         }
     }
     
@@ -258,7 +257,7 @@ public class FileReceiptDaoTest {
             assertFalse(pairs.next());
             
         } catch (Exception e) {
-            System.out.println("FileReceiptDaoTest.saveNewPurchasesSavesPurchasesToDB(): " + e);
+            
         }
     }
     
@@ -448,7 +447,6 @@ public class FileReceiptDaoTest {
                 i.setId(id);
                 return i;
             } else {
-                System.out.println("getItem: no data");
             }
             
         } catch (Exception e) {

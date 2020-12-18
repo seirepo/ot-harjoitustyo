@@ -41,8 +41,6 @@ public class ReceiptService {
             this.fileReceiptDao = new FileReceiptDao(filename);
             this.receipts = this.fileReceiptDao.getReceipts();
         } catch (Exception e) {
-            System.out.println("receiptapp.domain.ReceiptService.<init>(): " + e);
-            //this.sqlErrorMessage = "Virhe tietokannan alustuksessa: " + e.getMessage();
         }
     }
     

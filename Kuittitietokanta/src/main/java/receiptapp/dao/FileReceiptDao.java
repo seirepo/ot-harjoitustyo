@@ -44,8 +44,6 @@ public class FileReceiptDao {
             try {
                 dbFile.createNewFile();
             } catch (Exception e) {
-                System.out.println("receiptapp.dao.FileReceiptDao.<init>(): "
-                        + e);
                 throw new Exception("Tiedoston luominen ei onnistunut");
             }
         }
@@ -125,7 +123,6 @@ public class FileReceiptDao {
                 this.receipts.add(receipt);
             }            
         } catch (SQLException e) {
-            //System.out.println("FileReceiptDao.readReceiptDatabase(): " + e);
             throw new SQLException("Tietokannan lukeminen epäonnistui: " + errMsg);
         } finally {
             db.close();
@@ -164,7 +161,6 @@ public class FileReceiptDao {
                 items.add(item);                
             }            
         } catch (SQLException e) {
-            //System.out.println("FileReceiptDao.readItemsFromDB(): " + e);
             throw new SQLException("Kuittirivien lukeminen epäonnistui: " + errMsg);
         } finally {
             db.close();
@@ -201,7 +197,6 @@ public class FileReceiptDao {
             return result >= 0;
             
         } catch (SQLException e) {
-//            System.out.println("FileReceiptDao.saveReceipt(): " + e);
             throw new SQLException(errMsg);
         } finally {
             db.close();
@@ -253,7 +248,6 @@ public class FileReceiptDao {
             return affectedRows;
             
         } catch (SQLException e) {
-//            System.out.println("FileReceiptDao.saveNewReceiptItems(): " + e);
             throw new SQLException("Kuitin kuittirivien tallennus epäonnistui: " + errMsg);
         } finally {
             db.close();
@@ -285,7 +279,6 @@ public class FileReceiptDao {
             return p.executeUpdate();
             
         } catch (SQLException e) {
-//            System.out.println("FileReceiptDao.saveNewPurchases(): " + e);
             throw new SQLException("Kuitti-kuittiriviparien tallennus epäonnistui: " + errMsg);
         } finally {
             db.close();
@@ -312,7 +305,6 @@ public class FileReceiptDao {
             return p.executeUpdate();
             
         } catch (SQLException e) {
-//            System.out.println("deleteReceipt(): " + e);
             throw new SQLException(errMsg);
         } finally {
             db.close();
@@ -343,7 +335,6 @@ public class FileReceiptDao {
             
             return affectedRows;
         } catch (SQLException e) {
-//            System.out.println("FileReceiptDao.databaseContainsReceipt(): " + e);
             throw new SQLException(errMsg);
         } finally {
             db.close();
@@ -364,7 +355,6 @@ public class FileReceiptDao {
         try {
             return deleteReceiptItems(items);
         } catch (SQLException e) {
-//            System.out.println("FileReceiptDao.deleteItem(): " + e);
             throw new SQLException(errMsg);
         }
     }
@@ -399,7 +389,6 @@ public class FileReceiptDao {
             return affRows > 0;
             
         } catch (SQLException e) {
-//            System.out.println("FileReceiptDao.updateExistingReceipt(): " + e);
             throw new SQLException(errMsg);
         } finally {
             db.close();
