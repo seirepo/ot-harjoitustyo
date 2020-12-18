@@ -16,7 +16,6 @@ public class Receipt {
   
     /**
      * Konstruktori uudelle kuitille.
-     * TODO: katso ettei päivämääärä ole tulevaisuudessa!
      * @param store kauppa
      * @param date päiväys
      * @param items tuotteet
@@ -28,18 +27,10 @@ public class Receipt {
     }
     
     /**
-     * Toinen konstruktori kuitille, joka alustaa muiden attribuuttien lisäksi
-     * myös id:n. Muut attribuutit alustetaan käyttämällä toista konstruktoria.
-     * @param store kauppa
-     * @param date päiväys
-     * @param items tuotteet
-     * @param id id
+     * Lisää kuitille uuden kuittiriviolion.
+     * @param item lisättävä kuittirivi
+     * @return onnistuuko lisäys
      */
-    public Receipt(String store, LocalDate date, ObservableList<ReceiptItem> items, int id) {
-        this(store, date, items);
-        this.id = id;
-    }
-    
     public boolean addItem(ReceiptItem item) {
         return this.items.add(item);
     }
@@ -89,11 +80,7 @@ public class Receipt {
         
         for (ReceiptItem item : this.items) {
             if (item.getUnit().equals("pc")) {
-//                if (item.getQuantity() < 1) {
-//                    count++;
-//                } else {
-                    count += item.getQuantity();
-//                }
+                count += item.getQuantity();
             } else {
                 count += 1;
             }
@@ -109,6 +96,11 @@ public class Receipt {
         this.store = store;
     }
     
+    /**
+     * Asettaa kuitille uuden päiväyksen. Jos uusi päiväys on tulevaisuudessa,
+     * päiväystä ei muuteta.
+     * @param date 
+     */
     public void setDate(LocalDate date) {
         if (date.isAfter(LocalDate.now())) {
             return;
@@ -120,20 +112,28 @@ public class Receipt {
         this.items = items;
     }
     
+    /**
+     * Asettaa kuitille uuden id:n. Jos annettu id on negatiivista tai 0,
+     * id:tä ei muuteta.
+     * @param id uusi id
+     */
     public void setId(int id) {
-        if (id <= 0) return;
+        if (id <= 0) {
+            return;
+        }
         this.id = id;
     }
     
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("store: " + this.store + ", date: " + this.date);
+        s.append("store: ");
+        s.append(this.store);
+        s.append(", date: ");
+        s.append(this.date);
         for (ReceiptItem item : items) {
             s.append(item.getItem());
         }
-        
-        
         return s.toString();
     }
 }

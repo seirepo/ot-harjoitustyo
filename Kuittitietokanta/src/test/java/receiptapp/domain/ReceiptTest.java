@@ -59,6 +59,13 @@ public class ReceiptTest {
     }
     
     @Test
+    public void setDateSetsNewDateToReceipt() {
+        LocalDate newDate = LocalDate.parse("2020-01-01");
+        receipt.setDate(newDate);
+        assertEquals(newDate, receipt.getDate());
+    }
+    
+    @Test
     public void dateCannotBeSetInTheFuture() {
         LocalDate c = receipt.getDate();
         LocalDate d = LocalDate.of(c.getYear()+1, c.getMonth(), c.getDayOfMonth());
