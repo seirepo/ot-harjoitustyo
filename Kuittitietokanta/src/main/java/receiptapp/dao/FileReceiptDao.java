@@ -341,9 +341,9 @@ public class FileReceiptDao {
             }
             
             return affectedRows;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("FileReceiptDao.databaseContainsReceipt(): " + e);
-            return -1;
+            throw new SQLException(ERR_MSG);
         } finally {
             db.close();
         }
@@ -362,9 +362,9 @@ public class FileReceiptDao {
         items.add(item);
         try {
             return deleteReceiptItems(items);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("FileReceiptDao.deleteItem(): " + e);
-            return -1;
+            throw new SQLException(ERR_MSG);
         }
     }
     

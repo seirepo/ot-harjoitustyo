@@ -159,7 +159,8 @@ public class ReceiptService {
                     this.items.remove(item);
                 }
                 return result;
-            } catch (Exception e) {
+            } catch (SQLException e) {
+                
                 return false;
             }
         }
