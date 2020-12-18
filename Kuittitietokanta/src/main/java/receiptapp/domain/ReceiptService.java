@@ -283,10 +283,10 @@ public class ReceiptService {
      * keskiarvon.
      * @return keskiarvo
      */
-    public List<Double> getTotalStats() {
+    public List<Double> getItemsStats() {
         List<Double> totalStats = new ArrayList<>();
         try {
-            List<Double> stats = this.fileReceiptDao.getTotalStats();
+            List<Double> stats = this.fileReceiptDao.getItemStats();
             double mean = stats.get(0);
             double var = stats.get(1);
             double max = stats.get(2);

@@ -57,7 +57,7 @@ public class ReceiptController implements Initializable {
     @FXML private Label totalSdLabel;
     @FXML private Label totalMinLabel;
     @FXML private Label totalMaxLabel;
-    @FXML private Button getStatsBtn;
+    @FXML private Button getItemsStatsBtn;
 
     
     @FXML private TableView<ReceiptItem> itemTable;
@@ -176,8 +176,8 @@ public class ReceiptController implements Initializable {
     }
 
     @FXML
-    void handleGetTotalStats(ActionEvent event) {
-        getTotalStats();
+    void handleGetItemsStats(ActionEvent event) {
+        getItemsStats();
     }
     
     /**
@@ -395,8 +395,8 @@ public class ReceiptController implements Initializable {
      * Haetaan tietokannasta olevien kuittien tilastoja ja näytetään ne
      * tilastovälilehdellä.
      */
-    public void getTotalStats() {
-        List<Double> stats = this.receiptService.getTotalStats();
+    public void getItemsStats() {
+        List<Double> stats = this.receiptService.getItemsStats();
         if (stats == null) {
             errorDialog(this.receiptService.getSQLErrorMessage());
             return;

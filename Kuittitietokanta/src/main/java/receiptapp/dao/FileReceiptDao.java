@@ -514,7 +514,7 @@ public class FileReceiptDao {
         return receipts;
     }
     
-    public List<Double> getTotalStats() throws SQLException {
+    public List<Double> getItemStats() throws SQLException {
         Connection db = DriverManager.getConnection(dbFileName);
         List<Double> stats = new ArrayList<>();
         

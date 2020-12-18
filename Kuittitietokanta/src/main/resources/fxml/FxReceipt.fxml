@@ -202,7 +202,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Receipt totals">
+                              <Label text="Receipt item stats">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
@@ -247,7 +247,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Button fx:id="getStatsBtn" mnemonicParsing="false" onAction="#handleGetTotalStats" text="calculate" GridPane.rowIndex="5" />
+                              <Button fx:id="getItemStatsBtn" mnemonicParsing="false" onAction="#handleGetItemsStats" text="calculate" GridPane.rowIndex="5" />
                            </children>
                         </GridPane>
                         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2" />
