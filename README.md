@@ -1,13 +1,20 @@
 # Ostosten seurantasovellus
 
-Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä rahaa. Käyttäjä voi syöttää ohjelmaan kuitin ostoksistaan, ja ohjelmalla voi luoda yhteenvedon ostetuista tuotteista halutulla aikavälillä.
+Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä rahaa. Käyttäjä voi syöttää ohjelmaan kuitin ostoksistaan, ja ohjelmalla voi luoda yhteenvedon ostetuista tuotteista.
+
+![kuvakaappaus-sovelluksesta](dokumentaatio/kuvat/kuitti-valittuna.png)
 
 ## Dokumentaatio
-[Työaikakirjanpito](tyoaikakirjanpito.md)
+[Käyttöohje](dokumentaatio/kayttoohje.md)
 
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
 
 [Arkkitehtuurikuvaus](dokumentaatio/arkkitehtuuri.md)
+
+[Testausdokumentti](dokumentaatio/testaus.md)
+
+[Työaikakirjanpito](tyoaikakirjanpito.md)
+
 
 ## Komentorivikomennot 
 
