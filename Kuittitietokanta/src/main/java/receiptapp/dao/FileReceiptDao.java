@@ -503,6 +503,11 @@ public class FileReceiptDao {
         return receipts;
     }
     
+    /**
+     * Hakee tietokannasta kuittiriviin liittyviä tunnuslukuja.
+     * @return tunnusluvut listassa: keskiarvo, varianssi, maksimi ja minimi
+     * @throws SQLException jos tietokantayhteys epäonnistuu
+     */
     public List<Double> getItemStats() throws SQLException {
         Connection db = DriverManager.getConnection(dbFileName);
         List<Double> stats = new ArrayList<>();
