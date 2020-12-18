@@ -41,6 +41,7 @@ public class ReceiptService {
             this.receipts = this.fileReceiptDao.getReceipts();
         } catch (Exception e) {
             System.out.println("receiptapp.domain.ReceiptService.<init>(): " + e);
+            //this.sqlErrorMessage = "Virhe tietokannan alustuksessa: " + e.getMessage();
         }
     }
     
@@ -247,7 +248,7 @@ public class ReceiptService {
      * @return lista käytetyistä yksiköistä
      */
     public List getUnits() {
-        List<String> units = new ArrayList<String>();
+        List<String> units = new ArrayList<>();
         units.add("pc");
         units.add("kg");
         units.add("l");

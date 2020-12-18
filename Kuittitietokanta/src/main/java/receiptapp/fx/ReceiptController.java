@@ -253,7 +253,6 @@ public class ReceiptController implements Initializable {
         
         boolean result = this.receiptService.deleteItem(selected);
         if (!result) {
-            //errorDialog("Virhe tuotteen poistossa :^(");
             String errMsg = this.receiptService.getSQLErrorMessage();
             errorDialog(errMsg);
             return;
