@@ -26,7 +26,7 @@ public class FileReceiptDao {
     public ObservableList<Receipt> receipts;
     private String dbFileName;
     private File dbFile;
-    private String ERR_MSG = "Tietokantatiedosto on korruptoitunut";
+    private String errMsg = "Tietokantatiedosto on korruptoitunut";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
     
     /**
@@ -75,7 +75,7 @@ public class FileReceiptDao {
             Receipt receipt;
             ReceiptItem item;
         } catch (SQLException e) {
-            throw new SQLException("Tietokantataulujen luominen epäonnistui: " + ERR_MSG);
+            throw new SQLException("Tietokantataulujen luominen epäonnistui: " + errMsg);
         } finally {
             db.close();
         }
@@ -126,7 +126,7 @@ public class FileReceiptDao {
             }            
         } catch (SQLException e) {
             //System.out.println("FileReceiptDao.readReceiptDatabase(): " + e);
-            throw new SQLException("Tietokannan lukeminen epäonnistui: " + ERR_MSG);
+            throw new SQLException("Tietokannan lukeminen epäonnistui: " + errMsg);
         } finally {
             db.close();
         }
@@ -165,7 +165,7 @@ public class FileReceiptDao {
             }            
         } catch (SQLException e) {
             //System.out.println("FileReceiptDao.readItemsFromDB(): " + e);
-            throw new SQLException("Kuittirivien lukeminen epäonnistui: " + ERR_MSG);
+            throw new SQLException("Kuittirivien lukeminen epäonnistui: " + errMsg);
         } finally {
             db.close();
         }
@@ -202,7 +202,7 @@ public class FileReceiptDao {
             
         } catch (SQLException e) {
 //            System.out.println("FileReceiptDao.saveReceipt(): " + e);
-            throw new SQLException(ERR_MSG);
+            throw new SQLException(errMsg);
         } finally {
             db.close();
         }
@@ -254,7 +254,7 @@ public class FileReceiptDao {
             
         } catch (SQLException e) {
 //            System.out.println("FileReceiptDao.saveNewReceiptItems(): " + e);
-            throw new SQLException("Kuitin kuittirivien tallennus epäonnistui: " + ERR_MSG);
+            throw new SQLException("Kuitin kuittirivien tallennus epäonnistui: " + errMsg);
         } finally {
             db.close();
         }
@@ -286,7 +286,7 @@ public class FileReceiptDao {
             
         } catch (SQLException e) {
 //            System.out.println("FileReceiptDao.saveNewPurchases(): " + e);
-            throw new SQLException("Kuitti-kuittiriviparien tallennus epäonnistui: " + ERR_MSG);
+            throw new SQLException("Kuitti-kuittiriviparien tallennus epäonnistui: " + errMsg);
         } finally {
             db.close();
         }
@@ -313,7 +313,7 @@ public class FileReceiptDao {
             
         } catch (SQLException e) {
 //            System.out.println("deleteReceipt(): " + e);
-            throw new SQLException(ERR_MSG);
+            throw new SQLException(errMsg);
         } finally {
             db.close();
         }
@@ -344,7 +344,7 @@ public class FileReceiptDao {
             return affectedRows;
         } catch (SQLException e) {
 //            System.out.println("FileReceiptDao.databaseContainsReceipt(): " + e);
-            throw new SQLException(ERR_MSG);
+            throw new SQLException(errMsg);
         } finally {
             db.close();
         }
@@ -365,7 +365,7 @@ public class FileReceiptDao {
             return deleteReceiptItems(items);
         } catch (SQLException e) {
 //            System.out.println("FileReceiptDao.deleteItem(): " + e);
-            throw new SQLException(ERR_MSG);
+            throw new SQLException(errMsg);
         }
     }
     
@@ -400,7 +400,7 @@ public class FileReceiptDao {
             
         } catch (SQLException e) {
 //            System.out.println("FileReceiptDao.updateExistingReceipt(): " + e);
-            throw new SQLException(ERR_MSG);
+            throw new SQLException(errMsg);
         } finally {
             db.close();
         }
@@ -443,7 +443,7 @@ public class FileReceiptDao {
             return affRows > 0;
             
         } catch (SQLException e) {
-            throw new SQLException(ERR_MSG);
+            throw new SQLException(errMsg);
         } finally {
             db.close();
         }
