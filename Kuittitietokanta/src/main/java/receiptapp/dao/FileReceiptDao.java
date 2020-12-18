@@ -201,7 +201,7 @@ public class FileReceiptDao {
             
         } catch (SQLException e) {
             System.out.println("FileReceiptDao.saveReceipt(): " + e);
-            throw new SQLException("Virhe kuitin tallennuksessa: " + ERR_MSG);
+            throw new SQLException(ERR_MSG);
         } finally {
             db.close();
         }

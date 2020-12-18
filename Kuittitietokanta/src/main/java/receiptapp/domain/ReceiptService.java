@@ -61,7 +61,7 @@ public class ReceiptService {
         try {
             this.fileReceiptDao.saveReceipt(receipt);
         } catch (SQLException e) {
-            this.sqlErrorMessage = e.getMessage();
+            this.sqlErrorMessage = "Virhe kuitin tallennuksessa: " + e.getMessage();
             return false;
         }
         this.receipts.add(receipt);
