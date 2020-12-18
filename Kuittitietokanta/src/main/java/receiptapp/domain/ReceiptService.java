@@ -94,6 +94,7 @@ public class ReceiptService {
             boolean receiptUpdateResult = this.fileReceiptDao.updateExistingReceipt(receipt, store, date);
             
             if (!receiptUpdateResult) {
+                this.sqlErrorMessage = "Kuitin päivittäminen ei onnistunut";
                 return false;
             }
             receipt.setStore(store);
@@ -112,7 +113,8 @@ public class ReceiptService {
             receipt.setItems(receiptItems);            
             
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            this.sqlErrorMessage = "Kuitin päivittäminen ei onnistunut: " + e.getMessage();
             return false;
         }
     }
