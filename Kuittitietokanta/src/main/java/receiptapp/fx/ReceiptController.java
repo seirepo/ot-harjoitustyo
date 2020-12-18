@@ -204,7 +204,9 @@ public class ReceiptController implements Initializable {
         }
         
         if (!result) {
-            errorDialog("Virhe tuotteen tallennuksessa :^(");
+            String errMsg = this.receiptService.getSQLErrorMessage();
+            errorDialog(errMsg);
+            return;
         }
         
         this.itemTable.refresh();
