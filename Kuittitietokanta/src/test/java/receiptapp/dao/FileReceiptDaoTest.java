@@ -49,7 +49,7 @@ public class FileReceiptDaoTest {
     public void setUp() throws Exception {
         testFileName = "testfile_receipts.db";
         testDao = new FileReceiptDao(testFileName);
-        testReceipts = testDao.getAll();
+        testReceipts = testDao.getReceipts();
         testFile = testDao.getFile();
         item = new ReceiptItem("product_name", 10.5, true, 0.5, "kg");
         receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
@@ -70,9 +70,14 @@ public class FileReceiptDaoTest {
     }
     
     @Test
+    public void createTablesReturnsFalseIfDBIsCorrupted() {
+        
+    }
+    
+    @Test
     public void readingEmptyDBReturnsEmptyReceiptList() throws Exception {
         testDao.readReceiptDatabase();
-        assertEquals(0, testDao.getAll().size());
+        assertEquals(0, testDao.getReceipts().size());
     }
     
     @Test
@@ -163,7 +168,7 @@ public class FileReceiptDaoTest {
     public void receiptCanBeSavedToDatabase() throws Exception {
         Receipt receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
 
-        assertTrue(testDao.saveNewReceipt(receipt));
+        assertTrue(testDao.saveReceipt(receipt));
         Receipt dbReceipt = getReceipt(receipt.getId());
         assertTrue(dbReceipt != null);
         assertEquals(dbReceipt.getId(), receipt.getId());
@@ -175,7 +180,7 @@ public class FileReceiptDaoTest {
     public void receiptsCanBeDeleted() throws Exception {
         Receipt receipt = new Receipt("store", LocalDate.parse("2020-11-11"), FXCollections.observableArrayList());
         
-        testDao.saveNewReceipt(receipt);
+        testDao.saveReceipt(receipt);
         assertEquals(1, testDao.deleteReceipt(receipt));
         assertEquals(null, getReceipt(receipt.getId()));
     }
