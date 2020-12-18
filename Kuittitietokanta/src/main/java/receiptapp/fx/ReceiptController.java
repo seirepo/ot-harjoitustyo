@@ -52,6 +52,12 @@ public class ReceiptController implements Initializable {
     @FXML private Button addOrSaveReceiptBtn;
     @FXML private Button cancelEditItemBtn;
     @FXML private CheckBox unitPriceCheck;
+    
+    @FXML private Label totalMeanLabel;
+    @FXML private Label totalSdLabel;
+    @FXML private Label totalMinLabel;
+    @FXML private Label totalMaxLabel;
+    @FXML private Button getStatsBtn;
 
     
     @FXML private TableView<ReceiptItem> itemTable;
@@ -169,6 +175,11 @@ public class ReceiptController implements Initializable {
         deleteReceipt();
     }
 
+    @FXML
+    void handleGetTotalStats(ActionEvent event) {
+        getTotalStats();
+    }
+    
     /**
      * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
      * täytetty oikein. Jos ei, palautetaan virheilmoitus error-dialogissa.
@@ -378,6 +389,22 @@ public class ReceiptController implements Initializable {
     public void updateTotal() {
         String total = "" + this.receiptService.getTotal();
         this.receiptTotal.setText(total);
+    }
+    
+    /**
+     * Haetaan tietokannasta olevien kuittien tilastoja ja näytetään ne
+     * tilastovälilehdellä.
+     */
+    public void getTotalStats() {
+        List<Double> stats = this.receiptService.getTotalStats();
+        if (stats == null) {
+            errorDialog(this.receiptService.getSQLErrorMessage());
+            return;
+        }
+        this.totalMeanLabel.setText("" + stats.get(0));
+        this.totalSdLabel.setText("" + stats.get(1));
+        this.totalMaxLabel.setText("" + stats.get(2));
+        this.totalMinLabel.setText("" + stats.get(3));
     }
     
     /**

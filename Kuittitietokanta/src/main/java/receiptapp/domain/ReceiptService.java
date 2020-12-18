@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.decimal4j.util.DoubleRounder;
 import receiptapp.dao.FileReceiptDao;
 
 /**
@@ -272,20 +273,39 @@ public class ReceiptService {
      * @return sql-virheviesti
      */
     public String getSQLErrorMessage() {
-        String r = this.sqlErrorMessage + " :^(";
+        String r = this.sqlErrorMessage + " :^(\n";
         this.sqlErrorMessage = "";
         return r;
     }
     
     /**
-     * Palauttaa kuittien summien keskiarvon annetulla aikavälillä.
-     * @param start alkupvm
-     * @param end loppupvm
+     * Palauttaa kaikkien tietokannassa olevien kuittien summien
+     * keskiarvon.
      * @return keskiarvo
      */
-    public int getMeanTotal(LocalDate start, LocalDate end) {
-        // hae daosta kuittien määrä annetulla välillä
-        return 0;
+    public List<Double> getTotalStats() {
+        List<Double> totalStats = new ArrayList<>();
+        try {
+            List<Double> stats = this.fileReceiptDao.getTotalStats();
+            double mean = stats.get(0);
+            double var = stats.get(1);
+            double max = stats.get(2);
+            double min = stats.get(3);
+            
+            totalStats.add(DoubleRounder.round(HelperFunctions.shiftDouble(mean, -2), 2));
+            double stdev = Math.sqrt(var);
+            totalStats.add(DoubleRounder.round(HelperFunctions.shiftDouble(stdev, -2), 2));
+            totalStats.add(HelperFunctions.shiftDouble(max, -2));
+            totalStats.add(HelperFunctions.shiftDouble(min, -2));
+        } catch (Exception e) {
+            this.sqlErrorMessage = "Virhe tilastojen laskemisessa";
+            return null;
+        }
+        if (totalStats.size() == 4) {
+            return totalStats;
+        } else {
+            return null;
+        }
     }
     
     /**

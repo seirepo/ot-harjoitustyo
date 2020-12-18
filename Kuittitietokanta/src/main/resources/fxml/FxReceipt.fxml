@@ -199,6 +199,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label text="Receipt totals">
@@ -216,36 +217,37 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="totalMeanLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <Label fx:id="totalMeanLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="totalSdLabel" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <Label fx:id="totalSdLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="Min" GridPane.rowIndex="3">
+                              <Label text="Min" GridPane.rowIndex="4">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="Max" GridPane.rowIndex="4">
+                              <Label text="Max" GridPane.rowIndex="3">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="totalMinLabel" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <Label fx:id="totalMinLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="totalMaxLabel" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <Label fx:id="totalMaxLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
+                              <Button fx:id="getStatsBtn" mnemonicParsing="false" onAction="#handleGetTotalStats" text="calculate" GridPane.rowIndex="5" />
                            </children>
                         </GridPane>
                         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2" />

@@ -513,4 +513,37 @@ public class FileReceiptDao {
     public ObservableList<Receipt> getReceipts() {
         return receipts;
     }
+    
+    public List<Double> getTotalStats() throws SQLException {
+        Connection db = DriverManager.getConnection(dbFileName);
+        List<Double> stats = new ArrayList<>();
+        
+        try {
+            PreparedStatement p;
+            ResultSet rs;
+            
+            p = db.prepareStatement("SELECT AVG(price) FROM Items;");
+            rs = p.executeQuery();
+            double mean = rs.getDouble(1);            
+            p = db.prepareStatement("SELECT AVG((I.price - mean) * (I.price - mean)) "
+                    + "FROM Items I, (SELECT AVG(price) AS mean FROM Items);");
+            rs = p.executeQuery();
+            double var = rs.getDouble(1);
+            p = db.prepareStatement("SELECT MAX(price), MIN(price) FROM Items;");
+            rs = p.executeQuery();
+            double max = rs.getDouble(1);
+            double min = rs.getDouble(2); 
+            
+            stats.add(mean);
+            stats.add(var);
+            stats.add(max);
+            stats.add(min);           
+            
+        } catch (SQLException e) {
+            throw new SQLException(errMsg);
+        } finally {
+            db.close();
+        }
+        return stats;
+    }
 }
