@@ -251,9 +251,9 @@ public class FileReceiptDao {
             }
             return affectedRows;
             
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.saveNewReceiptItems(): " + e);
-            return -1;
+        } catch (SQLException e) {
+//            System.out.println("FileReceiptDao.saveNewReceiptItems(): " + e);
+            throw new SQLException("Kuitin kuittirivien tallennus epäonnistui: " + ERR_MSG);
         } finally {
             db.close();
         }
@@ -283,9 +283,9 @@ public class FileReceiptDao {
             p.setInt(2, itemId);
             return p.executeUpdate();
             
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.saveNewPurchases(): " + e);
-            return -1;
+        } catch (SQLException e) {
+//            System.out.println("FileReceiptDao.saveNewPurchases(): " + e);
+            throw new SQLException("Kuitti-kuittiriviparien tallennus epäonnistui: " + ERR_MSG);
         } finally {
             db.close();
         }
