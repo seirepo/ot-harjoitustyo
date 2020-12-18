@@ -27,8 +27,7 @@ import receiptapp.domain.ReceiptItem;
 import receiptapp.domain.Receipt;
 
 /**
- * FXML Controller class
- *
+ * FXML Controller class.
  * @author resure
  */
 public class ReceiptController implements Initializable {
@@ -53,7 +52,6 @@ public class ReceiptController implements Initializable {
     @FXML private Button addOrSaveReceiptBtn;
     @FXML private Button cancelEditItemBtn;
     @FXML private CheckBox unitPriceCheck;
-//    @FXML private MenuItem saveMenuItem;
 
     
     @FXML private TableView<ReceiptItem> itemTable;
@@ -74,14 +72,25 @@ public class ReceiptController implements Initializable {
     private ReceiptItem selectedItem;
     private Receipt selectedReceipt;
     
-    
+    /**
+     * Konstruktori. Alustetaan ei-fxml-attribuutit.
+     */
     public ReceiptController() {
         this.doublePattern = Pattern.compile("[0-9]*\\.[0-9]+|[0-9]+");
     }
     
+    /**
+     * Asetetaan controlleriin liittyvä sovellus.
+     * @param application sovellus
+     */
     public void setApplication(ReceiptMain application) {
         this.application = application;
     }
+    
+    /**
+     * Asetetaan käytettävä receiptService-olio.
+     * @param receiptService receiptService
+     */
     public void setReceiptService(ReceiptService receiptService) {
         this.receiptService = receiptService;
         
@@ -112,7 +121,7 @@ public class ReceiptController implements Initializable {
         this.itemTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) 
-                        -> editItem(newSelection));
+                    -> editItem(newSelection));
         
         this.storeCol.setCellValueFactory(new PropertyValueFactory<>("store"));
         this.dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -120,8 +129,8 @@ public class ReceiptController implements Initializable {
         this.totalCol.setCellValueFactory(new PropertyValueFactory<>("total"));
         this.receiptTable.getSelectionModel()
                 .selectedItemProperty()
-                .addListener((obs, oldSelection, newSelection) ->
-                              editReceipt(newSelection));
+                .addListener((obs, oldSelection, newSelection)
+                    -> editReceipt(newSelection));
     }
 
 
@@ -159,21 +168,14 @@ public class ReceiptController implements Initializable {
     void handleDeleteReceipt(ActionEvent event) {
         deleteReceipt();
     }
-    
-//    @FXML
-//    void handleSave(ActionEvent event) {
-//        save();
-//    }
-    
-    @FXML
-    void HandleCheckDouble(KeyEvent event) {
-        //System.out.println(event.getCharacter());
-    }
-    
 
     /**
      * Lisätään uusi tuote itemTableen. Tarkistetaan ensin onko vaaditut kentät
-     * täytetty oikein.
+     * täytetty oikein. Jos ei, palautetaan virheilmoitus error-dialogissa.
+     * Tämän jälkeen otetaan vaadittujen kenttien sisältö, ja luodaan niiden
+     * pohjalta uusi ReceiptItem-olio (jos itemTablen valinta on null), tai
+     * päivitetään itemTablessa valituna olevan kuitin tiedot. Lopussa
+     * tyhjennetään kentät ja itemTablen valinta.
      */
     public void addOrSaveItem() {
         String error = checkAddItemFields();
@@ -205,14 +207,15 @@ public class ReceiptController implements Initializable {
         updateTotal();        
     }
     
+    /**
+     * Asetetaan valitun itemin tiedot näkyviin tuotteen lisäyskenttiin.
+     * @param item valittu tuote
+     */
     public void editItem(ReceiptItem item) {
         
-        if (item == null) return;
-        
-        System.out.println("receiptapp.fx.ReceiptController.editItem(): "
-                + item);
-        System.out.println("receiptapp.fx.ReceiptController.editItem(): "
-                + this.itemTable.getSelectionModel().getSelectedItem());
+        if (item == null) {
+            return;
+        }
         
         this.productField.setText(item.getProduct());
         this.priceField.setText("" + item.getPrice());
@@ -221,11 +224,20 @@ public class ReceiptController implements Initializable {
         this.unitChoice.setValue(item.getUnit());
     }
     
+    /**
+     * Perutaan tuotteen muokkaaminen: tyhjennetään ItemTablen valinta ja
+     * tuotteen lisäämiseen liittyvät kentät.
+     */
     public void cancelEditingItem() {
         this.itemTable.getSelectionModel().clearSelection();
         clearAddFields();
     }
     
+    /**
+     * Haetaan valittuna oleva tuote ja poistetaan se. Tämän jälkeen päivitetään
+     * itemTable ja loppusumma, sekä tyhjennetään itemTablen valinta.
+     * Jos valittu tuote on null, näytetään error-dialogi.
+     */
     public void deleteItem() {
         ReceiptItem selected = this.itemTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -312,8 +324,17 @@ public class ReceiptController implements Initializable {
         this.itemTable.refresh();
     }
     
+    /**
+     * Asetetaan valittuna olevan kuitin tiedot kuittikohtaiseen näkymään.
+     * Tämä jälkeen asetetaan itemTablessa näkyviksi tuotteiksi muokattavan
+     * kuitin tuotteet ja päivitetään table.
+     * Jos valittu kuitti on null, ei tehdä mitään.
+     * @param receipt valittu kuitti
+     */
     public void editReceipt(Receipt receipt) {
-        if (receipt == null) return;
+        if (receipt == null) {
+            return;
+        }
         
         this.receiptService.clearItems();
         this.storeField.setText(receipt.getStore());
