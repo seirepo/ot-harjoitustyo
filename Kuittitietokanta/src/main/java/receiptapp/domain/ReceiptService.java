@@ -92,11 +92,10 @@ public class ReceiptService {
             if (!receiptUpdateResult) {
                 return false;
             }
-            
             receipt.setStore(store);
             receipt.setDate(date);
+            
             ObservableList<ReceiptItem> receiptItems = FXCollections.observableArrayList();
-
             for (ReceiptItem item : this.items) {
                 receiptItems.add(item);
             }
@@ -130,7 +129,9 @@ public class ReceiptService {
         try {
             int p = (int) HelperFunctions.shiftDouble(price, 2);
             boolean result = this.fileReceiptDao.updateExistingItem(item, product, p, isUnitPrice, qnty, unit);
-            if (!result) return false;
+            if (!result) {
+                return false;
+            }
             item.updateProperties(product, price, isUnitPrice, qnty, unit);
             success = true;
         } catch (Exception e) {
@@ -141,7 +142,7 @@ public class ReceiptService {
     
     /**
      * Poistaa annetun kuittirivin.
-     * @param item
+     * @param item poistettava kuittirivi
      * @return onnistuiko poisto
      */
     public boolean deleteItem(ReceiptItem item) {
@@ -182,7 +183,7 @@ public class ReceiptService {
         } catch (Exception e) {
             return false;
         } finally {
-            System.out.println(this.receipts.contains(receipt));
+            System.out.println("onnistuiko kuitin poisto: " + this.receipts.contains(receipt));
         }
         return success;
     }
@@ -242,7 +243,9 @@ public class ReceiptService {
      */
     public List getUnits() {
         List<String> units = new ArrayList<String>();
-        units.add("pc"); units.add("kg"); units.add("l");
+        units.add("pc");
+        units.add("kg");
+        units.add("l");
         return units;
     }
 
