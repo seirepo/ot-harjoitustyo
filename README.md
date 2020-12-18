@@ -38,3 +38,4 @@ Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä 
 
 ### Releaset
 - [Viikon 5 versio](https://github.com/serepo/ot-harjoitustyo/releases/tag/viikko5)
+- [Lopullinen versio](https://github.com/serepo/ot-harjoitustyo/releases/tag/loppupalautus)

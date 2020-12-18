@@ -1,6 +1,6 @@
 # Käyttöohje
 
-Lataa sovelluksen .jar-tiedosto. Tämän jälkeen ohjelman voi käynnistää komennolla `java -jar receiptapp.jar`.
+Lataa sovelluksen .jar-tiedosto [täältä](https://github.com/serepo/ot-harjoitustyo/releases/tag/loppupalautus). Tämän jälkeen ohjelman voi käynnistää komennolla `java -jar receiptapp.jar`.
 
 Sovellusta käytetään nappeja painelemalla.
 
