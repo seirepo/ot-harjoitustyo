@@ -112,8 +112,6 @@ public class ReceiptController implements Initializable {
     
     /**
      * Alustetaan kaikki fxml-jutut ja tehdään tarvittavat asetukset.
-     * TODO: jaa tämäkin erillisiin metodeihin jos mahdollista, eli esim.
-     * initializeChoseBox(), initializeItemTable(), initializeReceiptTable()
      * @param url
      * @param rb 
      */
@@ -193,7 +191,6 @@ public class ReceiptController implements Initializable {
         
         if (error.length() > 0) {
             errorDialog(error);
-            System.out.println(error);
             return;
         }
         
@@ -296,7 +293,6 @@ public class ReceiptController implements Initializable {
         
         if (error.length() > 0) {
             errorDialog(error);
-            System.out.println(error);
             return;
         }
         
@@ -330,7 +326,6 @@ public class ReceiptController implements Initializable {
      * Tyhjennetään jälleen näkymän oikea puoli, jos halutaankin perua
      * kuitin muokkaaminen tai uuden kuitin lisääminen. Kutsuu
      * addNewReceipt-metodia.
-     * TODO: vahvistus?
      */
     public void cancelEditReceipt() {
         addNewReceipt();
@@ -339,7 +334,6 @@ public class ReceiptController implements Initializable {
     /**
      * Poistetaan valittu kuitti. Näytetään virheviesti jos mitään kuittia ei
      * ole valittuna.
-     * TODO: vahvistus?
      */
     public void deleteReceipt() {
         Receipt selected = this.receiptTable.getSelectionModel().getSelectedItem();

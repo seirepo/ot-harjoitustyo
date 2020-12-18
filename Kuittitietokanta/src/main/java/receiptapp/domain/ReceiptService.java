@@ -305,32 +305,4 @@ public class ReceiptService {
             return null;
         }
     }
-    
-    /**
-     * Palauttaa listana ostetuimmat tuotteet annetulla aikavälillä.
-     * Palautettavien tuotteiden määrän voi valita.
-     * @param start alkupvm
-     * @param end loppupvm
-     * @param top kuinka monta palautetaan
-     * @return ostetuimmat tuotteet
-     */
-    public List<String> getMostBoughtProducts(LocalDate start, LocalDate end, int top) {
-        // hae daosta ostetuimmat tuotteet ja palauta top kappaletta tuotteita
-        return new ArrayList<>();
-    }
-
-    /**
-     * Palauttaa ne kauppojen nimet, joissa on käyty eniten annetulla
-     * aikavälillä. Palautettavien kauppojen määrän voi valita.
-     * @param start alkupvm
-     * @param end loppupvm
-     * @param top kuinka monta palautetaan
-     * @return käytetyimmät kaupat
-     */    
-    public List<String> getMostVisitedStores(LocalDate start, LocalDate end, int top) {
-        // hae daosta kaupat joissa on käyty eniten ja palauta niistä top kappaletta
-        return new ArrayList<>();
-    }
-    
-    
 }

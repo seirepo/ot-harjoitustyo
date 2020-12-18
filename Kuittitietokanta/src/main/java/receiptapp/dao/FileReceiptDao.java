@@ -378,9 +378,8 @@ public class FileReceiptDao {
             Statement s = db.createStatement();
             s.execute("PRAGMA foreign_keys = ON;");
             
-            PreparedStatement p = db.prepareStatement("UPDATE Receipts "
-                    + "SET store=?, date=? "
-                    + "WHERE id=?");
+            PreparedStatement p = db.prepareStatement(
+                "UPDATE Receipts SET store=?, date=? WHERE id=?");
             p.setString(1, store);
             p.setString(2, date.toString());
             p.setInt(3, receipt.getId());
@@ -413,7 +412,6 @@ public class FileReceiptDao {
         try {
             if (!dbContainsItem(item)) {
                 throw new SQLException();
-//                return false;
             }
             Statement s = db.createStatement();
             s.execute("PRAGMA foreign_keys = ON;");
