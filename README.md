@@ -26,7 +26,7 @@ Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä 
 - Raportti löytyy */target/site/checkstyle.html*
 
 ### jar-paketin luominen
-- jar-tiedosto luodaan komennolla `mvn package`
+- jar-tiedosto luodaan komennolla `mvn package`. Tämä luo .jar-tiedoston kansioon *target*
 - ohjelman suoritetaan jar:na komennolla `java -jar Kuittitietokanta-1.0-SNAPSHOT.jar`
 
 ### Releaset
