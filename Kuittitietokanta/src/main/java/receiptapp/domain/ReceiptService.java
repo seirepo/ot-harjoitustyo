@@ -160,7 +160,7 @@ public class ReceiptService {
                 }
                 return result;
             } catch (SQLException e) {
-                
+                this.sqlErrorMessage = "Virhe tuotteen poistossa: " + e.getMessage();
                 return false;
             }
         }
