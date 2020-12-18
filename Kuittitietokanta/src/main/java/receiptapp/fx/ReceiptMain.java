@@ -37,7 +37,6 @@ public class ReceiptMain extends Application {
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         
-        stage.setTitle("pls work");
         stage.setScene(scene);
         stage.show();
     }    
