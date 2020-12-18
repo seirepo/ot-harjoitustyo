@@ -300,9 +300,7 @@ public class ReceiptController implements Initializable {
         
         if (!result) {
             String errMsg = this.receiptService.getSQLErrorMessage();
-            System.out.println("error message: " + errMsg);
             errorDialog(errMsg + " :^(");
-            //errorDialog("Virhe kuitin tallennuksessa :^(");
             return;
         }
 
