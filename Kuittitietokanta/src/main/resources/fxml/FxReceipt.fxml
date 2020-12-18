@@ -24,7 +24,7 @@
         <URL value="@/styles/fxreceipt.css" />
     </stylesheets>
   <tabs>
-    <Tab text="Untitled Tab 1">
+    <Tab text="Receipts">
          <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
@@ -173,7 +173,7 @@
                </bottom>
             </BorderPane>
          </content></Tab>
-    <Tab text="Untitled Tab 2">
+    <Tab text="Statistics, facts &amp; analyses">
          <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0" />
          </content></Tab>
