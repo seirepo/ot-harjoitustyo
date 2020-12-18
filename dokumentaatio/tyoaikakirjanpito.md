@@ -15,7 +15,8 @@
 | 10.12. | 5h | Jatkettu tallennustoiminnallisuuden toteuttamista: nyt kuittien tallentaminen kuittitauluun on jotenkin toteutettu. Kuitit luetaan sovelluksen käynnistyessä tietokannasta ja näytetään käyttöliittymässä.
 | 10.12. | 5h | Jatkettu tallennustoiminnallisuuden toteuttamista: nyt kuittien tallentaminen kuittitauluun on jotenkin toteutettu. Kuitit luetaan sovelluksen käynnistyessä tietokannasta ja näytetään käyttöliittymässä. |
 | 14.12. | 10h | Tehty loppuun daon tallennus ja aloitettu tekemään sille testejä. Testien ajaminen johtanut kuitenkin aina SQL:n `database locked`-erroriin. Aiheuttaja ei selvinnyt joten palattu aiempaan toimivaan versioon ja aloitettu daon ja sen testien kirjoittaminen uudestaan |
-| 15.12. | 5h | Jatkettu daon uudelleenkirjoittamista. Vaihdettu sovelluksen tallennustapaa: jokainen muutos tallennetaan, käyttäjä ei voi valita milloin tallennetaan.
-| 16.12. | 6h | Muokattu ReceiptServiceä, kirjoitettu uudestaan vanhoja daon metodeita ja laitettu ReceiptService kutsumaan niitä aina kun joku muuttuu.
-| 17.12. | 10h | Kirjoitettu loppuun tarvittavat metodit daoon testeineen. Muokattu joitain jo tehtyjä metodeja.
-| yht. | 107.5h |
+| 15.12. | 5h | Jatkettu daon uudelleenkirjoittamista. Vaihdettu sovelluksen tallennustapaa: jokainen muutos tallennetaan, käyttäjä ei voi valita milloin tallennetaan. |
+| 16.12. | 6h | Muokattu ReceiptServiceä, kirjoitettu uudestaan vanhoja daon metodeita ja laitettu ReceiptService kutsumaan niitä aina kun joku muuttuu. |
+| 17.12. | 10h | Kirjoitettu loppuun tarvittavat metodit daoon testeineen. Muokattu joitain jo tehtyjä metodeja. |
+| 18.12. | | Korjattu checkstyle-virheitä, dokumentoitu koodia, tehty virheilmoituksista käyttäjäystävällisempiä. |
+| yht. | 112.5h |
