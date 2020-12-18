@@ -466,7 +466,7 @@ public class FileReceiptDao {
             res = rs.getInt(1);
             
         } catch (Exception e) {
-            System.out.println("FileReceiptDao.dbContainsItem(): " + e);
+            
         } finally {
             db.close();
         }
@@ -495,7 +495,7 @@ public class FileReceiptDao {
             res = rs.getInt(1);
             
         } catch (Exception e) {
-            System.out.println("FileReceiptDao.dbContainsItem(): " + e);
+            
         } finally {
             db.close();
         }
