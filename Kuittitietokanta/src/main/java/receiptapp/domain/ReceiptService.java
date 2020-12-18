@@ -24,6 +24,7 @@ public class ReceiptService {
     private FileReceiptDao fileReceiptDao;
     private ObservableList<Receipt> deletedReceipts;
     private ObservableList<ReceiptItem> deletedItems;
+    private String sqlErrorMessage = "";
     
     /**
      * Konstruktori luokalle. Parametrina tiedoston nimi johon halutaan
@@ -60,6 +61,7 @@ public class ReceiptService {
         try {
             this.fileReceiptDao.saveReceipt(receipt);
         } catch (SQLException e) {
+            this.sqlErrorMessage = e.getMessage();
             return false;
         }
         this.receipts.add(receipt);
@@ -256,6 +258,17 @@ public class ReceiptService {
      */
     public File getDbFile() {
         return this.fileReceiptDao.getFile();
+    }
+    
+    /**
+     * Palauttaa viimeisimpänä tapahtuneen virheen. Tämän jälkeen asetetaan
+     * attribuutti sqlErrorMessage tyhjäksi.
+     * @return sql-virheviesti
+     */
+    public String getSQLErrorMessage() {
+        String r = this.sqlErrorMessage;
+        this.sqlErrorMessage = "";
+        return r;
     }
     
     /**

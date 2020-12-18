@@ -26,6 +26,7 @@ public class FileReceiptDao {
     public ObservableList<Receipt> receipts;
     private String dbFileName;
     private File dbFile;
+    private String ERR_MSG = "Tietokantatiedosto on korruptoitunut";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
     
     /**
@@ -198,9 +199,9 @@ public class FileReceiptDao {
             
             return result >= 0;
             
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.saveNewReceipt(): " + e);
-            return false;
+        } catch (SQLException e) {
+            System.out.println("FileReceiptDao.saveReceipt(): " + e);
+            throw new SQLException("Virhe kuitin tallennuksessa: " + ERR_MSG);
         } finally {
             db.close();
         }

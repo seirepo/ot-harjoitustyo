@@ -299,7 +299,11 @@ public class ReceiptController implements Initializable {
         }
         
         if (!result) {
-            errorDialog("Virhe kuitin tallennuksessa :^(");
+            String errMsg = this.receiptService.getSQLErrorMessage();
+            System.out.println("error message: " + errMsg);
+            errorDialog(errMsg + " :^(");
+            //errorDialog("Virhe kuitin tallennuksessa :^(");
+            return;
         }
 
         this.receiptTable.getSelectionModel().clearSelection();
