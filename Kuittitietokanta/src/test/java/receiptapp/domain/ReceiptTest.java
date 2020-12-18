@@ -28,16 +28,11 @@ public class ReceiptTest {
     }
 
     @Test
-    public void getTotalCentsReturnsTheSumRight1() {
+    public void getTotalCentsReturnsTheSumRight() {
        products.add(item1); products.add(item2); products.add(item3);
        assertEquals(2682, receipt.getTotalCents());
-    }   
-    
-    @Test
-    public void getTotalReturnsTheSumRight1() {
-       products.add(item1); products.add(item2); products.add(item3);
        assertEquals(26.82, receipt.getTotal(), 0.01);
-    }
+    }    
     
     @Test
     public void idIsNegativeOneWhenNotSet() {
@@ -47,6 +42,8 @@ public class ReceiptTest {
     @Test
     public void idCanBeSetAndGetsSetRight() {
         receipt.setId(4);
+        assertEquals(4, receipt.getId());
+        receipt.setId(-10);
         assertEquals(4, receipt.getId());
     }
     
@@ -59,5 +56,13 @@ public class ReceiptTest {
     public void getProductCountReturnsRightWhenProductUnitIsPc() {
        products.add(item1); products.add(item2); products.add(item3);
        assertEquals(6, receipt.getProductCount());
+    }
+    
+    @Test
+    public void dateCannotBeSetInTheFuture() {
+        LocalDate c = receipt.getDate();
+        LocalDate d = LocalDate.of(c.getYear()+1, c.getMonth(), c.getDayOfMonth());
+        receipt.setDate(d);
+        assertEquals(c, receipt.getDate());
     }
 }
