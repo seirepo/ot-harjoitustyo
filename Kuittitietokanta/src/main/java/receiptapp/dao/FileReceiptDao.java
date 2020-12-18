@@ -451,8 +451,7 @@ public class FileReceiptDao { //implements ReceiptDao {
         return this.dbFile;
     }
     
-    public ObservableList<Receipt> getAll() throws Exception {
-//        readReceiptDatabase();
+    public ObservableList<Receipt> getReceipts() {
         return receipts;
     }
 }
