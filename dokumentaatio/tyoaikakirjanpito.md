@@ -18,5 +18,5 @@
 | 15.12. | 5h | Jatkettu daon uudelleenkirjoittamista. Vaihdettu sovelluksen tallennustapaa: jokainen muutos tallennetaan, käyttäjä ei voi valita milloin tallennetaan. |
 | 16.12. | 6h | Muokattu ReceiptServiceä, kirjoitettu uudestaan vanhoja daon metodeita ja laitettu ReceiptService kutsumaan niitä aina kun joku muuttuu. |
 | 17.12. | 10h | Kirjoitettu loppuun tarvittavat metodit daoon testeineen. Muokattu joitain jo tehtyjä metodeja. |
-| 18.12. | | Korjattu checkstyle-virheitä, dokumentoitu koodia, tehty virheilmoituksista käyttäjäystävällisempiä. |
-| yht. | 112.5h |
+| 18.12. | 10h | Korjattu checkstyle-virheitä, dokumentoitu koodia, tehty virheilmoituksista käyttäjäystävällisempiä. Käyty läpi asioita palautusta varten. |
+| yht. | 122.5h |
