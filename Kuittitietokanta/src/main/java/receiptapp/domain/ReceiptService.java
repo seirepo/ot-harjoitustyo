@@ -186,7 +186,6 @@ public class ReceiptService {
         } catch (Exception e) {
             return false;
         } finally {
-            System.out.println("onnistuiko kuitin poisto: " + this.receipts.contains(receipt));
         }
         return success;
     }
