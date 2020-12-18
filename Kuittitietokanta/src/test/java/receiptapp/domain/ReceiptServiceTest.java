@@ -81,6 +81,15 @@ public class ReceiptServiceTest {
     }
     
     @Test
+    public void afterAddReceiptItemItemsGrowByOne() {        
+        ReceiptItem item = new ReceiptItem("prod_1", 3.85, false, 2, "pc");
+        int start = service.getReceiptItems().size();
+        service.addReceiptItem(item);
+        int end = service.getReceiptItems().size();
+        assertEquals(1, end-start);
+    }
+    
+    @Test
     public void updateReceiptUpdatesReceiptAndItsItems() {
         items.add(new ReceiptItem("prod_1", 1.5, true, 2, "l"));
         service.setReceiptItems(items);
@@ -100,6 +109,7 @@ public class ReceiptServiceTest {
     public void updateItemUpdatesItemProperties() {
         ReceiptItem item = new ReceiptItem("prod_1", 1.5, true, 2, "l");
         service.addReceiptItem(item);
+        assertFalse(service.updateItem(item, "prod_2", 1.5, false, 3, "pc"));
         service.addReceipt("store", LocalDate.parse("2020-12-12"));
         assertTrue(service.updateItem(item, "prod_2", 1.5, false, 3, "pc"));
         assertEquals("prod_2", item.getProduct());
@@ -107,6 +117,39 @@ public class ReceiptServiceTest {
         assertFalse(item.getIsUnitPrice());
         assertEquals(3, item.getQuantity(), 0.001);
         assertEquals("pc", item.getUnit());
+    }
+    
+    @Test
+    public void deleteItemReturnsFalseWhenNotSavedToItemsOrDB() {
+        ReceiptItem item = new ReceiptItem("prod_1", 5, true, 0.2, "kg");
+        assertFalse(service.deleteItem(item));
+    }
+    
+    @Test
+    public void deleteItemReturnsTrueIfItemSaved() {
+        ReceiptItem item = new ReceiptItem("prod_1", 5, true, 0.2, "kg");
+        items.add(item);
+        service.setReceiptItems(items);
+        assertTrue(service.deleteItem(item));
+    }
+    
+    @Test
+    public void deleteItemReducesSizeOfItemsByOne() {
+        ReceiptItem item = new ReceiptItem("prod_1", 3.85, false, 2, "pc");
+        service.addReceiptItem(item);
+        int start = service.getReceiptItems().size();
+        service.deleteItem(item);
+        int end = service.getReceiptItems().size();
+        assertEquals(1, start-end);
+    }
+    
+    @Test
+    public void deleteItemSavedToDBDeletesItemFromItems() {
+        ReceiptItem item = new ReceiptItem("prod_1", 3.85, false, 2, "pc");
+        items.add(item);
+        service.setReceiptItems(items);
+        service.addReceipt("store_1", LocalDate.parse("2020-12-15"));
+        assertTrue(service.deleteItem(item));
     }
     
     @Test
