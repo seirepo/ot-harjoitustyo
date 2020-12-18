@@ -381,7 +381,7 @@ public class FileReceiptDao {
         Connection db = DriverManager.getConnection(dbFileName);
         try {
             if (!dbContainsReceipt(receipt)) {
-                return false;
+                throw new SQLException();
             }
             
             Statement s = db.createStatement();
