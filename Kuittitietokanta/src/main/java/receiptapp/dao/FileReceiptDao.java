@@ -397,9 +397,9 @@ public class FileReceiptDao {
             int affRows = p.executeUpdate();
             return affRows > 0;
             
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.updateExistingReceipt(): " + e);
-            return false;
+        } catch (SQLException e) {
+//            System.out.println("FileReceiptDao.updateExistingReceipt(): " + e);
+            throw new SQLException(ERR_MSG);
         } finally {
             db.close();
         }
@@ -440,9 +440,8 @@ public class FileReceiptDao {
             int affRows = p.executeUpdate();
             return affRows > 0;
             
-        } catch (Exception e) {
-            System.out.println("FileReceiptDao.updateExistingItem(): " + e);
-            return false;
+        } catch (SQLException e) {
+            throw new SQLException(ERR_MSG);
         } finally {
             db.close();
         }

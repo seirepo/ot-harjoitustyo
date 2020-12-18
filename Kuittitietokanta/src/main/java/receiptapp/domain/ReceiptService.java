@@ -138,7 +138,8 @@ public class ReceiptService {
             }
             item.updateProperties(product, price, isUnitPrice, qnty, unit);
             success = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            this.sqlErrorMessage = "Tuotteen päivittäminen ei onnistunut: " + e.getMessage();
             return false;
         }
         return success;
