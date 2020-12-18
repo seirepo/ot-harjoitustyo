@@ -91,20 +91,23 @@ public class ReceiptItem {
     
     /**
      * Palauttaa kokonaishinnan sentteinä.
-     * @return 
+     * @return kokonaishinta senteissä
      */
     public int getTotalPriceCents() {
         if (this.isUnitPrice) {
             int cents = (int) (this.price * this.quantity);
-            if (cents == 0) return 1;
-            else return cents;
+            if (cents == 0) {
+                return 1;
+            } else {
+                return cents;
+            }
         }
         return this.price;
     }
     
     /**
      * Palauttaa tuotteen kokonaishinnan. Huomioi tarvittaessa kappalemäärän.
-     * @return 
+     * @return kokonaishinta euroina
      */
     public double getTotalPrice() {
         if (this.isUnitPrice) {
@@ -122,7 +125,7 @@ public class ReceiptItem {
     
     /**
      * Palauttaa tuotteen yksikköhinnan kokonaishinnasta laskettuna.
-     * @return 
+     * @return yksikköhinta
      */
     public double getUnitPrice() {
         if (this.isUnitPrice) {
@@ -133,9 +136,12 @@ public class ReceiptItem {
         }
     }
     
+    /**
+     * Palauttaa tuotteen määrän pyöristettynä kolmen desimaalin tarkkuudelle.
+     * @return määrä
+     */
     public double getQuantity() {
         return DoubleRounder.round(this.quantity, 3);
-        //return this.quantity;
     }
         
     public String getUnit() {
@@ -156,11 +162,14 @@ public class ReceiptItem {
     
     /**
      * Asettaa tuotteelle uuden kokonaishinnan. Varmistaa ettei asetettava hinta
-     * ole negatiivista tai pyöristy nollaan.
+     * ole negatiivista tai pyöristy nollaan. Jos hinta pyöristyy nollaan,
+     * asetetaan hinnaksi minimihinta 1 sentti.
      * @param price uusi hinta
      */
     public void setPrice(double price) {
-        if (price <= 0) return;
+        if (price <= 0) {
+            return;
+        }
         
         int cents = (int) HelperFunctions.shiftDouble(DoubleRounder.round(price, 3), 2);
         if (cents == 0) {
@@ -170,6 +179,11 @@ public class ReceiptItem {
         }
     }
     
+    /**
+     * Asetetaan kuittiriville uusi kokonaishinta. Asetuksessa huomioidaan se,
+     * onko kuittirivillä yksikköhinta. Jos on, asetettu hinta kerrotaan määrällä.
+     * @param price uusi hinta
+     */
     public void setTotalPrice(double price) {
         if (this.isUnitPrice) {
             setPrice(price * this.quantity);
@@ -182,6 +196,12 @@ public class ReceiptItem {
         this.isUnitPrice = isUnitPrice;
     }
     
+    /**
+     * Asettaa tuotteelle uuden määrän. Määrän tulee olla positiivinen. Jos
+     * uusi määrä pyöristyy nollaan kolmen desimaalin tarkkuudella, asetetaan
+     * määräksi minimi 0.001.
+     * @param quantity uusi määrä pyöristettynä kolmen desimaalin tarkkuudelle
+     */
     public void setQuantity(double quantity) {
         if (quantity > 0) {
             double q = HelperFunctions.shiftDouble(DoubleRounder.round(quantity, 3), 3);
@@ -190,10 +210,14 @@ public class ReceiptItem {
             } else {
                 this.quantity = HelperFunctions.shiftDouble(q, -3);
             }
-            //this.quantity = quantity;
         }
     }
     
+    /**
+     * Asettaa kuittiriville uuden yksikön. Yksikkö asetetaan vain jos se kuuluu
+     * listaan sallituista yksiköistä.
+     * @param unit uusi yksikkö
+     */
     public void setUnit(String unit) {
         if (this.units.contains(unit)) {
             this.unit = unit;
@@ -216,19 +240,9 @@ public class ReceiptItem {
      * @return tuote merkkijonona
      */
     public String getItem() {
-        String s = String.format("%-12s\t%-3.2f\t%-3d\t%-2s\t%-2.2fe / %-2s",
+        String s = String.format("%-12s\t%-3.2f\t%-3f\t%-2s\t%-2.2fe / %-2s",
                 this.product, HelperFunctions.shiftDouble(this.price, -2), this.quantity, this.unit,
                 getUnitPrice(), this.unit);
-        return s;
-    }
-    
-    /**
-     * Väliaikainen testi selkeyttämään daon tulosteita.
-     * @return 
-     */
-    public String getItem1() {
-        String s = this.product + "\t" + this.price + "\t" +
-                this.quantity + "\t" + this.isUnitPrice + "\t" + this.unit;
         return s;
     }
 }
