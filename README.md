@@ -19,6 +19,8 @@ Sovelluksen avulla voi seurata tekemiään ostoksia ja niihin käyttämäänsä 
 - Testikattavuusraportti luodaan komennolla `mvn jacoco:report`
 - Kattavuusraporttia voi tarkastella tiedostosta *target/site/jacoco/index.html*
 
+*Huom!* Jostain syystä testit näyttävät välillä DAO-luokan rivi- ja haarautumiskattavuudeksi 0%, vaikka tälle on tehty testit. Ongelma ratkeaa usein ajamalla `mvn clean` ja tämän jälkeen `mvn test jacoco:report`.
+
 ### Checkstyle
 - Checkstyle-raportti luodaan komennolla `mvn jxr:jxr checkstyle:checkstyle`
 - Raportti löytyy */target/site/checkstyle.html*
