@@ -323,19 +323,6 @@ public class ReceiptController implements Initializable {
         updateTotal();
     }
     
-//    /**
-//     * Tallennetaan kuitit tietokantaan. Jos tallennus epäonnistuu, avautuu
-//     * virhedialogi.
-//     * TODO: tarkista onko joku muokkaus kesken?
-//     */
-//    public void save() {
-//        if (this.receiptService.save()) {
-//            System.out.println("receiptapp.fx.ReceiptController.save(): " + "tallennus ok");
-//        } else {
-//            System.out.println("receiptapp.fx.ReceiptController.save(): " + "tallennus ei onnistunut");
-//        }
-//    }
-    
     /**
      * Päivitetään kuitin loppusumma.
      */
