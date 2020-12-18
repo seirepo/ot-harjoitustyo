@@ -422,7 +422,8 @@ public class FileReceiptDao {
         Connection db = DriverManager.getConnection(dbFileName);
         try {
             if (!dbContainsItem(item)) {
-                return false;
+                throw new SQLException();
+//                return false;
             }
             Statement s = db.createStatement();
             s.execute("PRAGMA foreign_keys = ON;");
