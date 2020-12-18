@@ -179,11 +179,13 @@ public class ReceiptService {
                 this.receipts.remove(receipt);
                 success = true;
             }
+            
             int result2 = this.fileReceiptDao.deleteReceiptItems(receipt.getItems());
             if (result2 < 1) {
                 success = false;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            this.sqlErrorMessage = e.getMessage();
             return false;
         } finally {
         }
@@ -265,7 +267,7 @@ public class ReceiptService {
      * @return sql-virheviesti
      */
     public String getSQLErrorMessage() {
-        String r = this.sqlErrorMessage;
+        String r = this.sqlErrorMessage + " :^(";
         this.sqlErrorMessage = "";
         return r;
     }

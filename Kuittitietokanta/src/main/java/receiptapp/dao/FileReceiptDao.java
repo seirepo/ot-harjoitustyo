@@ -312,11 +312,10 @@ public class FileReceiptDao {
             
         } catch (Exception e) {
             System.out.println("deleteReceipt(): " + e);
+            throw new SQLException(ERR_MSG);
         } finally {
             db.close();
         }
-        
-        return -1;
     }
     
     /**

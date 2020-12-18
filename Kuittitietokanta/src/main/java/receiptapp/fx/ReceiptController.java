@@ -300,7 +300,7 @@ public class ReceiptController implements Initializable {
         
         if (!result) {
             String errMsg = this.receiptService.getSQLErrorMessage();
-            errorDialog(errMsg + " :^(");
+            errorDialog(errMsg);
             return;
         }
 
@@ -333,7 +333,14 @@ public class ReceiptController implements Initializable {
             return;
         }
         
-        this.receiptService.deleteReceipt(selected);
+        boolean result = this.receiptService.deleteReceipt(selected);
+        
+        if (!result) {
+            String errMsg = this.receiptService.getSQLErrorMessage();
+            errorDialog(errMsg);
+            return;
+        }
+        
         this.receiptTable.getSelectionModel().clearSelection();
         this.receiptService.clearItems();
         clearAllFields();
