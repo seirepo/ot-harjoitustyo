@@ -200,7 +200,7 @@ public class FileReceiptDao {
             return result >= 0;
             
         } catch (SQLException e) {
-            System.out.println("FileReceiptDao.saveReceipt(): " + e);
+//            System.out.println("FileReceiptDao.saveReceipt(): " + e);
             throw new SQLException(ERR_MSG);
         } finally {
             db.close();
@@ -310,8 +310,8 @@ public class FileReceiptDao {
             p.setInt(1, receipt.getId());
             return p.executeUpdate();
             
-        } catch (Exception e) {
-            System.out.println("deleteReceipt(): " + e);
+        } catch (SQLException e) {
+//            System.out.println("deleteReceipt(): " + e);
             throw new SQLException(ERR_MSG);
         } finally {
             db.close();
@@ -342,7 +342,7 @@ public class FileReceiptDao {
             
             return affectedRows;
         } catch (SQLException e) {
-            System.out.println("FileReceiptDao.databaseContainsReceipt(): " + e);
+//            System.out.println("FileReceiptDao.databaseContainsReceipt(): " + e);
             throw new SQLException(ERR_MSG);
         } finally {
             db.close();
@@ -363,7 +363,7 @@ public class FileReceiptDao {
         try {
             return deleteReceiptItems(items);
         } catch (SQLException e) {
-            System.out.println("FileReceiptDao.deleteItem(): " + e);
+//            System.out.println("FileReceiptDao.deleteItem(): " + e);
             throw new SQLException(ERR_MSG);
         }
     }
